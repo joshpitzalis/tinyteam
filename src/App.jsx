@@ -5,40 +5,56 @@ import './App.css';
 import { listProjects } from './graphql/queries';
 import logo from './logo.svg';
 
+const initialState = { file: '', fileURL: '', filename: '' };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'SET_FILE':
+      return { file: action.payload };
+    case 'SET_FILE_URL':
+      return { fileURL: action.payload };
+    case 'SET_FILE_NAME':
+      return { filename: action.payload };
+    case 'SET_FILE_URL_NAME':
+      return {
+        file: action.payload,
+        fileURL: URL.createObjectURL(action.payload),
+        filename: action.payload.name
+      };
+    case 'RESET':
+      return { file: '', fileURL: '', filename: '' };
+    default:
+      throw new Error('You have probably mispelt an action name');
+  }
+}
+
 const UploadThing = () => {
-  const [file, setFile] = React.useState('');
-  const [fileURL, setFileURL] = React.useState('');
-  const [filename, setFilename] = React.useState('');
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const handleChange = e => {
     const file = e.target.files[0];
-    setFile(file);
-    setFileURL(URL.createObjectURL(file));
-    setFilename(file.name);
+    dispatch({ type: 'SET_FILE_URL_NAME', payload: file });
   };
 
   const saveFile = () => {
-    Storage.put(filename, file)
+    Storage.put(state.filename, state.file)
       .then(() => {
         console.log('success 🔆');
-        setFile('');
-        setFileURL('');
-        setFilename('');
+        dispatch({ type: 'RESET' });
       })
-      .catch(error => console.error('error saving to staorage', error));
+      .catch(error => console.error('error saving to storage', error));
   };
 
   React.useEffect(() => {
     Storage.get('bitly:2GbazNo.png')
-      .then(data => setFileURL(data))
+      .then(data => dispatch({ type: 'SET_FILE_URL', payload: data }))
       .catch(error => console.error('error retrieving from storage', error));
-    console.log('frog');
   }, []);
 
   return (
     <div>
       <p>hello</p>
-      <img src={fileURL} alt="" />
+      <img src={state.fileURL} alt="" />
       <input type="file" onChange={handleChange} />
       <button onClick={saveFile}>Save</button>
     </div>
@@ -47,7 +63,7 @@ const UploadThing = () => {
 
 class App extends Component {
   state = {
-    projects: null
+    projects: undefined
   };
 
   async componentDidMount() {
