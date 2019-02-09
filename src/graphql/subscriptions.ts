@@ -1,8 +1,8 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createOrganisation = `mutation CreateOrganisation($input: CreateOrganisationInput!) {
-  createOrganisation(input: $input) {
+export const onCreateOrganisation = `subscription OnCreateOrganisation {
+  onCreateOrganisation {
     id
     name
     projects {
@@ -15,8 +15,8 @@ export const createOrganisation = `mutation CreateOrganisation($input: CreateOrg
   }
 }
 `;
-export const updateOrganisation = `mutation UpdateOrganisation($input: UpdateOrganisationInput!) {
-  updateOrganisation(input: $input) {
+export const onUpdateOrganisation = `subscription OnUpdateOrganisation {
+  onUpdateOrganisation {
     id
     name
     projects {
@@ -29,8 +29,8 @@ export const updateOrganisation = `mutation UpdateOrganisation($input: UpdateOrg
   }
 }
 `;
-export const deleteOrganisation = `mutation DeleteOrganisation($input: DeleteOrganisationInput!) {
-  deleteOrganisation(input: $input) {
+export const onDeleteOrganisation = `subscription OnDeleteOrganisation {
+  onDeleteOrganisation {
     id
     name
     projects {
@@ -43,8 +43,8 @@ export const deleteOrganisation = `mutation DeleteOrganisation($input: DeleteOrg
   }
 }
 `;
-export const createProject = `mutation CreateProject($input: CreateProjectInput!) {
-  createProject(input: $input) {
+export const onCreateProject = `subscription OnCreateProject {
+  onCreateProject {
     id
     name
     organisation {
@@ -64,8 +64,8 @@ export const createProject = `mutation CreateProject($input: CreateProjectInput!
   }
 }
 `;
-export const updateProject = `mutation UpdateProject($input: UpdateProjectInput!) {
-  updateProject(input: $input) {
+export const onUpdateProject = `subscription OnUpdateProject {
+  onUpdateProject {
     id
     name
     organisation {
@@ -85,8 +85,8 @@ export const updateProject = `mutation UpdateProject($input: UpdateProjectInput!
   }
 }
 `;
-export const deleteProject = `mutation DeleteProject($input: DeleteProjectInput!) {
-  deleteProject(input: $input) {
+export const onDeleteProject = `subscription OnDeleteProject {
+  onDeleteProject {
     id
     name
     organisation {
@@ -106,8 +106,8 @@ export const deleteProject = `mutation DeleteProject($input: DeleteProjectInput!
   }
 }
 `;
-export const createList = `mutation CreateList($input: CreateListInput!) {
-  createList(input: $input) {
+export const onCreateList = `subscription OnCreateList {
+  onCreateList {
     id
     title
     project {
@@ -131,8 +131,8 @@ export const createList = `mutation CreateList($input: CreateListInput!) {
   }
 }
 `;
-export const updateList = `mutation UpdateList($input: UpdateListInput!) {
-  updateList(input: $input) {
+export const onUpdateList = `subscription OnUpdateList {
+  onUpdateList {
     id
     title
     project {
@@ -156,8 +156,8 @@ export const updateList = `mutation UpdateList($input: UpdateListInput!) {
   }
 }
 `;
-export const deleteList = `mutation DeleteList($input: DeleteListInput!) {
-  deleteList(input: $input) {
+export const onDeleteList = `subscription OnDeleteList {
+  onDeleteList {
     id
     title
     project {
@@ -181,8 +181,8 @@ export const deleteList = `mutation DeleteList($input: DeleteListInput!) {
   }
 }
 `;
-export const createTodo = `mutation CreateTodo($input: CreateTodoInput!) {
-  createTodo(input: $input) {
+export const onCreateTodo = `subscription OnCreateTodo {
+  onCreateTodo {
     id
     content
     List {
@@ -199,8 +199,8 @@ export const createTodo = `mutation CreateTodo($input: CreateTodoInput!) {
   }
 }
 `;
-export const updateTodo = `mutation UpdateTodo($input: UpdateTodoInput!) {
-  updateTodo(input: $input) {
+export const onUpdateTodo = `subscription OnUpdateTodo {
+  onUpdateTodo {
     id
     content
     List {
@@ -217,8 +217,8 @@ export const updateTodo = `mutation UpdateTodo($input: UpdateTodoInput!) {
   }
 }
 `;
-export const deleteTodo = `mutation DeleteTodo($input: DeleteTodoInput!) {
-  deleteTodo(input: $input) {
+export const onDeleteTodo = `subscription OnDeleteTodo {
+  onDeleteTodo {
     id
     content
     List {

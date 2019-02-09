@@ -1,4 +1,4 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
 export const getOrganisation = `query GetOrganisation($id: ID!) {
@@ -15,7 +15,6 @@ export const getOrganisation = `query GetOrganisation($id: ID!) {
   }
 }
 `;
-
 export const listOrganisations = `query ListOrganisations(
   $filter: ModelOrganisationFilterInput
   $limit: Int

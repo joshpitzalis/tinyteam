@@ -1,8 +1,8 @@
-// eslint-disable
+// tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateOrganisation = `subscription OnCreateOrganisation {
-  onCreateOrganisation {
+export const createOrganisation = `mutation CreateOrganisation($input: CreateOrganisationInput!) {
+  createOrganisation(input: $input) {
     id
     name
     projects {
@@ -15,8 +15,8 @@ export const onCreateOrganisation = `subscription OnCreateOrganisation {
   }
 }
 `;
-export const onUpdateOrganisation = `subscription OnUpdateOrganisation {
-  onUpdateOrganisation {
+export const updateOrganisation = `mutation UpdateOrganisation($input: UpdateOrganisationInput!) {
+  updateOrganisation(input: $input) {
     id
     name
     projects {
@@ -29,8 +29,8 @@ export const onUpdateOrganisation = `subscription OnUpdateOrganisation {
   }
 }
 `;
-export const onDeleteOrganisation = `subscription OnDeleteOrganisation {
-  onDeleteOrganisation {
+export const deleteOrganisation = `mutation DeleteOrganisation($input: DeleteOrganisationInput!) {
+  deleteOrganisation(input: $input) {
     id
     name
     projects {
@@ -43,8 +43,8 @@ export const onDeleteOrganisation = `subscription OnDeleteOrganisation {
   }
 }
 `;
-export const onCreateProject = `subscription OnCreateProject {
-  onCreateProject {
+export const createProject = `mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
     id
     name
     organisation {
@@ -64,8 +64,8 @@ export const onCreateProject = `subscription OnCreateProject {
   }
 }
 `;
-export const onUpdateProject = `subscription OnUpdateProject {
-  onUpdateProject {
+export const updateProject = `mutation UpdateProject($input: UpdateProjectInput!) {
+  updateProject(input: $input) {
     id
     name
     organisation {
@@ -85,8 +85,8 @@ export const onUpdateProject = `subscription OnUpdateProject {
   }
 }
 `;
-export const onDeleteProject = `subscription OnDeleteProject {
-  onDeleteProject {
+export const deleteProject = `mutation DeleteProject($input: DeleteProjectInput!) {
+  deleteProject(input: $input) {
     id
     name
     organisation {
@@ -106,8 +106,8 @@ export const onDeleteProject = `subscription OnDeleteProject {
   }
 }
 `;
-export const onCreateList = `subscription OnCreateList {
-  onCreateList {
+export const createList = `mutation CreateList($input: CreateListInput!) {
+  createList(input: $input) {
     id
     title
     project {
@@ -131,8 +131,8 @@ export const onCreateList = `subscription OnCreateList {
   }
 }
 `;
-export const onUpdateList = `subscription OnUpdateList {
-  onUpdateList {
+export const updateList = `mutation UpdateList($input: UpdateListInput!) {
+  updateList(input: $input) {
     id
     title
     project {
@@ -156,8 +156,8 @@ export const onUpdateList = `subscription OnUpdateList {
   }
 }
 `;
-export const onDeleteList = `subscription OnDeleteList {
-  onDeleteList {
+export const deleteList = `mutation DeleteList($input: DeleteListInput!) {
+  deleteList(input: $input) {
     id
     title
     project {
@@ -181,8 +181,8 @@ export const onDeleteList = `subscription OnDeleteList {
   }
 }
 `;
-export const onCreateTodo = `subscription OnCreateTodo {
-  onCreateTodo {
+export const createTodo = `mutation CreateTodo($input: CreateTodoInput!) {
+  createTodo(input: $input) {
     id
     content
     List {
@@ -199,8 +199,8 @@ export const onCreateTodo = `subscription OnCreateTodo {
   }
 }
 `;
-export const onUpdateTodo = `subscription OnUpdateTodo {
-  onUpdateTodo {
+export const updateTodo = `mutation UpdateTodo($input: UpdateTodoInput!) {
+  updateTodo(input: $input) {
     id
     content
     List {
@@ -217,8 +217,8 @@ export const onUpdateTodo = `subscription OnUpdateTodo {
   }
 }
 `;
-export const onDeleteTodo = `subscription OnDeleteTodo {
-  onDeleteTodo {
+export const deleteTodo = `mutation DeleteTodo($input: DeleteTodoInput!) {
+  deleteTodo(input: $input) {
     id
     content
     List {
