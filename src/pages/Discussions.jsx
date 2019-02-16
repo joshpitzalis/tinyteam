@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Discussions = ({ match, title }) => {
-  // const value = React.useContext();
+import { CommentsConsumer } from '../context/CommentsContext';
+import { ProblemConsumer } from '../context/ProblemsContext';
+const Discussions = ({ match }) => {
+  const { postsList } = React.useContext(ProblemConsumer);
+
+  const { title, votes } = postsList.find(
+    post => post.id === Number(match.params.discussionId)
+  );
+
+  const { comments } = React.useContext(CommentsConsumer);
 
   return (
     <div>
@@ -10,10 +18,36 @@ const Discussions = ({ match, title }) => {
       </Link>
 
       <header className="navbar navbar-default" role="navigation">
-        <div className="navbar-header">{title}</div>
+        <h1 className="navbar-header">{title}</h1>
       </header>
 
-      <p>{match.params.discussionId}</p>
+      <p>{votes} votes </p>
+
+      <div className=" ">
+        <ul className="comments pl0">
+          {comments.map(item => (
+            <li>
+              <h4>
+                <span className="author">{`${item.author} `}</span>
+                <span className="date">
+                  on {` ${item.created.toLocaleDateString()}`}
+                </span>
+              </h4>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="comments pl0">
+          <li>
+            <input
+              type="text"
+              className="w-100"
+              placeholder="Add your comment here..."
+            />
+          </li>
+        </div>
+      </div>
     </div>
   );
 };
