@@ -6,7 +6,6 @@ import { ProblemProvider } from './context/ProblemsContext';
 import './index.css';
 import Discussions from './pages/Discussions';
 import NoMatch from './pages/NoMatch';
-import Problems from './pages/Problems';
 import Projects from './pages/Summary';
 import Tasks from './pages/Tasks';
 import Votes from './pages/Votes';
@@ -18,16 +17,15 @@ const Routes = () => {
     <BrowserRouter>
       <div className="sans-serif pa4">
         <Switch>
-          <Route exact path="/" component={Problems} />
+          <Route
+            exact
+            path="/"
+            component={Projects}
+          />
           <Route
             exact
             path="/discussion/:discussionId"
             component={Discussions}
-          />
-          <Route
-            exact
-            path="/project/:projectId"
-            component={Projects}
           />
            <Route
             exact
