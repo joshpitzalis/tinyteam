@@ -68,7 +68,7 @@ const PostItem = ({ id, title, createdBy, votes, upVote }) => {
           <h2 className="dib pl3">{votes}</h2>
         </div>
         <h3 className="dib pl3">
-          <Link to={`discussion/${id}`}>{title}</Link>
+          <Link to={`project/${id}`}>{title}</Link>
           <span>{createdBy}</span>
         </h3>
       </div>

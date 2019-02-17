@@ -1,15 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CommentsConsumer } from '../context/CommentsContext';
-import { ProblemConsumer } from '../context/ProblemsContext';
 
-const Discussions = ({ match }) => {
-  const { postsList } = React.useContext(ProblemConsumer);
-
-  const { title, votes } = postsList.find(
-    post => post.id === Number(match.params.discussionId)
-  );
-
+const Tasks = ({ match }) => {
   const { comments } = React.useContext(CommentsConsumer);
 
   return (
@@ -19,11 +12,12 @@ const Discussions = ({ match }) => {
       </Link>
 
       <header className="navbar navbar-default" role="navigation">
-        <h1 className="navbar-header">{title}</h1>
+        <input type="checkbox" name="" id="" className="dib mr2" />{' '}
+        <h1 className="navbar-header dib">An example task</h1>
       </header>
 
-      <p>Summary goes here.</p>
-
+      <p>A description, who is responsible and by when</p>
+      <hr />
       <div>
         <ul className="comments pl0">
           {comments.map(item => (
@@ -53,4 +47,4 @@ const Discussions = ({ match }) => {
   );
 };
 
-export default Discussions;
+export default Tasks;

@@ -7,7 +7,11 @@ import './index.css';
 import Discussions from './pages/Discussions';
 import NoMatch from './pages/NoMatch';
 import Problems from './pages/Problems';
+import Projects from './pages/Summary';
+import Tasks from './pages/Tasks';
+import Votes from './pages/Votes';
 import * as serviceWorker from './serviceWorker';
+
 
 const Routes = () => {
   return (
@@ -19,6 +23,21 @@ const Routes = () => {
             exact
             path="/discussion/:discussionId"
             component={Discussions}
+          />
+          <Route
+            exact
+            path="/project/:projectId"
+            component={Projects}
+          />
+           <Route
+            exact
+            path="/task/:taskId"
+            component={Tasks}
+          />
+           <Route
+            exact
+            path="/vote/:voteId"
+            component={Votes}
           />
           <Route component={NoMatch} />
         </Switch>
