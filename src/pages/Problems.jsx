@@ -20,9 +20,11 @@ const Problems = () => {
                 </div>
               </header>
               <div id="main">
-                {postsList.map(post => (
-                  <PostItem {...post} key={post.id} upVote={upVote} />
-                ))}
+                {postsList
+                  .sort((a, b) => b.votes - a.votes)
+                  .map(post => (
+                    <PostItem {...post} key={post.id} upVote={upVote} />
+                  ))}
               </div>
               <form
                 onSubmit={e => {
@@ -32,7 +34,9 @@ const Problems = () => {
               >
                 <input
                   type="text"
+                  placeholder="Create a new problem..."
                   value={newProblem.title}
+                  className="pa3"
                   onChange={e =>
                     setProblem({
                       title: e.target.value,
@@ -41,7 +45,7 @@ const Problems = () => {
                     })
                   }
                 />
-                <input type="submit" value="Create new problem" />
+                <input type="submit" className="pa3" value="Submit" />
               </form>
             </div>
           </div>
@@ -57,11 +61,13 @@ const PostItem = ({ id, title, createdBy, votes, upVote }) => {
   return (
     <div className="post">
       <div className="post-content">
-        <div>
-          <p>{votes}</p>
-          <button onClick={() => upVote(id)}>+1</button>
+        <div className="dib">
+          <button className="dib" onClick={() => upVote(id)}>
+            +1
+          </button>
+          <h2 className="dib pl3">{votes}</h2>
         </div>
-        <h3>
+        <h3 className="dib pl3">
           <Link to={`discussion/${id}`}>{title}</Link>
           <span>{createdBy}</span>
         </h3>

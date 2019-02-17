@@ -23,7 +23,7 @@ const Discussions = ({ match }) => {
 
       <p>{votes} votes </p>
 
-      <div className=" ">
+      <div>
         <ul className="comments pl0">
           {comments.map(item => (
             <li>
