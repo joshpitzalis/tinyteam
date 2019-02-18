@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { CommentsProvider } from './context/CommentsContext';
+import CommentsProvider from './context/CommentsContext';
 import { ProblemProvider } from './context/ProblemsContext';
 import './index.css';
 import Discussions from './pages/Chat';
@@ -15,6 +15,7 @@ import * as serviceWorker from './serviceWorker';
 const Routes = () => {
   return (
     <BrowserRouter>
+    <React.StrictMode>
       <div className="sans-serif pa4">
         <Switch>
           <Route
@@ -40,6 +41,7 @@ const Routes = () => {
           <Route component={NoMatch} />
         </Switch>
       </div>
+      </React.StrictMode>
     </BrowserRouter>
   );
 };

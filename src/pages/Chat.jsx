@@ -1,49 +1,60 @@
 import React from 'react';
-import { CommentsConsumer } from '../context/CommentsContext';
-const Chat = () => {
-  // const { comments } = React.useContext(CommentsConsumer);
+import { CommentsContext } from '../context/CommentsContext';
 
-  const [message, setMessage] = React.useState('');
+const chatReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_MESSAGE':
+      return { ...state, message: action.payload };
+    case 'COMMENT_SUBMITTED':
+      action.payload(state.message);
+      return { ...state, message: '' };
+    default:
+      throw new Error('You have probably mispelt an action name');
+  }
+};
+
+const Chat = () => {
+  const { comments, addComment } = React.useContext(CommentsContext);
+
+  const [state, dispatch] = React.useReducer(chatReducer, { message: '' });
 
   return (
-    <CommentsConsumer>
-      {({ comments, addComment }) => (
-        <section className="ph3 ph5-ns pv5">
-          <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
-            <ul className="comments pl0">
-              {comments.map(item => (
-                <li>
-                  <h4>
-                    <span className="author">{`${item.author} `}</span>
-                    <span className="date">
-                      on {` ${item.created.toLocaleDateString()}`}
-                    </span>
-                  </h4>
-                  <p>{item.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <form
-            className="pa3 bg-silver br2 br--bottom flex"
-            onSubmit={e => {
-              e.preventDefault();
-              addComment(message);
-              setMessage('');
-            }}
-          >
-            <input
-              type="text"
-              className="w-100 pa3 dib"
-              placeholder="Add your comment here..."
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-            />
-            <input type="submit" value="Submit" className="dib pa3" />
-          </form>
-        </section>
-      )}
-    </CommentsConsumer>
+    <section className="ph3 ph5-ns pv5">
+      <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
+        <ul className="comments pl0">
+          {comments.map(item => (
+            <li>
+              <h4>
+                <span className="author">{`${item.author} `}</span>
+                <span className="date">
+                  on {` ${item.created.toLocaleDateString()}`}
+                </span>
+              </h4>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <form
+        className="pa3 bg-silver br2 br--bottom flex"
+        onSubmit={e => {
+          e.preventDefault();
+
+          dispatch({ type: 'COMMENT_SUBMITTED', payload: addComment });
+        }}
+      >
+        <input
+          type="text"
+          className="w-100 pa3 dib"
+          placeholder="Add your comment here..."
+          value={state.message}
+          onChange={e =>
+            dispatch({ type: 'SET_MESSAGE', payload: e.target.value })
+          }
+        />
+        <input type="submit" value="Submit" className="dib pa3" />
+      </form>
+    </section>
   );
 };
 

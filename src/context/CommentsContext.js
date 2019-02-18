@@ -1,6 +1,9 @@
 import React from 'react';
 
-const { Provider, Consumer } = React.createContext();
+// const { Provider, Consumer } = React.createContext();
+
+export const CommentsContext = React.createContext();
+
 
 class CommentsProvider extends React.Component {
   state = {
@@ -8,7 +11,7 @@ class CommentsProvider extends React.Component {
       postId: 4,
       created: new Date(new Date() - (5 * 3600 * 1000)),
       author: 'Josh',
-      body: 'We need to be able to add comments here, nest responses, and turn a comment into a vote of todo item'
+      body: 'We need to hook this up to make it work realtime, nest responses lierk quoting on whatsapp, and the ability to turn a comment into a vote or todo item'
     }]
     
   };
@@ -16,7 +19,7 @@ class CommentsProvider extends React.Component {
   addComment = body => {
     this.setState({ comments: this.state.comments.concat({
       created: new Date(),
-      author: 'Josh',
+      author: 'Somebody',
       body
     })})
   }
@@ -35,18 +38,18 @@ class CommentsProvider extends React.Component {
 
   render() {
     return (
-      <Provider
+      <CommentsContext.Provider
         value={{
           comments: this.state.comments,
           addComment: this.addComment
-          // upVote: this.upVote
         }}
       >
         {this.props.children}
-      </Provider>
+      </CommentsContext.Provider>
     );
   }
 }
 
-    export { CommentsProvider, Consumer as CommentsConsumer };
+    export default CommentsProvider 
 
+    // export default  CommentsContext
