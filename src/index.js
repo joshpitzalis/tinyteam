@@ -11,7 +11,6 @@ import Tasks from './pages/Tasks';
 import Votes from './pages/Votes';
 import * as serviceWorker from './serviceWorker';
 
-
 const Routes = () => {
   return (
     <BrowserRouter>
@@ -59,3 +58,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
+

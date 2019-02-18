@@ -39,7 +39,6 @@ const Chat = () => {
         className="pa3 bg-silver br2 br--bottom flex"
         onSubmit={e => {
           e.preventDefault();
-
           dispatch({ type: 'COMMENT_SUBMITTED', payload: addComment });
         }}
       >

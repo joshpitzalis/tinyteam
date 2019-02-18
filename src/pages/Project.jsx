@@ -1,5 +1,7 @@
 import React from 'react';
 import Chat from './Chat';
+import Votes from './Votes';
+
 const Discussions = ({ match }) => {
   return (
     <article>
@@ -62,89 +64,7 @@ const Discussions = ({ match }) => {
 
       <Chat />
 
-      <div className="mw9 center ph3 ph5-ns">
-        <h2>Current Decisions</h2>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">93</div>{' '}
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              Should we something about something?
-            </h1>
-
-            <time className="f6 ttu tracked gray">3 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">33</div>{' '}
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              What about that other thing?
-            </h1>
-            <time className="f6 ttu tracked gray">13 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">9</div>
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              Are we going to do a or not?
-            </h1>
-            <time className="f6 ttu tracked gray">6 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100  b--black-05 pb2 mt2" href="#0">
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Create New Vote
-              </button>
-            </form>
-          </div>
-        </article>
-      </div>
+      <Votes />
       <section className="flex items-center mw9 center pa3 pa5-ns ">
         <div className="dib">
           <h1 className="f4 bold center w5">Thing List</h1>
