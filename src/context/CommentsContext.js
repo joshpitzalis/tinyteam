@@ -1,7 +1,5 @@
 import React from 'react';
 
-// const { Provider, Consumer } = React.createContext();
-
 export const CommentsContext = React.createContext();
 
 
@@ -51,5 +49,3 @@ class CommentsProvider extends React.Component {
 }
 
     export default CommentsProvider 
-
-    // export default  CommentsContext

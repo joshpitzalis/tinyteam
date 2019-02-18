@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CommentsProvider from './context/CommentsContext';
-import { ProblemProvider } from './context/ProblemsContext';
+import VoteProvider from './context/VoteContext';
 import './index.css';
 import Discussions from './pages/Chat';
 import NoMatch from './pages/NoMatch';
@@ -46,11 +46,11 @@ const Routes = () => {
 };
 
 ReactDOM.render(
-  <ProblemProvider>
+  <VoteProvider>
     <CommentsProvider>
       <Routes />
     </CommentsProvider>
-  </ProblemProvider>,
+  </VoteProvider>,
   document.getElementById('root')
 );
 

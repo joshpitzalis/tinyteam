@@ -1,10 +1,13 @@
 import React from 'react';
+import { VoteContext } from '../context/VoteContext';
 import Modal from '../Modal';
 import Chat from './Chat';
+
 const Votes = () => {
   const [visible, setVisibility] = React.useState(false);
   const [creating, setCreating] = React.useState(false);
-
+  const { polls } = React.useContext(VoteContext);
+  const [id, setId] = React.useState(null);
   return (
     <section className="mw9 center ph3 ph4-ns ">
       <div className="flex items-center justify-between">
@@ -18,16 +21,17 @@ const Votes = () => {
           + Create a new vote
         </button>
       </div>
-      <Vote show={setVisibility} />
-      <Vote show={setVisibility} />
-      <Vote show={setVisibility} />
+      {Object.values(polls).map(poll => (
+        <Vote show={setVisibility} {...poll} setId={setId} />
+      ))}
+
       {visible && (
         <Modal onClose={() => setVisibility(false)}>
           {creating ? (
-            <CreatePoll />
+            <CreatePoll setCreating={setCreating} setId={setId} />
           ) : (
             <>
-              <Poll />
+              <Poll id={id} />
               <Chat />
             </>
           )}
@@ -37,9 +41,12 @@ const Votes = () => {
   );
 };
 
-const CreatePoll = () => {
+const CreatePoll = ({ setCreating, setId }) => {
   const [value, setValue] = React.useState('');
   const [fields, setFields] = React.useState([]);
+  const [newPoll, setPoll] = React.useState({});
+  const { createPoll } = React.useContext(VoteContext);
+
   return (
     <div>
       <h1>Create Poll</h1>
@@ -51,7 +58,17 @@ const CreatePoll = () => {
       <form
         onSubmit={e => {
           e.preventDefault();
+          const id = +new Date();
+          setId(id);
           setFields([...fields, value]);
+          setPoll({
+            title: 'New Post',
+            id,
+            createdBy: 'Josh',
+            votes: 15,
+            fields,
+            deadline: '14 days'
+          });
           setValue('');
         }}
       >
@@ -60,31 +77,39 @@ const CreatePoll = () => {
           value={value}
           onChange={e => setValue(e.target.value)}
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Add Option</button>
       </form>
-      <form>
+      <br />
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          createPoll(newPoll);
+          setCreating(false);
+        }}
+      >
         <button type="submit">Complete</button>
       </form>
     </div>
   );
 };
 
-const Vote = ({ show }) => {
+const Vote = ({ show, title, deadline, votes, id, setId }) => {
   return (
     <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
       <div class="dtc w5 v-mid">
-        <div class="f3 f2-ns b ml0">3 days left</div>{' '}
+        <div class="f3 f2-ns b ml0">{deadline}</div>{' '}
       </div>
       <div class="dtc v-mid pl3">
-        <h1 class="f6 f5-ns fw6 lh-title black mv0">
-          Should we something about something?
-        </h1>
-        <time className="f6 ttu tracked gray">16 people voted</time>
+        <h1 class="f6 f5-ns fw6 lh-title black mv0">{title}</h1>
+        <time className="f6 ttu tracked gray">{votes} people voted</time>
       </div>
       <div class="dtc v-mid">
         <button
           class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-          onClick={() => show(true)}
+          onClick={() => {
+            setId(id);
+            show(true);
+          }}
         >
           Vote
         </button>
@@ -95,11 +120,11 @@ const Vote = ({ show }) => {
 
 export default Votes;
 
-const Poll = () => {
-  const questions = ['option 1', 'option 2'];
-
+const Poll = ({ id }) => {
+  const { polls } = React.useContext(VoteContext);
+  const questions = polls[id].fields;
   const handleChange = () => console.log('frog');
-
+  console.log('questions', polls[id]);
   return (
     <section className="mw6-ns w-100 center tc ">
       <header>
@@ -110,19 +135,7 @@ const Poll = () => {
       <form className="mt3">
         <div className="ma0">
           {questions.map((question, index) => (
-            <div
-              key={index}
-              className="pa2 ma0 roundfirstAndlast bg-white"
-              id={
-                {
-                  0: 'yellow',
-                  1: 'orange',
-                  2: 'red',
-                  3: 'blue',
-                  4: 'green'
-                }[index < 5 ? index : Math.floor(Math.random() * 4) + 1]
-              }
-            >
+            <div key={index} className="pa2 ma0  bg-white">
               <label className="container tl ma0 relative ">
                 <input
                   type="radio"
