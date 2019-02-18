@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CommentsConsumer } from '../context/CommentsContext';
+import { CommentsContext } from '../context/CommentsContext';
 import Poll from '../images/poll.png';
 
 const Votes = ({ match }) => {
-  const { comments } = React.useContext(CommentsConsumer);
+  const { comments } = React.useContext(CommentsContext);
 
   return (
     <div>
