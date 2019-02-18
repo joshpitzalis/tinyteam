@@ -3,7 +3,31 @@ import { Link } from 'react-router-dom';
 import Modal from '../Modal';
 import Chat from './Chat';
 
-const Vote = () => {
+const Votes = () => {
+  const [visible, setVisibility] = React.useState(false);
+
+  return (
+    <section className="mw9 center ph3 ph4-ns ">
+      <div className="flex items-center justify-between">
+        <h2>Current Decisions</h2>{' '}
+        <Link to="/" className="">
+          + Create a new vote
+        </Link>
+      </div>
+      {visible && (
+        <Modal onClose={() => setVisibility(false)}>
+          <Poll />
+          <Chat />
+        </Modal>
+      )}
+      <Vote show={setVisibility} />
+      <Vote show={setVisibility} />
+      <Vote show={setVisibility} />
+    </section>
+  );
+};
+
+const Vote = ({ show }) => {
   return (
     <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
       <div class="dtc w5 v-mid">
@@ -16,38 +40,14 @@ const Vote = () => {
         <time className="f6 ttu tracked gray">16 people voted</time>
       </div>
       <div class="dtc v-mid">
-        <form class="w-100 tr">
-          <button
-            class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-            type="submit"
-          >
-            Vote
-          </button>
-        </form>
+        <button
+          class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
+          onClick={() => show(true)}
+        >
+          Vote
+        </button>
       </div>
     </article>
-  );
-};
-
-const Votes = () => {
-  const handleCloseModal = () => console.log('false', false);
-
-  return (
-    <section className="mw9 center ph3 ph4-ns ">
-      <div className="flex items-center justify-between">
-        <h2>Current Decisions</h2>{' '}
-        <Link to="/" className="">
-          + Create a new vote
-        </Link>
-      </div>
-      <Modal onClose={handleCloseModal()}>
-        <Poll />
-        <Chat />
-      </Modal>
-      <Vote />
-      <Vote />
-      <Vote />
-    </section>
   );
 };
 
