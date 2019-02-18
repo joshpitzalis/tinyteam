@@ -13,13 +13,15 @@ class CommentsProvider extends React.Component {
     
   };
 
-  // setPost = newPost => {
-  //   const newPosts = { ...this.state.posts };
-  //   newPosts[newPost.id] = newPost;
-  //   return this.setState({
-  //     posts: newPosts
-  //   });
-  // };
+  addComment = body => {
+    this.setState({ comments: this.state.comments.concat({
+      created: new Date(),
+      author: 'Josh',
+      body
+    })})
+  }
+
+ 
 
   // upVote = id => {
   //   const newPosts = { ...this.state.posts };
@@ -36,7 +38,7 @@ class CommentsProvider extends React.Component {
       <Provider
         value={{
           comments: this.state.comments,
-          // setPost: this.setPost,
+          addComment: this.addComment
           // upVote: this.upVote
         }}
       >
