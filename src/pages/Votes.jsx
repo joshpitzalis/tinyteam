@@ -1,29 +1,71 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '../Modal';
 import Chat from './Chat';
-
 const Votes = () => {
   const [visible, setVisibility] = React.useState(false);
+  const [creating, setCreating] = React.useState(false);
 
   return (
     <section className="mw9 center ph3 ph4-ns ">
       <div className="flex items-center justify-between">
-        <h2>Current Decisions</h2>{' '}
-        <Link to="/" className="">
+        <h2>Current Decisions</h2>
+        <button
+          onClick={() => {
+            setCreating(true);
+            setVisibility(true);
+          }}
+        >
           + Create a new vote
-        </Link>
+        </button>
       </div>
+      <Vote show={setVisibility} />
+      <Vote show={setVisibility} />
+      <Vote show={setVisibility} />
       {visible && (
         <Modal onClose={() => setVisibility(false)}>
-          <Poll />
-          <Chat />
+          {creating ? (
+            <CreatePoll />
+          ) : (
+            <>
+              <Poll />
+              <Chat />
+            </>
+          )}
         </Modal>
       )}
-      <Vote show={setVisibility} />
-      <Vote show={setVisibility} />
-      <Vote show={setVisibility} />
     </section>
+  );
+};
+
+const CreatePoll = () => {
+  const [value, setValue] = React.useState('');
+  const [fields, setFields] = React.useState([]);
+  return (
+    <div>
+      <h1>Create Poll</h1>
+      <ul>
+        {fields.map(field => (
+          <li>{field}</li>
+        ))}
+      </ul>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          setFields([...fields, value]);
+          setValue('');
+        }}
+      >
+        <input
+          type="text"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+      <form>
+        <button type="submit">Complete</button>
+      </form>
+    </div>
   );
 };
 

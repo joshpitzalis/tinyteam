@@ -14,7 +14,7 @@ class Modal extends React.Component {
   render() {
     return ReactDOM.createPortal(
       <div
-        onClick={this.props.onClose}
+        // onClick={this.props.onClose}
         className="vh-100 vw-100 absolute--fill fixed bg-black-60 overflow-container
         "
       >
