@@ -45,11 +45,13 @@ const CreatePoll = ({ setCreating, setId }) => {
   const [value, setValue] = React.useState('');
   const [fields, setFields] = React.useState([]);
   const [newPoll, setPoll] = React.useState({});
+  const [title, setTitle] = React.useState('');
+
   const { createPoll } = React.useContext(VoteContext);
 
   return (
     <div>
-      <h1>Create Poll</h1>
+      <h1>{title ? title : 'Create Poll'}</h1>
       <ul>
         {fields.map(field => (
           <li>{field}</li>
@@ -62,11 +64,11 @@ const CreatePoll = ({ setCreating, setId }) => {
           setId(id);
           setFields([...fields, value]);
           setPoll({
-            title: 'New Post',
+            title,
             id,
             createdBy: 'Josh',
             votes: 15,
-            fields,
+            fields: [...fields, value],
             deadline: '14 days'
           });
           setValue('');
@@ -74,7 +76,15 @@ const CreatePoll = ({ setCreating, setId }) => {
       >
         <input
           type="text"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="title"
+          className="db"
+        />
+        <input
+          type="text"
           value={value}
+          className="db"
           onChange={e => setValue(e.target.value)}
         />
         <button type="submit">Add Option</button>
@@ -128,7 +138,7 @@ const Poll = ({ id }) => {
   return (
     <section className="mw6-ns w-100 center tc ">
       <header>
-        <h2 className="f1 lh-title">Example poll</h2>
+        <h2 className="f1 lh-title">{polls[id].title}</h2>
         <h3>A little desctiption goes here</h3>
       </header>
       <hr className="dn" />
