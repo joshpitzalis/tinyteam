@@ -22,7 +22,7 @@ const Chat = () => {
     <section className="ph3 ph5-ns pv5">
       <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
         <ul className="comments pl0">
-          {comments.map(item => (
+          {comments && comments.map(item => (
             <li key={item.postId}>
               <h4>
                 <span className="author">{`${item.author} `}</span>
