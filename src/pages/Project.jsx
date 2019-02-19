@@ -1,6 +1,6 @@
 import React from 'react';
 import Chat from '../features/chat/Chat';
-import Votes from '../features/votes/Votes';
+import Votes from '../features/votes';
 
 const Discussions = ({ match }) => {
   return (

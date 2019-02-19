@@ -7,7 +7,7 @@ import Discussions from './features/chat/Chat';
 import Errors from './features/errors';
 import NoMatch from './features/errors/NoMatch';
 import Tasks from './features/tasks/Tasks';
-import Votes from './features/votes/Votes';
+import Votes from './features/votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
