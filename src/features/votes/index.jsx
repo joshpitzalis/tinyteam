@@ -33,7 +33,7 @@ const Votes = () => {
     creating: false
   });
   return (
-    <section className="mw9 center ph3 ph4-ns ">
+    <section className="mw9 center pa3 pa5-ns ">
       <div className="flex items-center justify-between">
         <h2>Current Decisions</h2>
         <button onClick={() => dispatch({ type: 'POLL_CREATE_FORM_OPENED' })}>

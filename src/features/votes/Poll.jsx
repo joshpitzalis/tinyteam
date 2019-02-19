@@ -1,6 +1,9 @@
 import React from 'react';
 import { VoteContext } from '../../context/VoteContext';
 
+/* @params
+ id:string 
+ */
 export const Poll = ({ id }) => {
   const { polls } = React.useContext(VoteContext);
   const questions = polls[id].fields;

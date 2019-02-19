@@ -4,7 +4,6 @@ import { VoteContext } from '../../context/VoteContext';
 export const CreatePoll = ({ dispatch }) => {
   const [value, setValue] = React.useState('');
   const [fields, setFields] = React.useState([]);
-  const [newPoll, setPoll] = React.useState({});
   const [title, setTitle] = React.useState('');
 
   const { createPoll } = React.useContext(VoteContext);

@@ -1,3 +1,6 @@
-setup code climate and lighthouse
-crud todo
+create
+update
+delete
 comment typescript for vscode
+fix code coverage
+fix lighthouse deploys
