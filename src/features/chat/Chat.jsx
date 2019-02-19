@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommentsContext } from '../context/CommentsContext';
+import { CommentsContext } from '../../context/CommentsContext';
 
 const chatReducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +23,7 @@ const Chat = () => {
       <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
         <ul className="comments pl0">
           {comments.map(item => (
-            <li>
+            <li key={item.postId}>
               <h4>
                 <span className="author">{`${item.author} `}</span>
                 <span className="date">

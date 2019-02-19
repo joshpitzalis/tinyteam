@@ -1,7 +1,7 @@
 import React from 'react';
-import { VoteContext } from '../context/VoteContext';
-import Modal from '../Modal';
-import Chat from './Chat';
+import { VoteContext } from '../../context/VoteContext';
+import Chat from '../chat/Chat';
+import Modal from '../modals/Modal';
 
 const Votes = () => {
   const [visible, setVisibility] = React.useState(false);
@@ -22,7 +22,7 @@ const Votes = () => {
         </button>
       </div>
       {Object.values(polls).map(poll => (
-        <Vote show={setVisibility} {...poll} setId={setId} />
+        <Vote show={setVisibility} {...poll} setId={setId} key={poll.id} />
       ))}
 
       {visible && (
@@ -105,17 +105,17 @@ const CreatePoll = ({ setCreating, setId }) => {
 
 const Vote = ({ show, title, deadline, votes, id, setId }) => {
   return (
-    <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-      <div class="dtc w5 v-mid">
-        <div class="f3 f2-ns b ml0">{deadline}</div>{' '}
+    <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
+      <div className="dtc w5 v-mid">
+        <div className="f3 f2-ns b ml0">{deadline}</div>{' '}
       </div>
-      <div class="dtc v-mid pl3">
-        <h1 class="f6 f5-ns fw6 lh-title black mv0">{title}</h1>
+      <div className="dtc v-mid pl3">
+        <h1 className="f6 f5-ns fw6 lh-title black mv0">{title}</h1>
         <time className="f6 ttu tracked gray">{votes} people voted</time>
       </div>
-      <div class="dtc v-mid">
+      <div className="dtc v-mid">
         <button
-          class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
+          className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
           onClick={() => {
             setId(id);
             show(true);

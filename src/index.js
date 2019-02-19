@@ -3,18 +3,19 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CommentsProvider from './context/CommentsContext';
 import VoteProvider from './context/VoteContext';
+import Discussions from './features/chat/Chat';
+import Errors from './features/errors';
+import NoMatch from './features/errors/NoMatch';
+import Tasks from './features/tasks/Tasks';
+import Votes from './features/votes/Votes';
 import './index.css';
-import Discussions from './pages/Chat';
-import NoMatch from './pages/NoMatch';
 import Projects from './pages/Project';
-import Tasks from './pages/Tasks';
-import Votes from './pages/Votes';
 import * as serviceWorker from './serviceWorker';
-
 const Routes = () => {
   return (
     <BrowserRouter>
     <React.StrictMode>
+    <Errors>
       <div className="sans-serif pa4">
         <Switch>
           <Route
@@ -40,6 +41,7 @@ const Routes = () => {
           <Route component={NoMatch} />
         </Switch>
       </div>
+      </Errors>
       </React.StrictMode>
     </BrowserRouter>
   );
