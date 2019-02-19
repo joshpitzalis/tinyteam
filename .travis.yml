@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - 'stable'
+cache:
+  directories:
+    - node_modules
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+install:
+  - npm install
+script:
+  - npm run test -- --coverage
+  - CI=false npm run build
+after_success:
+  - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
+  - ./cc-test-reporter upload-coverage
+  - surge --project /Users/joshpitzalis/Desktop/tinyteams/build --domain tinyteams.surge.sh
+  - npm run lh -- https://tinyteams.surge.sh

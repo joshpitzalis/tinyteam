@@ -13,7 +13,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lh": "lighthousebot"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,6 +27,7 @@
   ],
   "devDependencies": {
     "jest-dom": "^3.1.2",
+    "lighthousebot": "git+https://github.com/GoogleChromeLabs/lighthousebot.git",
     "react-testing-library": "^5.9.0"
   }
 }

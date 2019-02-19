@@ -9,7 +9,8 @@ export const VoteContext = React.createContext({polls: {
     deadline: '3 days',
     fields: ['one', 'two']
   }
-}});
+},
+createPoll: () => {}});
 
 class VoteProvider extends React.Component {
   state = {};

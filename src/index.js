@@ -11,6 +11,7 @@ import Votes from './features/votes/Votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+
 const Routes = () => {
   return (
     <BrowserRouter>
@@ -59,5 +60,5 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
 

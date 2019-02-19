@@ -7,7 +7,7 @@ const Discussions = ({ match }) => {
     <article>
       <section className="cf ph3 ph5-ns pv5">
         <header className="fn fl-ns w-50-ns pr4-ns">
-          <h1 className="f2 lh-title fw9 mb3 mt0 pt3 bt bw2">Duck Soup</h1>
+          <h1 className="f2 lh-title fw9 mb3 mt0 pt3 bt bw2">Tiny Teams</h1>
           <h2 className="f3 mid-gray lh-title">
             A collaborative decision making tool for remote teams.
           </h2>

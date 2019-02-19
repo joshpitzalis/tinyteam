@@ -21,9 +21,10 @@ const Votes = () => {
           + Create a new vote
         </button>
       </div>
-      {Object.values(polls).map(poll => (
-        <Vote show={setVisibility} {...poll} setId={setId} key={poll.id} />
-      ))}
+      {polls &&
+        Object.values(polls).map(poll => (
+          <Vote show={setVisibility} {...poll} setId={setId} key={poll.id} />
+        ))}
 
       {visible && (
         <Modal onClose={() => setVisibility(false)}>
