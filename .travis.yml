@@ -13,7 +13,6 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - npm run test -- --coverage
-  - npm run build
 after_success:
   - ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
   - ./cc-test-reporter upload-coverage
