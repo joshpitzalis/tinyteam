@@ -11,6 +11,7 @@ import Votes from './features/votes/Votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+
 const Routes = () => {
   return (
     <BrowserRouter>
