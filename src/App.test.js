@@ -13,5 +13,5 @@ afterEach(cleanup);
 
 test('App starts', async () => {
   const { getByText } = render(<App />);
-  expect(getByText('Duck Soup')).toBeInTheDocument();
+  expect(getByText('Duck Souxp')).toBeInTheDocument();
 });
