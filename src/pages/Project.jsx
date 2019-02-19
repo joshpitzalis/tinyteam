@@ -1,8 +1,9 @@
 import React from 'react';
 import Chat from '../features/chat/Chat';
+import Tasks from '../features/tasks';
 import Votes from '../features/votes';
 
-const Discussions = ({ match }) => {
+const Project = () => {
   return (
     <article>
       <section className="cf ph3 ph5-ns pv5">
@@ -11,7 +12,6 @@ const Discussions = ({ match }) => {
           <h2 className="f3 mid-gray lh-title">
             A collaborative decision making tool for remote teams.
           </h2>
-
           <div className="flex">
             {' '}
             <img
@@ -63,52 +63,8 @@ const Discussions = ({ match }) => {
       </section>
 
       <Chat />
-
       <Votes />
-      <section className="flex items-center mw9 center pa3 pa5-ns ">
-        <div className="dib">
-          <h1 className="f4 bold center w5">Thing List</h1>
-          <ul className="list pl0 ml0 center mw5 ba b--light-silver br3">
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" /> Thing
-            </li>
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" />
-              {` `}Other Thing
-            </li>
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" />
-              {` `}Something else{' '}
-              <img
-                src="http://mrmrs.github.io/photos/p/5.jpg"
-                className="ba b--black-10 br-100 w1  h1 dib"
-              />
-            </li>
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" />
-              {` `} Important thing
-            </li>
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" />
-              {` `}Other important thing
-            </li>
-            <li className="ph3 pv2 bb b--light-silver">
-              <input type="checkbox" />
-              {` `}second last thing{' '}
-              <img
-                src="http://mrmrs.github.io/photos/p/3.jpg"
-                className="ba b--black-10 br-100 w1  h1 dib"
-              />
-            </li>
-            <li className="ph3 pv2">
-              <input type="checkbox" />
-              {` `} Last thing
-            </li>
-          </ul>
-        </div>
-
-        <h2 className="dib ml5">+ Create New List</h2>
-      </section>
+      <Tasks />
 
       <section className="pa3 pa5-ns" data-name="slab-stat-small">
         <h3 className="f6 ttu tracked">Today</h3>
@@ -147,4 +103,4 @@ const Discussions = ({ match }) => {
   );
 };
 
-export default Discussions;
+export default Project;
