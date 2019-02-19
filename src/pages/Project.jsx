@@ -1,5 +1,7 @@
 import React from 'react';
-import Chat from './Chat';
+import Chat from '../features/chat/Chat';
+import Votes from '../features/votes/Votes';
+
 const Discussions = ({ match }) => {
   return (
     <article>
@@ -62,89 +64,7 @@ const Discussions = ({ match }) => {
 
       <Chat />
 
-      <div className="mw9 center ph3 ph5-ns">
-        <h2>Current Decisions</h2>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">93</div>{' '}
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              Should we something about something?
-            </h1>
-
-            <time className="f6 ttu tracked gray">3 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">33</div>{' '}
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              What about that other thing?
-            </h1>
-            <time className="f6 ttu tracked gray">13 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-          <div class="dtc w2 w3-ns v-mid">
-            <div class="f3 f2-ns b ml0">9</div>
-          </div>
-          <div class="dtc v-mid pl3">
-            <h1 class="f6 f5-ns fw6 lh-title black mv0">
-              Are we going to do a or not?
-            </h1>
-            <time className="f6 ttu tracked gray">6 days left</time>
-          </div>
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Upvote
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="dt w-100  b--black-05 pb2 mt2" href="#0">
-          <div class="dtc v-mid">
-            <form class="w-100 tr">
-              <button
-                class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-                type="submit"
-              >
-                + Create New Vote
-              </button>
-            </form>
-          </div>
-        </article>
-      </div>
+      <Votes />
       <section className="flex items-center mw9 center pa3 pa5-ns ">
         <div className="dib">
           <h1 className="f4 bold center w5">Thing List</h1>
@@ -190,33 +110,33 @@ const Discussions = ({ match }) => {
         <h2 className="dib ml5">+ Create New List</h2>
       </section>
 
-      <section class="pa3 pa5-ns" data-name="slab-stat-small">
-        <h3 class="f6 ttu tracked">Today</h3>
-        <div class="cf">
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-            <dd class="f6 fw4 ml0">Votes cast</dd>
-            <dd class="f3 fw6 ml0">24</dd>
+      <section className="pa3 pa5-ns" data-name="slab-stat-small">
+        <h3 className="f6 ttu tracked">Today</h3>
+        <div className="cf">
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
+            <dd className="f6 fw4 ml0">Votes cast</dd>
+            <dd className="f3 fw6 ml0">24</dd>
           </dl>
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-            <dd class="f6 fw4 ml0">Todos created</dd>
-            <dd class="f3 fw6 ml0">3</dd>
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
+            <dd className="f6 fw4 ml0">Todos created</dd>
+            <dd className="f3 fw6 ml0">3</dd>
           </dl>
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-            <dd class="f6 fw4 ml0">Hour Worked</dd>
-            <dd class="f3 fw6 ml0">44</dd>
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
+            <dd className="f6 fw4 ml0">Hour Worked</dd>
+            <dd className="f3 fw6 ml0">44</dd>
           </dl>
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-            <dd class="f6 fw4 ml0">Chat Comments</dd>
-            <dd class="f3 fw6 ml0">102</dd>
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
+            <dd className="f6 fw4 ml0">Chat Comments</dd>
+            <dd className="f3 fw6 ml0">102</dd>
           </dl>
 
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
-            <dd class="f6 fw4 ml0">People</dd>
-            <dd class="f3 fw6 ml0">3</dd>
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title mr5-l">
+            <dd className="f6 fw4 ml0">People</dd>
+            <dd className="f3 fw6 ml0">3</dd>
           </dl>
-          <dl class="fl fn-l w-50 dib-l w-auto-l lh-title">
-            <dd class="f6 fw4 ml0">Days left</dd>
-            <dd class="f3 fw6 ml0">126</dd>
+          <dl className="fl fn-l w-50 dib-l w-auto-l lh-title">
+            <dd className="f6 fw4 ml0">Days left</dd>
+            <dd className="f3 fw6 ml0">126</dd>
           </dl>
         </div>
       </section>

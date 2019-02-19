@@ -1,20 +1,15 @@
 import React from 'react';
 
-// const { Provider, Consumer } = React.createContext();
-
-export const CommentsContext = React.createContext();
+export const CommentsContext = React.createContext({comments: [{
+  postId: 4,
+  created: new Date(new Date() - (5 * 3600 * 1000)),
+  author: 'Josh',
+  body: 'We need to hook this up to make it work realtime, nest responses like quoting on whatsapp, and the ability to turn a comment into a vote or todo item'
+}]});
 
 
 class CommentsProvider extends React.Component {
-  state = {
-    comments: [{
-      postId: 4,
-      created: new Date(new Date() - (5 * 3600 * 1000)),
-      author: 'Josh',
-      body: 'We need to hook this up to make it work realtime, nest responses lierk quoting on whatsapp, and the ability to turn a comment into a vote or todo item'
-    }]
-    
-  };
+  state = {};
 
   addComment = body => {
     this.setState({ comments: this.state.comments.concat({
@@ -51,5 +46,3 @@ class CommentsProvider extends React.Component {
 }
 
     export default CommentsProvider 
-
-    // export default  CommentsContext

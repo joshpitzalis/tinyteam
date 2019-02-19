@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CommentsContext } from '../context/CommentsContext';
+import { CommentsContext } from '../../context/CommentsContext';
 
 const Tasks = ({ match }) => {
   const { comments } = React.useContext(CommentsContext);
