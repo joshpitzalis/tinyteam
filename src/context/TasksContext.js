@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { updater } from './helpers';
 export const TasksContext = React.createContext({lists:{}});
 
 class TaskProvider extends React.Component {
@@ -29,13 +29,10 @@ class TaskProvider extends React.Component {
     }
   };
 
-  updateLists = newList => {
-    const newLists = { ...this.state.lists };
-    newLists[newList.id] = newList;
-    return this.setState({
-      lists: newLists
+  updateLists = newList => this.setState({
+      lists: updater(newList, this.state.lists)
     });
-  };
+  
 
   render() {
     return (

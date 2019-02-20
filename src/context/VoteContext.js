@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { updater } from './helpers';
 export const VoteContext = React.createContext({});
 
 class VoteProvider extends React.Component {
@@ -14,13 +14,9 @@ class VoteProvider extends React.Component {
     }
   }}
 
-  createPoll = newPoll => {
-    const newPolls = { ...this.state.polls };
-    newPolls[newPoll.id] = newPoll;
-    return this.setState({
-      polls: newPolls
+  createPoll = newPoll => this.setState({
+      polls: updater(newPoll, this.state.polls)
     });
-  };
 
   // upVote = id => {
   //   const newPosts = { ...this.state.posts };
