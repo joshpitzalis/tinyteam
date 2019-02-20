@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CommentsContext = React.createContext();
+export const CommentsContext = React.createContext({});
 
 
 class CommentsProvider extends React.Component {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const VoteContext = React.createContext();
+export const VoteContext = React.createContext({});
 
 class VoteProvider extends React.Component {
   state = { polls: {

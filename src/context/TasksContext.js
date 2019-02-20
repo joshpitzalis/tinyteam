@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TasksContext = React.createContext();
+export const TasksContext = React.createContext({lists:{}});
 
 class TaskProvider extends React.Component {
   state = {
@@ -30,7 +30,6 @@ class TaskProvider extends React.Component {
   };
 
   updateLists = newList => {
-    console.log('newList', newList)
     const newLists = { ...this.state.lists };
     newLists[newList.id] = newList;
     return this.setState({
