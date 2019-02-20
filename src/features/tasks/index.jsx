@@ -26,29 +26,7 @@ const Tasks = () => {
 
   return (
     <section className="flex items-center mw9 center pa3 pa5-ns ">
-      <div className="dib ma3 ">
-        {Object.values(lists).map(list => (
-          <div className="dib pa3">
-            <h1 className="f4 bold center w5">{list.title}</h1>
-            <ul
-              className="list pl0 ml0 center mw5 ba b--light-silver br3"
-              key={list.id}
-            >
-              {Object.values(list.tasks).map((task, index, array) => {
-                const lastTask = index + 1 === array.length;
-                return (
-                  <li
-                    className={`ph3 pv2 ${!lastTask && 'bb b--light-silver'}`}
-                  >
-                    <input type="checkbox" checked={task.completed} />{' '}
-                    {task.title}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <ToDoLists lists={lists} />
       <button
         className="dib ml5"
         onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
@@ -66,3 +44,29 @@ const Tasks = () => {
 };
 
 export default Tasks;
+
+const ToDoLists = ({ lists }) => {
+  return (
+    <div className="dib ma3 ">
+      {Object.values(lists).map(list => (
+        <div className="dib pa3">
+          <h1 className="f4 bold center w5">{list.title}</h1>
+          <ul
+            className="list pl0 ml0 center mw5 ba b--light-silver br3"
+            key={list.id}
+          >
+            {Object.values(list.tasks).map((task, index, array) => {
+              const lastTask = index + 1 === array.length;
+              return (
+                <li className={`ph3 pv2 ${!lastTask && 'bb b--light-silver'}`}>
+                  <input type="checkbox" checked={task.completed} />{' '}
+                  {task.title}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+};
