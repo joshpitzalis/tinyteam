@@ -1,4 +1,3 @@
-create
 update
 delete
 comment typescript for vscode
