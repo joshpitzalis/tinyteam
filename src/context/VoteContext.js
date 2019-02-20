@@ -1,27 +1,22 @@
 import React from 'react';
-
-export const VoteContext = React.createContext({polls: {
-  1: {
-    title: 'New Post',
-    id: 1,
-    createdBy: 'Josh',
-    votes: 5,
-    deadline: '3 days',
-    fields: ['one', 'two']
-  }
-},
-createPoll: () => {}});
+import { updater } from './helpers';
+export const VoteContext = React.createContext({});
 
 class VoteProvider extends React.Component {
-  state = {};
+  state = { polls: {
+    1: {
+      title: 'New Post',
+      id: 1,
+      createdBy: 'Josh',
+      votes: 5,
+      deadline: '3 days',
+      fields: ['one', 'two']
+    }
+  }}
 
-  createPoll = newPoll => {
-    const newPolls = { ...this.state.polls };
-    newPolls[newPoll.id] = newPoll;
-    return this.setState({
-      polls: newPolls
+  createPoll = newPoll => this.setState({
+      polls: updater(newPoll, this.state.polls)
     });
-  };
 
   // upVote = id => {
   //   const newPosts = { ...this.state.posts };
