@@ -1,29 +1,29 @@
 import React from 'react';
 import { TasksContext } from '../../context/TasksContext';
-export const ListCreator = ({ dispatch }) => {
+export const ListEditor = ({ dispatch, list }) => {
   const [title, setTitle] = React.useState('');
   const [value, setValue] = React.useState('');
   const [todos, setTodo] = React.useState({});
   const { updateLists } = React.useContext(TasksContext);
 
   return (
-    <section>
+    <section data-testid="taskListEditor">
       <h1>Create a task list here</h1>
       <div>
         <div>
-          <p>{title}</p>{' '}
+          <p data-testid="title">{title || list.title}</p>{' '}
         </div>
         <input
           type="text"
-          value={title}
+          value={title || list.title}
           placeholder="List title goes here"
           className="db"
           onChange={e => setTitle(e.target.value)}
         />
       </div>
       <ul>
-        {Object.values(todos).map(todo => (
-          <li>{todo.title}</li>
+        {Object.values(list.tasks).map(todo => (
+          <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
 
@@ -31,7 +31,7 @@ export const ListCreator = ({ dispatch }) => {
         onSubmit={e => {
           e.preventDefault();
           const id = +new Date();
-          const newTodos = { ...todos };
+          const newTodos = { ...list.todos };
           newTodos[id] = {
             title: value,
             id,

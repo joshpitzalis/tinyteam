@@ -1,6 +1,7 @@
 import React from 'react';
 import { updater } from './helpers';
-export const TasksContext = React.createContext({lists:{}});
+export const TasksContext = React.createContext({lists:{},
+  updateLists: () => {}});
 
 class TaskProvider extends React.Component {
   state = {
