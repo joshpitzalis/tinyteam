@@ -19,6 +19,7 @@ export const ListEditor = ({ dispatch, list }) => {
           placeholder="List title goes here"
           className="db"
           onChange={e => setTitle(e.target.value)}
+          data-testid="titleInput"
         />
       </div>
       <ul>
@@ -47,8 +48,9 @@ export const ListEditor = ({ dispatch, list }) => {
           type="text"
           value={value}
           onChange={e => setValue(e.target.value)}
+          data-testid="taskInput"
         />
-        <input type="submit" value="add todo" />
+        <input type="submit" value="add todo" data-testid="addToDo" />
       </form>
 
       <button
@@ -66,6 +68,7 @@ export const ListEditor = ({ dispatch, list }) => {
             }
           })
         }
+        data-testid="submitTodoList"
       >
         Save List
       </button>
