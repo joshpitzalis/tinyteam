@@ -45,3 +45,6 @@ it.only('lets me edit an existing tasks list', async () => {
 });
 
 it('lets me delete a tasks', () => {});
+it('lets me complete a tasks', () => {});
+it('lets me show completed tasks', () => {});
+
