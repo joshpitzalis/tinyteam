@@ -39,13 +39,18 @@ const Tasks = () => {
         + Create New List
       </button>
       {state.modalVisible && (
-        <Modal onClose={() => dispatch({ type: 'MODAL_CLOSED' })}>
-          <ListCreator dispatch={dispatch} />
-        </Modal>
-      )}
-      {state.modalVisible && state.id && (
-        <Modal onClose={() => dispatch({ type: 'EDITOR_MODAL_CLOSED' })}>
-          <ListEditor dispatch={dispatch} list={lists[state.id]} />
+        <Modal
+          onClose={() =>
+            state.id
+              ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
+              : dispatch({ type: 'MODAL_CLOSED' })
+          }
+        >
+          {state.id ? (
+            <ListEditor dispatch={dispatch} list={lists[state.id]} />
+          ) : (
+            <ListCreator dispatch={dispatch} />
+          )}
         </Modal>
       )}
     </section>
