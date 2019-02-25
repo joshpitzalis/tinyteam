@@ -5,23 +5,26 @@ export const ListCreator = ({ dispatch }) => {
   const [value, setValue] = React.useState('');
   const [todos, setTodo] = React.useState({});
   const { updateLists } = React.useContext(TasksContext);
-  console.log('todos', todos);
+
   return (
-    <section>
+    <section data-testid="taskListCreator">
       <h1>Create a task list here</h1>
       <div>
-        <p>{title}</p>
+        <div>
+          <p>{title}</p>{' '}
+        </div>
         <input
           type="text"
           value={title}
           placeholder="List title goes here"
           className="db"
           onChange={e => setTitle(e.target.value)}
+          data-testid="titleInput"
         />
       </div>
       <ul>
         {Object.values(todos).map(todo => (
-          <li>{todo.title}</li>
+          <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
 
@@ -45,8 +48,9 @@ export const ListCreator = ({ dispatch }) => {
           type="text"
           value={value}
           onChange={e => setValue(e.target.value)}
+          data-testid="taskInput"
         />
-        <input type="submit" value="add todo" />
+        <input type="submit" value="add todo" data-testid="addToDo" />
       </form>
 
       <button
@@ -64,6 +68,7 @@ export const ListCreator = ({ dispatch }) => {
             }
           })
         }
+        data-testid="submitTodoList"
       >
         Save List
       </button>
