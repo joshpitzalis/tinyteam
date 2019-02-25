@@ -28,6 +28,7 @@ const Tasks = () => {
     modalVisible: false
   });
   const { lists } = React.useContext(TasksContext);
+
   return (
     <section className="flex items-center mw9 center pa3 pa5-ns ">
       <ToDoLists lists={lists} dispatch={dispatch} />
@@ -38,23 +39,34 @@ const Tasks = () => {
       >
         + Create New List
       </button>
-      {state.modalVisible && (
-        <Modal
-          onClose={() =>
-            state.id
-              ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
-              : dispatch({ type: 'MODAL_CLOSED' })
-          }
-        >
-          {state.id ? (
-            <ListEditor dispatch={dispatch} list={lists[state.id]} />
-          ) : (
-            <ListCreator dispatch={dispatch} />
-          )}
-        </Modal>
-      )}
+      <Dialogue
+        modalVisible={state.modalVisible}
+        id={state.id}
+        dispatch={dispatch}
+        list={lists[state.id]}
+      />
     </section>
   );
 };
 
 export default Tasks;
+
+const Dialogue = ({ modalVisible, id, dispatch, list }) => {
+  return (
+    modalVisible && (
+      <Modal
+        onClose={() =>
+          id
+            ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
+            : dispatch({ type: 'MODAL_CLOSED' })
+        }
+      >
+        {id ? (
+          <ListEditor dispatch={dispatch} list={list} />
+        ) : (
+          <ListCreator dispatch={dispatch} />
+        )}
+      </Modal>
+    )
+  );
+};
