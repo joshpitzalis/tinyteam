@@ -1,3 +1,4 @@
+import formatDistance from 'date-fns/formatDistance';
 import React from 'react';
 import { Machine } from 'xstate';
 import { CommentsContext } from '../../context/CommentsContext';
@@ -26,7 +27,7 @@ const Chat = () => {
   React.useEffect(() => {
     inputEl.current.scrollTop = inputEl.current.scrollHeight;
   }, [comments]);
-
+  console.log('state', state);
   return (
     <section className="ph3 ph5-ns pv5">
       <div
@@ -43,9 +44,13 @@ const Chat = () => {
               <li key={item.postId}>
                 <h4>
                   <span className="author">{`${item.author} `}</span>
-                  <span className="date">
-                    on {` ${new Date(item.created).toLocaleDateString()}`}
-                  </span>
+                  <small className="date fw1">
+                    {item.created &&
+                      ` ${formatDistance(
+                        new Date(),
+                        new Date(item.created)
+                      )} ago`}
+                  </small>
                 </h4>
                 <p>{item.body}</p>
               </li>

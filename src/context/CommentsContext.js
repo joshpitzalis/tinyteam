@@ -1,7 +1,8 @@
 import React from 'react';
+import { authState } from 'rxfire/auth';
 import { list } from 'rxfire/database';
 import { map } from 'rxjs/operators';
-import { db } from '../utils/firebase';
+import { app, db } from '../utils/firebase';
 
 export const CommentsContext = React.createContext({});
 
@@ -14,17 +15,24 @@ class CommentsProvider extends React.Component {
         author: 'Tiny Teams',
         body: 'Loading...'
       }
-    ]
+    ],
+    user: null
+    
   };
 
   componentDidMount() {
     this.chat$ = list(db.ref('chats/devteam123test'))
       .pipe(map(changes => changes.map(c => c.snapshot.val())))
       .subscribe(list => this.setState({ comments: list }));
+
+      this.auth$ = authState(app.auth()).subscribe(user =>
+        this.setState({ user: user.displayName })
+      );
   }
 
   componentWillUnmount() {
     this.chat$.unsubscribe();
+    this.auth$.unsubscribe();
   }
 
   addComment = body => {
@@ -33,7 +41,7 @@ class CommentsProvider extends React.Component {
       {
         postId: newCommentRef.key,
         created: new Date(),
-        author: 'Josh',
+        author: this.state.user,
         body
       }
     );
