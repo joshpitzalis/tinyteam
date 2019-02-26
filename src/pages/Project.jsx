@@ -8,7 +8,6 @@ import { useMachine } from '../hooks/useMachine';
 import { app, googleAuthProvider } from '../utils/firebase';
 import { Static } from './../features/static/index.jsx';
 import { Stats } from './../features/stats/index.jsx';
-
 export const authMachine = Machine({
   id: 'auth',
   initial: 'idle',
@@ -37,16 +36,17 @@ export const authMachine = Machine({
 
 const Project = () => {
   const [state, send] = useMachine(authMachine);
-
   useEffect(() => {
-    authState(app.auth()).subscribe(user =>
+    const auth$ = authState(app.auth()).subscribe(user =>
       user ? send('LOGGED_IN') : send('LOGGED_OUT')
     );
+    return () => {
+      auth$.unsubscribe();
+    };
   }, []);
   return (
     <article>
       <Static />
-
       {state.matches('loggedIn') ? (
         <>
           <div className="tc">
