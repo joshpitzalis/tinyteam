@@ -11,8 +11,14 @@ import { Stats } from './../features/stats/index.jsx';
 
 export const authMachine = Machine({
   id: 'auth',
-  initial: 'loggedOut',
+  initial: 'idle',
   states: {
+    idle: {
+      on: {
+        LOGGED_IN: 'loggedIn',
+        LOGGED_OUT: 'loggedOut'
+      }
+    },
     loggedOut: {
       on: {
         LOGGED_IN: 'loggedIn'
@@ -20,7 +26,7 @@ export const authMachine = Machine({
     },
     loggedIn: {
       on: {
-        SIGNED_OUT: {
+        LOGGED_OUT: {
           actions: (ctx, event) => event.payload,
           target: 'loggedOut'
         }
@@ -33,7 +39,9 @@ const Project = () => {
   const [state, send] = useMachine(authMachine);
 
   useEffect(() => {
-    authState(app.auth()).subscribe(user => send('LOGGED_IN'));
+    authState(app.auth()).subscribe(user =>
+      user ? send('LOGGED_IN') : send('LOGGED_OUT')
+    );
   }, []);
   return (
     <article>
@@ -41,13 +49,15 @@ const Project = () => {
 
       {state.matches('loggedIn') ? (
         <>
-          <button
-            onClick={() =>
-              send({ type: 'SIGNED_OUT', payload: app.auth().signOut() })
-            }
-          >
-            Logout
-          </button>
+          <div className="tc">
+            <button
+              onClick={() =>
+                send({ type: 'SIGNED_OUT', payload: app.auth().signOut() })
+              }
+            >
+              Logout
+            </button>
+          </div>
           <Chat />
           <Votes />
           <Tasks />
