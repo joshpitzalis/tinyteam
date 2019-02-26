@@ -65,9 +65,13 @@ const Project = () => {
           <Stats />
         </>
       ) : (
-        <button onClick={() => app.auth().signInWithPopup(googleAuthProvider)}>
-          Signup/Login
-        </button>
+        <div className="tc">
+          <button
+            onClick={() => app.auth().signInWithPopup(googleAuthProvider)}
+          >
+            Signup/Login
+          </button>
+        </div>
       )}
     </article>
   );
