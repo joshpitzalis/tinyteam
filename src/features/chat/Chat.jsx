@@ -1,5 +1,7 @@
 import React from 'react';
+import { object } from 'rxfire/database';
 import { CommentsContext } from '../../context/CommentsContext';
+import { app } from '../../utils/firebase';
 
 const chatReducer = (state, action) => {
   switch (action.type) {
@@ -13,26 +15,48 @@ const chatReducer = (state, action) => {
   }
 };
 
+const chat$ = object(app.db().ref('chats/devteam123test')).subscribe(change => {
+  const { event, snapshot, prevKey } = change;
+  console.log(event, ' will always be value');
+  console.log(prevKey, ' the previous key');
+  console.log(snapshot.val(), ' this is the data');
+});
+
 const Chat = () => {
   const { comments, addComment } = React.useContext(CommentsContext);
 
   const [state, dispatch] = React.useReducer(chatReducer, { message: '' });
 
+  React.useEffect(() => {
+    const chat$ = object(app.db().ref('chats/devteam123test')).subscribe(
+      change => {
+        const { event, snapshot, prevKey } = change;
+        console.log(event, ' will always be value');
+        console.log(prevKey, ' the previous key');
+        console.log(snapshot.val(), ' this is the data');
+      }
+    );
+    return () => {
+      chat$.unsubscribe();
+    };
+  }, []);
+
   return (
     <section className="ph3 ph5-ns pv5">
       <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
         <ul className="comments pl0">
-          {comments && comments.map(item => (
-            <li key={item.postId}>
-              <h4>
-                <span className="author">{`${item.author} `}</span>
-                <span className="date">
-                  on {` ${item.created.toLocaleDateString()}`}
-                </span>
-              </h4>
-              <p>{item.body}</p>
-            </li>
-          ))}
+          {comments &&
+            comments.map(item => (
+              <li key={item.postId}>
+                <h4>
+                  <span className="author">{`${item.author} `}</span>
+                  <span className="date">
+                    on {` ${item.created.toLocaleDateString()}`}
+                  </span>
+                </h4>
+                <p>{item.body}</p>
+              </li>
+            ))}
         </ul>
       </div>
       <form
