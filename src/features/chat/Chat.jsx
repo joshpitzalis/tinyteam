@@ -27,7 +27,7 @@ const Chat = () => {
   React.useEffect(() => {
     inputEl.current.scrollTop = inputEl.current.scrollHeight;
   }, [comments]);
-  console.log('state', state);
+  // console.log('state', state);
   return (
     <section className="ph3 ph5-ns pv5">
       <div
@@ -41,7 +41,12 @@ const Chat = () => {
         >
           {comments &&
             comments.map(item => (
-              <li key={item.postId}>
+              <li
+                key={item.postId}
+                className={` ${
+                  item.author !== 'Josh Pitzalis' ? 'blue' : 'green'
+                }`}
+              >
                 <h4>
                   <span className="author">{`${item.author} `}</span>
                   <small className="date fw1">

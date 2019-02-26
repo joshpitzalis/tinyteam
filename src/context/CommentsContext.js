@@ -25,7 +25,7 @@ class CommentsProvider extends React.Component {
       .pipe(map(changes => changes.map(c => c.snapshot.val())))
       .subscribe(list => this.setState({ comments: list }));
 
-      this.auth$ = authState(app.auth()).subscribe(user =>
+      this.auth$ = authState(app.auth()).subscribe(user => user &&
         this.setState({ user: user.displayName })
       );
   }
