@@ -1,35 +1,51 @@
 import React from 'react';
+import { authState } from 'rxfire/auth';
+import { list } from 'rxfire/database';
+import { map } from 'rxjs/operators';
+import { app, db } from '../utils/firebase';
 
 export const CommentsContext = React.createContext({});
 
-
 class CommentsProvider extends React.Component {
-  state = {comments: [{
-    postId: 4,
-    created: new Date(new Date() - (5 * 3600 * 1000)),
-    author: 'Josh',
-    body: 'We need to hook this up to make it work realtime, nest responses like quoting on whatsapp, and the ability to turn a comment into a vote or todo item'
-  }]};
+  state = {
+    comments: [
+      {
+        postId: 4,
+        created: new Date(),
+        author: 'Tiny Teams',
+        body: 'Loading...'
+      }
+    ],
+    user: null
+    
+  };
 
-  addComment = body => {
-    this.setState({ comments: this.state.comments.concat({
-      created: new Date(),
-      author: 'Somebody',
-      body
-    })})
+  componentDidMount() {
+    this.chat$ = list(db.ref('chats/devteam123test'))
+      .pipe(map(changes => changes.map(c => c.snapshot.val())))
+      .subscribe(list => this.setState({ comments: list }));
+
+      this.auth$ = authState(app.auth()).subscribe(user => user &&
+        this.setState({ user: user.displayName })
+      );
   }
 
- 
+  componentWillUnmount() {
+    this.chat$.unsubscribe();
+    this.auth$.unsubscribe();
+  }
 
-  // upVote = id => {
-  //   const newPosts = { ...this.state.posts };
-  //   newPosts[id] = {...newPosts[id],
-  //       votes: newPosts[id].votes + 1}
-    
-  //   return this.setState({
-  //       posts: newPosts
-  //     });
-  // };
+  addComment = body => {
+    const newCommentRef = db.ref('chats/devteam123test').push();
+    newCommentRef.update(
+      {
+        postId: newCommentRef.key,
+        created: new Date(),
+        author: this.state.user,
+        body
+      }
+    );
+  };
 
   render() {
     return (
@@ -45,4 +61,4 @@ class CommentsProvider extends React.Component {
   }
 }
 
-    export default CommentsProvider 
+export default CommentsProvider;

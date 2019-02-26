@@ -35,10 +35,13 @@ export const Static = () => {
       <div className="fn fl-ns w-50-ns">
         <p className="f5 lh-copy measure mt0-ns">{bodyA}</p>
         <p className="f5 lh-copy measure">{bodyB}</p>
+        <h3>Important Project Links</h3>
         <ul>
-          <li>Link to Website</li>
-          <li>Google Drive</li>
-          <li>Github</li>
+          <li>
+            <a href="https://github.com/joshpitzalis/tinyteams/issues">
+              Report an Issue
+            </a>
+          </li>
         </ul>
       </div>
     </section>

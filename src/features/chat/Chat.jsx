@@ -1,55 +1,81 @@
+import formatDistance from 'date-fns/formatDistance';
 import React from 'react';
+import { Machine } from 'xstate';
 import { CommentsContext } from '../../context/CommentsContext';
+import { useMachine } from '../../hooks/useMachine';
 
-const chatReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_MESSAGE':
-      return { ...state, message: action.payload };
-    case 'COMMENT_SUBMITTED':
-      action.payload(state.message);
-      return { ...state, message: '' };
-    default:
-      throw new Error('You have probably mispelt an action name');
+export const chatMachine = Machine({
+  id: 'chat',
+  initial: 'idle',
+  context: { message: '' },
+  states: {
+    idle: {
+      on: {
+        COMMENT_SUBMITTED: {
+          actions: (ctx, e) => e.payload.addComment(e.payload.value)
+        }
+      }
+    }
   }
-};
+});
 
 const Chat = () => {
   const { comments, addComment } = React.useContext(CommentsContext);
-
-  const [state, dispatch] = React.useReducer(chatReducer, { message: '' });
-
+  const [value, setValue] = React.useState('');
+  const [state, send] = useMachine(chatMachine);
+  const inputEl = React.useRef(null);
+  React.useEffect(() => {
+    inputEl.current.scrollTop = inputEl.current.scrollHeight;
+  }, [comments]);
+  // console.log('state', state);
   return (
     <section className="ph3 ph5-ns pv5">
-      <div className="mw9 center br2 ba br--top pa3 b--silver vh-50">
-        <ul className="comments pl0">
-          {comments && comments.map(item => (
-            <li key={item.postId}>
-              <h4>
-                <span className="author">{`${item.author} `}</span>
-                <span className="date">
-                  on {` ${item.created.toLocaleDateString()}`}
-                </span>
-              </h4>
-              <p>{item.body}</p>
-            </li>
-          ))}
+      <div
+        className="mw9 center br2 ba br--top pa3 b--silver vh-50"
+        id="messageList"
+      >
+        <ul
+          className="pl0 h-100 comment"
+          style={{ overflowY: 'scroll' }}
+          ref={inputEl}
+        >
+          {comments &&
+            comments.map(item => (
+              <li
+                key={item.postId}
+                className={` ${
+                  item.author !== 'Josh Pitzalis' ? 'blue' : 'green'
+                }`}
+              >
+                <h4>
+                  <span className="author">{`${item.author} `}</span>
+                  <small className="date fw1">
+                    {item.created &&
+                      ` ${formatDistance(
+                        new Date(),
+                        new Date(item.created)
+                      )} ago`}
+                  </small>
+                </h4>
+                <p>{item.body}</p>
+              </li>
+            ))}
         </ul>
       </div>
       <form
         className="pa3 bg-silver br2 br--bottom flex"
         onSubmit={e => {
           e.preventDefault();
-          dispatch({ type: 'COMMENT_SUBMITTED', payload: addComment });
+          send({ type: 'COMMENT_SUBMITTED', payload: { addComment, value } });
+          setValue('');
         }}
       >
         <input
           type="text"
           className="w-100 pa3 dib"
           placeholder="Add your comment here..."
-          value={state.message}
-          onChange={e =>
-            dispatch({ type: 'SET_MESSAGE', payload: e.target.value })
-          }
+          value={value}
+          onChange={e => setValue(e.target.value)}
         />
         <input type="submit" value="Submit" className="dib pa3" />
       </form>

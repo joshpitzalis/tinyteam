@@ -27,6 +27,7 @@ const Tasks = () => {
   const [state, dispatch] = React.useReducer(taskReducer, {
     modalVisible: false
   });
+
   const { lists } = React.useContext(TasksContext);
 
   return (
