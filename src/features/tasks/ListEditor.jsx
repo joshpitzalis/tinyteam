@@ -171,7 +171,7 @@ export const Todo = ({ todo, onChange, onDelete }) => {
         <input
           type="checkbox"
           value={todo.completed}
-          checked={todo.completed}
+          defaultChecked={todo.completed}
         />
         <label>{todo.title}</label>{' '}
         <button onClick={() => onDelete(todo.id)}>Destroy</button>

@@ -49,7 +49,7 @@ const Tasks = () => {
 
   const { lists } = React.useContext(TasksContext);
   const [xstate, send] = useMachine(todoMachine);
-  console.log('xstate', xstate.context);
+  // console.log('xstate', xstate.context);
   return (
     <section className="flex items-center mw9 center pa3 pa5-ns ">
       <ToDoLists lists={lists} dispatch={dispatch} />

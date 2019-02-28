@@ -5,7 +5,6 @@ import Star from '../../images/star';
 export const Message = ({ item, send }) => {
   return (
     <li
-      key={item.postId}
       className={`ba mv1 pa2 b--silver br3 ${
         item.author !== 'Josh Pitzalis' ? 'blue' : 'green'
       }`}

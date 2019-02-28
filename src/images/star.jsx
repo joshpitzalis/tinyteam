@@ -12,7 +12,6 @@ const Star = ({ handleClick }) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      class="feather feather-star"
       onMouseEnter={() => setBackground('currentColor')}
       onMouseLeave={() => setBackground('none')}
       className="pointer"

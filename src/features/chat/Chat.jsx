@@ -66,6 +66,7 @@ const Chat = () => {
           {comments &&
             comments.map(item => (
               <Message
+                key={item.postId}
                 item={item}
                 send={action => {
                   setModal(true);
