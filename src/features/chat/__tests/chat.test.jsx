@@ -12,7 +12,7 @@ import Chat from '../Chat';
 afterEach(cleanup);
 
 it('lets me star a task to turn it into a task', async () => {
-  const { queryByTestId, getByTestId, getByText, queryByText } = render(
+  const { queryByTestId, getByTestId } = render(
     <CommentsProvider>
       <Chat />
     </CommentsProvider>
