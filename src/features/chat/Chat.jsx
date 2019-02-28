@@ -1,18 +1,29 @@
-import formatDistance from 'date-fns/formatDistance';
 import React from 'react';
-import { Machine } from 'xstate';
+import { Machine, send } from 'xstate';
 import { CommentsContext } from '../../context/CommentsContext';
 import { useMachine } from '../../hooks/useMachine';
-
+import Modal from '../modals/Modal';
+import { todoMachine } from '../tasks/index';
+import { ListCreator } from '../tasks/ListCreator';
+import { Message } from './Message';
 export const chatMachine = Machine({
   id: 'chat',
   initial: 'idle',
   context: { message: '' },
   states: {
     idle: {
+      invoke: {
+        id: 'todo',
+        src: todoMachine
+      },
       on: {
         COMMENT_SUBMITTED: {
-          actions: (ctx, e) => e.payload.addComment(e.payload.value)
+          actions: 'addComment'
+        },
+        COMMENT_STARRED: {
+          actions: send('OPENED_TASK_LIST_CREATOR', {
+            to: 'todo'
+          })
         }
       }
     }
@@ -22,12 +33,25 @@ export const chatMachine = Machine({
 const Chat = () => {
   const { comments, addComment } = React.useContext(CommentsContext);
   const [value, setValue] = React.useState('');
-  const [state, send] = useMachine(chatMachine);
+  const [modal, setModal] = React.useState(false);
+  const [title, setTitle] = React.useState('');
+  const [state, send] = useMachine(
+    chatMachine.withConfig({
+      actions: {
+        addComment: (ctx, e) => addComment(e.payload)
+      }
+    })
+  );
   const inputEl = React.useRef(null);
   React.useEffect(() => {
     inputEl.current.scrollTop = inputEl.current.scrollHeight;
   }, [comments]);
-  // console.log('state', state);
+
+  const dispatch = action => {
+    action.payload.updateLists(action.payload.list);
+    setModal(false);
+  };
+
   return (
     <section className="ph3 ph5-ns pv5">
       <div
@@ -41,24 +65,13 @@ const Chat = () => {
         >
           {comments &&
             comments.map(item => (
-              <li
-                key={item.postId}
-                className={` ${
-                  item.author !== 'Josh Pitzalis' ? 'blue' : 'green'
-                }`}
-              >
-                <h4>
-                  <span className="author">{`${item.author} `}</span>
-                  <small className="date fw1">
-                    {item.created &&
-                      ` ${formatDistance(
-                        new Date(),
-                        new Date(item.created)
-                      )} ago`}
-                  </small>
-                </h4>
-                <p>{item.body}</p>
-              </li>
+              <Message
+                item={item}
+                send={action => {
+                  setModal(true);
+                  setTitle(action.payload);
+                }}
+              />
             ))}
         </ul>
       </div>
@@ -66,7 +79,7 @@ const Chat = () => {
         className="pa3 bg-silver br2 br--bottom flex"
         onSubmit={e => {
           e.preventDefault();
-          send({ type: 'COMMENT_SUBMITTED', payload: { addComment, value } });
+          send({ type: 'COMMENT_SUBMITTED', payload: value });
           setValue('');
         }}
       >
@@ -79,36 +92,13 @@ const Chat = () => {
         />
         <input type="submit" value="Submit" className="dib pa3" />
       </form>
+      {modal && (
+        <Modal onClose={() => setModal(false)}>
+          <ListCreator dispatch={dispatch} providedTitle={title} />
+        </Modal>
+      )}
     </section>
   );
 };
 
 export default Chat;
-
-const Redirect = () => {
-  return (
-    <section className="ph3 ph5-ns pv5">
-      <article className="mw9 center br2 ba b--light-blue bg-lightest-blue">
-        <div className="dt-ns dt--fixed-ns w-100">
-          <div className="pa3 pa4-ns dtc-ns v-mid">
-            <div>
-              <h2 className="fw4 blue mt0 mb3">Have a Question? </h2>
-              <p className="black-70 measure lh-copy mv0">
-                All discussion happens in our chatroom, jump and introduce
-                yourself.
-              </p>
-            </div>
-          </div>
-          <div className="pa3 pa4-ns dtc-ns v-mid">
-            <a
-              href="#"
-              className="no-underline f6 tc db w-100 pv3 bg-animate bg-blue hover-bg-dark-blue white br2"
-            >
-              Go to Slack
-            </a>
-          </div>
-        </div>
-      </article>
-    </section>
-  );
-};
