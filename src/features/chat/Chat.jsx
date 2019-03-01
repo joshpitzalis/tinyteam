@@ -1,29 +1,20 @@
 import React from 'react';
-import { Machine, send } from 'xstate';
+import { Machine } from 'xstate';
 import { CommentsContext } from '../../context/CommentsContext';
 import { useMachine } from '../../hooks/useMachine';
 import Modal from '../modals/Modal';
-import { todoMachine } from '../tasks/index';
 import { ListCreator } from '../tasks/ListCreator';
 import { Message } from './Message';
+
 export const chatMachine = Machine({
   id: 'chat',
   initial: 'idle',
   context: { message: '' },
   states: {
     idle: {
-      invoke: {
-        id: 'todo',
-        src: todoMachine
-      },
       on: {
         COMMENT_SUBMITTED: {
           actions: 'addComment'
-        },
-        COMMENT_STARRED: {
-          actions: send('OPENED_TASK_LIST_CREATOR', {
-            to: 'todo'
-          })
         }
       }
     }

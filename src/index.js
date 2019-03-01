@@ -32,7 +32,7 @@ const Routes = () => {
             </Switch>
           </div>
           <div className="tc sans-serif fw1">
-            <small>Version 0.0.2</small>
+            <small>Version 0.0.3</small>
           </div>
         </Errors>
       </React.StrictMode>
