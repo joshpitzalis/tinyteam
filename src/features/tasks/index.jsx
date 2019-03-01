@@ -45,7 +45,7 @@ const Tasks = () => {
         modalVisible={state.modalVisible}
         id={state.id}
         dispatch={dispatch}
-        list={lists[state.id]}
+        listId={state.id}
       />
     </section>
   );
@@ -53,7 +53,7 @@ const Tasks = () => {
 
 export default Tasks;
 
-const Dialogue = ({ modalVisible, id, dispatch, list }) => {
+const Dialogue = ({ modalVisible, id, dispatch, listId }) => {
   return (
     modalVisible && (
       <Modal
@@ -64,7 +64,7 @@ const Dialogue = ({ modalVisible, id, dispatch, list }) => {
         }
       >
         {id ? (
-          <ListEditor dispatch={dispatch} list={list} />
+          <ListEditor dispatch={dispatch} listId={listId} />
         ) : (
           <ListCreator dispatch={dispatch} />
         )}

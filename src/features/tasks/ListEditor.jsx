@@ -1,185 +1,140 @@
 import React from 'react';
-import { actions, Machine } from 'xstate';
-import { TasksContext } from '../../context/TasksContext';
-import { useMachine } from '../../hooks/useMachine';
-
+import { collection, doc } from 'rxfire/firestore';
+import { map } from 'rxjs/operators';
+import { actions } from 'xstate';
+import { firestore } from '../../utils/firebase';
 const { assign } = actions;
 
-export const todosMachine = Machine({
-  id: 'todos',
-  context: {},
-  initial: 'all',
-  states: {
-    all: {},
-    active: {},
-    completed: {}
-  },
-  on: {
-    TODO_DELETED: {
-      actions: ['deleted']
-    },
-    TODO_CHANGED: {
-      actions: ['handleTodoChange']
-    },
-    TITLE_CHANGED: {
-      actions: ['handleTitleChange']
-    },
-    NEW_TASK_CHANGED: {
-      actions: ['handleNewTaskChange']
-    },
-    TODO_CREATED: {
-      actions: ['handleNewTaskSubmit']
-    }
-  }
-});
+export const ListEditor = ({ dispatch, listId }) => {
+  const [tasks, setTasks] = React.useState([]);
+  const [list, setList] = React.useState([]);
 
-export const ListEditor = ({ dispatch, list }) => {
-  const { updateLists } = React.useContext(TasksContext);
-  const [state, send] = useMachine(
-    todosMachine.withConfig(
-      {
-        actions: {
-          handleTitleChange: assign({
-            title: (ctx, e) => e.payload
-          }),
-          deleted: assign({
-            todos: (ctx, e) => {
-              return ctx.todos.filter(todo => todo.id !== e.id);
-            }
-          }),
-          handleTodoChange: assign({
-            todos: (ctx, e) =>
-              ctx.todos.map(todo =>
-                todo.id === e.payload.id
-                  ? {
-                      title: e.payload.title,
-                      id: todo.id,
-                      createdBy: todo.createdBy,
-                      completed: todo.completed,
-                      deadline: todo.deadline
-                    }
-                  : todo
-              )
-          }),
-          handleNewTaskChange: assign({
-            todo: (ctx, e) => e.payload
-          }),
-          handleNewTaskSubmit: assign({
-            todos: (ctx, e) =>
-              ctx.todos.concat({
-                title: ctx.todo,
-                id: +new Date(),
-                createdBy: 'Josh',
-                completed: false,
-                deadline: '3 days'
-              }),
-            todo: ''
-          })
-        }
-      },
-      {
-        title: list.title,
-        todo: '',
-        todos: Object.values(list.tasks)
-      }
-    )
-  );
+  React.useEffect(() => {
+    const tasks$ = collection(firestore.collection(`todoLists/${listId}/tasks`))
+      .pipe(map(docs => docs.map(doc => doc.data())))
+      .subscribe(tasks => setTasks(tasks));
+    return () => {
+      tasks$.unsubscribe();
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const tasks$ = doc(firestore.doc(`todoLists/${listId}`))
+      .pipe(map(doc => doc.data()))
+      .subscribe(tasks => setList(tasks));
+    return () => {
+      tasks$.unsubscribe();
+    };
+  }, []);
+
+  const send = () => console.log('dog');
+  const [title, setTitle] = React.useState('');
+  const [todo, setTodo] = React.useState('');
+
+  const createTodo = async (todo, listId) => {
+    const newTask = await firestore
+      .collection(`todoLists/${listId}/tasks`)
+      .doc();
+
+    await firestore.doc(`todoLists/${listId}/tasks/${newTask.id}`).set({
+      title: todo,
+      id: newTask.id,
+      completed: false,
+      createdOn: +new Date()
+    });
+  };
 
   return (
     <section data-testid="taskListEditor">
       <h1>Create a task list here</h1>
       <div>
         <div>
-          <p data-testid="title">{state.context.title}</p>{' '}
+          <p data-testid="title">{list.title}</p>{' '}
         </div>
         <input
           type="text"
-          value={state.context.title}
+          value={title || list.title}
           placeholder="List title goes here"
           className="db"
-          onChange={e =>
-            send({ type: 'TITLE_CHANGED', payload: e.target.value })
-          }
+          onChange={e => setTitle(e.target.value)}
           data-testid="titleInput"
         />
+        <button
+          onClick={() =>
+            firestore.doc(`todoLists/${listId}`).update({
+              title: title || list.title
+            })
+          }
+          data-testid="submitTodoList"
+        >
+          Save List
+        </button>
       </div>
       <ul>
-        {state.context.todos.map(todo => (
-          <Todo
-            key={todo.id}
-            todo={todo}
-            onChange={payload =>
-              send({
-                type: 'TODO_CHANGED',
-                payload
-              })
-            }
-            onDelete={id => send({ type: 'TODO_DELETED', id })}
-          />
+        {tasks.map(todo => (
+          <Todo key={todo.id} todo={todo} id={todo.id} listId={listId} />
         ))}
       </ul>
-
       <form
         onSubmit={e => {
           e.preventDefault();
-          send({
-            type: 'TODO_CREATED'
-          });
+          createTodo(todo, listId);
         }}
       >
         <input
           type="text"
-          value={state.context.todo}
-          onChange={e =>
-            send({
-              type: 'NEW_TASK_CHANGED',
-              payload: e.target.value
-            })
-          }
+          value={todo}
+          onChange={e => setTodo(e.target.value)}
           data-testid="taskInput"
         />
         <input type="submit" value="add todo" data-testid="addToDo" />
       </form>
-
-      <button
-        onClick={() =>
-          dispatch({
-            type: 'LIST_UPDATED',
-            payload: {
-              updateLists,
-              list: {
-                title: state.context.title,
-                id: list.id,
-                tasks: state.context.todos,
-                createdOn: list.createdOn
-              }
-            }
-          })
-        }
-        data-testid="submitTodoList"
+      <small
+        className="red pt3"
+        onClick={() => {
+          dispatch({ type: 'EDITOR_MODAL_CLOSED' });
+          firestore.doc(`todoLists/${listId}`).delete();
+        }}
       >
-        Save List
-      </button>
+        Delete Entire List
+      </small>{' '}
     </section>
   );
 };
 
-export const Todo = ({ todo, onChange, onDelete }) => {
+export const Todo = ({ todo, id, listId }) => {
+  const [title, setTitle] = React.useState('');
   return (
     <li key={todo.id}>
       <div>
         <input
           type="checkbox"
           value={todo.completed}
-          defaultChecked={todo.completed}
+          onChange={() =>
+            firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
+              completed: !todo.completed
+            })
+          }
         />
         <label>{todo.title}</label>{' '}
-        <button onClick={() => onDelete(todo.id)}>Destroy</button>
+        <button
+          onClick={() =>
+            firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
+              title: title || todo.title
+            })
+          }
+        >
+          Update
+        </button>
+        <button
+          onClick={() =>
+            firestore.doc(`todoLists/${listId}/tasks/${id}`).delete()
+          }
+        >
+          Destroy
+        </button>
       </div>
-      <input
-        value={todo.title}
-        onChange={e => onChange({ id: todo.id, title: e.target.value })}
-      />
+      <input value={title} onChange={e => setTitle(e.target.value)} />
     </li>
   );
 };

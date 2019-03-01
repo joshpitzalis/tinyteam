@@ -28,9 +28,7 @@ export const ToDoItem = ({ lastTask, task, listId }) => {
       <input
         type="checkbox"
         checked={task.completed}
-        onChange={() =>
-          markTodoCompleted('klCS69LbBHIfKduVRn3T', !task.completed)
-        }
+        onChange={() => markTodoCompleted(task.id, !task.completed)}
       />{' '}
       {task.title}
     </li>
