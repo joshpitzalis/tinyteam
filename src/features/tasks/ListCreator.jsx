@@ -1,6 +1,7 @@
 import React from 'react';
 import { TasksContext } from '../../context/TasksContext';
-export const ListCreator = ({ dispatch }) => {
+
+export const ListCreator = ({ dispatch, providedTitle = '' }) => {
   const [title, setTitle] = React.useState('');
   const [value, setValue] = React.useState('');
   const [todos, setTodo] = React.useState({});
@@ -15,7 +16,7 @@ export const ListCreator = ({ dispatch }) => {
         </div>
         <input
           type="text"
-          value={title}
+          value={title || providedTitle}
           placeholder="List title goes here"
           className="db"
           onChange={e => setTitle(e.target.value)}
@@ -60,7 +61,7 @@ export const ListCreator = ({ dispatch }) => {
             payload: {
               updateLists,
               list: {
-                title,
+                title: title || providedTitle,
                 id: +new Date(),
                 tasks: todos,
                 createdOn: +new Date()

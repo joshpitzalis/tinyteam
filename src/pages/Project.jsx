@@ -11,7 +11,7 @@ import { Stats } from './../features/stats/index.jsx';
 
 export const authMachine = Machine({
   id: 'auth',
-  initial: 'idle',
+  initial: 'loggedIn',
   states: {
     idle: {
       on: {
