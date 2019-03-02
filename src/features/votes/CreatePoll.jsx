@@ -1,6 +1,14 @@
 import React from 'react';
 import { VoteContext } from '../../context/VoteContext';
 
+// case 'POLL_CREATED':
+//       action.payload.createPoll(action.payload.newPoll);
+//       return {
+//         ...state,
+//         creating: false,
+//         id: action.payload.newPoll.id
+//       };
+
 export const CreatePoll = ({ dispatch }) => {
   const [value, setValue] = React.useState('');
   const [fields, setFields] = React.useState([]);

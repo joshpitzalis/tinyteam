@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Vote = ({ title, deadline, votes, id, dispatch }) => {
+export const Vote = ({ title, deadline, votes, id, dispatch, setId }) => {
   return (
     <article className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
       <div className="dtc w5 v-mid">
@@ -13,7 +13,10 @@ export const Vote = ({ title, deadline, votes, id, dispatch }) => {
       <div className="dtc v-mid">
         <button
           className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60"
-          onClick={() => dispatch({ type: 'UPVOTED', payload: id })}
+          onClick={() => {
+            setId(id);
+            dispatch({ type: 'EXISTING_POLL_OPENED' });
+          }}
         >
           Vote
         </button>

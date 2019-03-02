@@ -1,60 +1,79 @@
 import React from 'react';
-import { VoteContext } from '../../context/VoteContext';
-import Chat from '../chat/Chat';
+import { Machine } from 'xstate';
+import { useFireColl } from '../../hooks/firebase';
+import { useMachine } from '../../hooks/useMachine';
 import Modal from '../modals/Modal';
 import { CreatePoll } from './CreatePoll';
 import { Poll } from './Poll';
 import { Vote } from './Vote';
 
-const voteReducer = (state, action) => {
-  switch (action.type) {
-    case 'POLL_CREATE_FORM_OPENED':
-      return { ...state, visible: true, creating: true };
-    case 'UPVOTED':
-      return { ...state, visible: true, id: action.payload };
-    case 'MODAL_CLOSED':
-      return { ...state, visible: false };
-    case 'POLL_CREATED':
-      action.payload.createPoll(action.payload.newPoll);
-      return {
-        ...state,
-        creating: false,
-        id: action.payload.newPoll.id
-      };
-    default:
-      throw new Error('You have probably mispelt an action name');
+export const voteMachine = Machine({
+  id: 'votes',
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        POLL_CREATE_FORM_OPENED: 'newVote',
+        EXISTING_POLL_OPENED: 'existingVote'
+      }
+    },
+    newVote: {
+      on: {
+        MODAL_CLOSED: 'idle',
+        POLL_CREATED: 'loading'
+      }
+    },
+    existingVote: {
+      on: {
+        MODAL_CLOSED: 'idle'
+      }
+    },
+    loading: {
+      on: {
+        SUCCEEDED: 'idle',
+        ERRORED: 'error'
+      }
+    },
+    error: {
+      on: {
+        MODAL_CLOSED: 'idle'
+      }
+    }
   }
-};
+});
 
 const Votes = () => {
-  const { polls } = React.useContext(VoteContext);
-  const [state, dispatch] = React.useReducer(voteReducer, {
-    visible: false,
-    creating: false
-  });
+  const polls = useFireColl(`decisions`);
+  const [state, send] = useMachine(voteMachine);
+  const [id, setId] = React.useState('');
+  console.log('decision', polls);
   return (
     <section className="mw9 center pa3 pa5-ns ">
-      <div className="flex items-center justify-between">
-        <h2>Current Decisions</h2>
-        <button onClick={() => dispatch({ type: 'POLL_CREATE_FORM_OPENED' })}>
-          + Create a new vote
-        </button>
-      </div>
-      {polls &&
-        Object.values(polls).map(poll => (
-          <Vote key={poll.id} {...poll} dispatch={dispatch} />
-        ))}
+      {state.matches('loading') && <p>Loading...</p>}
+      {state.matches('error') && <p>Error!</p>}
+      {state.matches('idle') && (
+        <>
+          <div className="flex items-center justify-between">
+            <h2>Current Decisions</h2>
+            <button onClick={() => send('POLL_CREATE_FORM_OPENED')}>
+              + Create a new vote
+            </button>
+          </div>
+          {polls &&
+            polls.map(poll => (
+              <Vote key={poll.id} {...poll} dispatch={send} setId={setId} />
+            ))}
+        </>
+      )}
+      {state.matches('newVote') && (
+        <Modal onClose={() => send('MODAL_CLOSED')}>
+          <CreatePoll dispatch={send} />
+        </Modal>
+      )}
 
-      {state.visible && (
-        <Modal onClose={() => dispatch({ type: 'MODAL_CLOSED' })}>
-          {state.creating ? (
-            <CreatePoll dispatch={dispatch} />
-          ) : (
-            <>
-              <Poll id={state.id} />
-              <Chat />
-            </>
-          )}
+      {state.matches('existingVote') && (
+        <Modal onClose={() => send({ type: 'MODAL_CLOSED' })}>
+          <Poll poll={polls.find(poll => poll.id === id)} />
         </Modal>
       )}
     </section>
