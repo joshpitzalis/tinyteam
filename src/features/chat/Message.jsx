@@ -6,7 +6,7 @@ export const Message = ({ item, send }) => {
   return (
     <li
       className={`ba mv1 pa2 b--silver br3 ${
-        item.author !== 'Josh Pitzalis' ? 'blue' : 'green'
+        item.author !== 'Josh Pitzalis' ? 'red' : 'black'
       }`}
     >
       <div className="flex justify-between">
