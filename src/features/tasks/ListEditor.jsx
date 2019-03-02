@@ -11,7 +11,8 @@ export const ListEditor = ({ dispatch, listId }) => {
   const [title, setTitle] = React.useState('');
   const [todo, setTodo] = React.useState('');
 
-  const createTodo = async (todo, listId) => {
+  const createTodo = (todo, listId) => async e => {
+    e.preventDefault();
     const newTask = await firestore
       .collection(`todoLists/${listId}/tasks`)
       .doc();
@@ -22,6 +23,7 @@ export const ListEditor = ({ dispatch, listId }) => {
       completed: false,
       createdOn: +new Date()
     });
+    setTodo('');
   };
 
   return (
@@ -55,12 +57,7 @@ export const ListEditor = ({ dispatch, listId }) => {
           <Todo key={todo.id} todo={todo} id={todo.id} listId={listId} />
         ))}
       </ul>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          createTodo(todo, listId);
-        }}
-      >
+      <form onSubmit={createTodo(todo, listId)}>
         <input
           type="text"
           value={todo}

@@ -6,7 +6,7 @@ import Tasks from '../index';
 
 afterEach(cleanup);
 
-it('lets me create a new task list', async () => {
+it.skip('lets me create a new task list', async () => {
   const { queryByTestId, getByTestId, getByText, queryByText } = render(
     <TaskProvider>
       <Tasks />
@@ -24,7 +24,7 @@ it('lets me create a new task list', async () => {
   getByText('example task')
 });
 
-it.only('lets me edit an existing tasks list', async () => {
+it.skip('lets me edit an existing tasks list', async () => {
   const { queryByTestId, getByTestId, getByText } = render(
     <TaskProvider>
       <Tasks />
@@ -45,6 +45,7 @@ it.only('lets me edit an existing tasks list', async () => {
 });
 
 it('lets me delete a tasks', () => {});
+it('lets me delete a list', () => {});
 it('lets me complete a tasks', () => {});
 it('lets me show completed tasks', () => {});
 
