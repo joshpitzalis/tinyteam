@@ -2,6 +2,7 @@ import React from 'react';
 import { actions } from 'xstate';
 import { useFireColl, useFireDoc } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
+import { EditableToDoItem } from './components/EditableToDoItem';
 const { assign } = actions;
 
 export const ListEditor = ({ dispatch, listId }) => {
@@ -57,15 +58,11 @@ export const ListEditor = ({ dispatch, listId }) => {
           <Todo key={todo.id} todo={todo} id={todo.id} listId={listId} />
         ))}
       </ul>
-      <form onSubmit={createTodo(todo, listId)}>
-        <input
-          type="text"
-          value={todo}
-          onChange={e => setTodo(e.target.value)}
-          data-testid="taskInput"
-        />
-        <input type="submit" value="add todo" data-testid="addToDo" />
-      </form>
+      <EditableToDoItem
+        submit={createTodo(todo, listId)}
+        todo={todo}
+        setTodo={setTodo}
+      />
       <small
         className="red pt3"
         onClick={() => {

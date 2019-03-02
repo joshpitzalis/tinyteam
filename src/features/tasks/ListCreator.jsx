@@ -1,5 +1,6 @@
 import React from 'react';
 import { firestore } from '../../utils/firebase';
+import { EditableToDoItem } from './components/EditableToDoItem';
 
 export const ListCreator = ({ dispatch, providedTitle = '' }) => {
   const [title, setTitle] = React.useState('');
@@ -59,17 +60,7 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
         />
       </div>
       <ul>{tasks && tasks.map(todo => <li key={todo.id}>{todo.title}</li>)}</ul>
-
-      <form onSubmit={e => setItem(e)}>
-        <input
-          type="text"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          data-testid="taskInput"
-        />
-        <input type="submit" value="add todo" data-testid="addToDo" />
-      </form>
-
+      <EditableToDoItem submit={setItem} todo={value} setTodo={setValue} />
       <button onClick={() => createList()} data-testid="submitTodoList">
         Save List
       </button>
