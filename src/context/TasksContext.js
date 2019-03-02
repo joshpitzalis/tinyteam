@@ -1,7 +1,7 @@
 import React from 'react';
 import { authState } from 'rxfire/auth';
 import { collection } from 'rxfire/firestore';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { app, firestore } from '../utils/firebase';
 import { updater } from './helpers';
 
@@ -16,16 +16,13 @@ class TaskProvider extends React.Component {
   };
 
   componentDidMount() {
-    
     this.tasks$ = collection(firestore.collection('todoLists'))
       .pipe(map(docs => docs.map(doc => doc.data())))
-      .subscribe(lists => 
-        this.setState({ lists })
-        );
+      .subscribe(lists => this.setState({ lists }));
 
-      this.auth$ = authState(app.auth()).subscribe(user => user &&
-        this.setState({ user: user.displayName })
-      );
+    this.auth$ = authState(app.auth())
+      .pipe(filter(user => !!user))
+      .subscribe(user => this.setState({ user: user.displayName }));
   }
 
   componentWillUnmount() {
@@ -43,7 +40,7 @@ class TaskProvider extends React.Component {
       <TasksContext.Provider
         value={{
           lists: this.state.lists,
-          updateLists: this.updateLists,
+          updateLists: this.updateLists
         }}
       >
         {this.props.children}

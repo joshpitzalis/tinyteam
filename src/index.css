@@ -12,8 +12,28 @@
 }
 
 body {
-  background: #f4f2e8;
+  background-color: #f5ede5;
   color: #595c5e;
+}
+
+.black {
+  color: #595c5e;
+}
+
+.red {
+  color: #e37c7c;
+}
+
+.orange {
+  color: #f7d47b;
+}
+
+.bg-red {
+  background-color: #e37c7c;
+}
+
+.bg-orange {
+  background-color: #f7d47b;
 }
 
 #main {

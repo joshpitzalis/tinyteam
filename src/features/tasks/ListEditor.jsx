@@ -1,33 +1,13 @@
 import React from 'react';
-import { collection, doc } from 'rxfire/firestore';
-import { map } from 'rxjs/operators';
 import { actions } from 'xstate';
+import { useFireColl, useFireDoc } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 const { assign } = actions;
 
 export const ListEditor = ({ dispatch, listId }) => {
-  const [tasks, setTasks] = React.useState([]);
-  const [list, setList] = React.useState([]);
+  const tasks = useFireColl(`todoLists/${listId}/tasks`);
+  const list = useFireDoc(`todoLists/${listId}`);
 
-  React.useEffect(() => {
-    const tasks$ = collection(firestore.collection(`todoLists/${listId}/tasks`))
-      .pipe(map(docs => docs.map(doc => doc.data())))
-      .subscribe(tasks => setTasks(tasks));
-    return () => {
-      tasks$.unsubscribe();
-    };
-  }, []);
-
-  React.useEffect(() => {
-    const tasks$ = doc(firestore.doc(`todoLists/${listId}`))
-      .pipe(map(doc => doc.data()))
-      .subscribe(tasks => setList(tasks));
-    return () => {
-      tasks$.unsubscribe();
-    };
-  }, []);
-
-  const send = () => console.log('dog');
   const [title, setTitle] = React.useState('');
   const [todo, setTodo] = React.useState('');
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { collection } from 'rxfire/firestore';
-import { map } from 'rxjs/operators';
-import { firestore } from '../../utils/firebase';
+import { useFireColl } from '../../hooks/firebase';
 import { ToDoItem } from './ToDoItem';
 
 export const ToDoLists = ({ lists, dispatch }) => {
@@ -21,16 +19,7 @@ export const ToDoLists = ({ lists, dispatch }) => {
 };
 
 export const List = ({ dispatch, id, title }) => {
-  const [tasks, setTasks] = React.useState([]);
-
-  React.useEffect(() => {
-    const tasks$ = collection(firestore.collection(`todoLists/${id}/tasks`))
-      .pipe(map(docs => docs.map(doc => doc.data())))
-      .subscribe(tasks => setTasks(tasks));
-    return () => {
-      tasks$.unsubscribe();
-    };
-  }, []);
+  const tasks = useFireColl(`todoLists/${id}/tasks`);
   return (
     <div className="dib pa3">
       <div className="flex justify-between">

@@ -27,6 +27,21 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
       type: 'LIST_CREATED'
     });
   };
+
+  const setItem = e => {
+    e.preventDefault();
+    setTasks([
+      ...tasks,
+      {
+        title: value,
+        createdOn: +new Date(),
+        createdBy: 'Josh',
+        completed: false,
+        deadline: '3 days'
+      }
+    ]);
+    setValue('');
+  };
   return (
     <section data-testid="taskListCreator">
       <h1>Create a task list here</h1>
@@ -45,22 +60,7 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
       </div>
       <ul>{tasks && tasks.map(todo => <li key={todo.id}>{todo.title}</li>)}</ul>
 
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          setTasks([
-            ...tasks,
-            {
-              title: value,
-              createdOn: +new Date(),
-              createdBy: 'Josh',
-              completed: false,
-              deadline: '3 days'
-            }
-          ]);
-          setValue('');
-        }}
-      >
+      <form onSubmit={e => setItem(e)}>
         <input
           type="text"
           value={value}
