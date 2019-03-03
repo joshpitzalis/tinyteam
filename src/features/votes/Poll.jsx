@@ -8,15 +8,10 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
 
   const handleChange = async (voted, optionId) => {
-    if (voted) {
-      await firestore.doc(`decisions/${id}/options/${optionId}`).update({
-        votes: firebase.firestore.FieldValue.arrayRemove(user.uid)
-      });
-      return;
-    }
-
     await firestore.doc(`decisions/${id}/options/${optionId}`).update({
-      votes: firebase.firestore.FieldValue.arrayUnion(user.uid)
+      votes: voted
+        ? firebase.firestore.FieldValue.arrayRemove(user.uid)
+        : firebase.firestore.FieldValue.arrayUnion(user.uid)
     });
   };
 
