@@ -12,7 +12,7 @@ export const Static = () => {
         <h2 className="f3 mid-gray lh-title">
           A collaborative decision making tool for remote teams.
         </h2>
-        <Players />
+        {/* <Players /> */}
       </header>
       <div className="fn fl-ns w-50-ns">
         <p className="f5 lh-copy measure mt0-ns">{bodyA}</p>
