@@ -91,7 +91,7 @@ const Votes = ({ transition, set }) => {
       <State is="error">Error!</State>
       <State is="idle">
         <div className="flex items-center justify-between">
-          <h2>Current Decisions</h2>
+          <h2 className="f5 fw2">Current Team Decisions</h2>
           <button onClick={() => transition('POLL_CREATE_FORM_OPENED')}>
             + Create A New Decision
           </button>
