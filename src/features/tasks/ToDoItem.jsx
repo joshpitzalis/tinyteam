@@ -8,7 +8,7 @@ export const ToDoItem = ({ lastTask, task, listId }) => {
       .update({ completed });
   };
   return (
-    <li className={`ph3 pv2 ${!lastTask && 'bb b--light-silver'}`}>
+    <li className={`ph3 pv2 truncate ${!lastTask && 'bb b--light-silver'}`}>
       <input
         type="checkbox"
         checked={task.completed}

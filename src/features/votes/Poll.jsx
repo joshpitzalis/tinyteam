@@ -44,35 +44,28 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         {/* <h3>A little desctiption goes heres</h3> */}
       </header>
       <hr className="dn" />
-      <form className="mt3">
-        <div className="ma0">
-          {options &&
-            options.map(option => {
-              const voted = new Set(option.votes).has(user.uid);
-              const count = option.votes ? option.votes.length : 0;
-              return (
-                <div key={option.id} className="pa2 ma0 tl bg-white">
-                  <label className=" ma0 w-100 ">
-                    <input
-                      type="checkbox"
-                      name="responses"
-                      checked={voted}
-                      onChange={() => handleChange(voted, option.id)}
-                    />{' '}
-                    {option.title}
-                    <span className="radiomark " />
-                  </label>
-                  <b className="f3 fr">{count}</b>
-                </div>
-              );
-            })}
-        </div>
-        <input
-          type="submit"
-          value="Submit"
-          className="mt3 pa4 br3 ttu pointer b"
-        />
-      </form>
+      <div className="ma0">
+        {options &&
+          options.map(option => {
+            const voted = new Set(option.votes).has(user.uid);
+            const count = option.votes ? option.votes.length : 0;
+            return (
+              <div key={option.id} className="pa2 ma0 tl bg-white">
+                <label className=" ma0 w-100 ">
+                  <input
+                    type="checkbox"
+                    name="responses"
+                    checked={voted}
+                    onChange={() => handleChange(voted, option.id)}
+                  />{' '}
+                  {option.title}
+                  <span className="radiomark " />
+                </label>
+                <b className="f3 fr">{count}</b>
+              </div>
+            );
+          })}
+      </div>
       {/* <h3>{deadline} left...</h3> */}
 
       <InputForm
