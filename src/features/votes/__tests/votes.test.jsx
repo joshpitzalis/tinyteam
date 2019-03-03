@@ -10,3 +10,5 @@ it('lets me create a vote', () => {});
 
 it('lets me record a vote', () => {});
 it('people can change their vote before deadline', () => {});
+it('total votes show', () => {});
+it('delete a vote', () => {});

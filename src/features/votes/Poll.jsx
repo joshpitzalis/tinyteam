@@ -24,9 +24,6 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
 
   return (
     <section className="mw6-ns w-100 center tc ">
-      <p className="tl red b pointer" onClick={() => deletePoll(id)}>
-        Delete Poll
-      </p>
       <header>
         <h2 className="f1 lh-title">{title}</h2>
         <h3>A little desctiption goes heres</h3>
@@ -37,17 +34,18 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
           {options &&
             options.map(option => {
               const voted = new Set(option.votes).has(user.uid);
+              const count = option.votes ? option.votes.length : 0;
               return (
-                <div key={option.id} className="pa2 ma0  bg-white">
-                  <label className="container tl ma0 relative ">
+                <div key={option.id} className="pa2 ma0 tl bg-white">
+                  <label className=" tl ma0  ">
                     <input
                       type="checkbox"
                       name="responses"
                       checked={voted}
                       onChange={() => handleChange(voted, option.id)}
                     />{' '}
-                    {option.title}
-                    <span className="radiomark" />
+                    {option.title} <b className="f3">{count}</b>
+                    <span className="radiomark " />
                   </label>
                 </div>
               );
@@ -55,7 +53,10 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         </div>
         <input type="submit" value={'Submit'} className="mt3" />
       </form>
-      <h3>{deadline} left...</h3>
+      {/* <h3>{deadline} left...</h3> */}
+      <p className="red b pointer" onClick={() => deletePoll(id)}>
+        Delete this poll
+      </p>
     </section>
   );
 };

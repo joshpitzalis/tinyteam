@@ -93,7 +93,7 @@ const Votes = ({ transition, set }) => {
         <div className="flex items-center justify-between">
           <h2>Current Decisions</h2>
           <button onClick={() => transition('POLL_CREATE_FORM_OPENED')}>
-            + Create a new vote
+            + Create A New Decision
           </button>
         </div>
         {polls &&
