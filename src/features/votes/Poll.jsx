@@ -75,22 +75,33 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
       </form>
       {/* <h3>{deadline} left...</h3> */}
 
-      <form onSubmit={submitNewOption(id)}>
-        <input
-          type="text"
-          value={value}
-          className="db w-100 pa3 br3 ma3 mb0 mt6"
-          placeholder="Add a new option to the mix..."
-          onChange={e => setValue(e.target.value)}
-        />
-        <button type="submit" className="db w-100 pa3 br3 ma3 mt0">
-          Add An Option
-        </button>
-      </form>
+      <InputForm
+        submitNewOption={submitNewOption}
+        id={id}
+        value={value}
+        setValue={setValue}
+      />
 
       <p className="washed-red b pointer" onClick={() => deletePoll(id)}>
         Delete this poll
       </p>
     </section>
+  );
+};
+
+export const InputForm = ({ submitNewOption, id, value, setValue }) => {
+  return (
+    <form onSubmit={submitNewOption(id)}>
+      <input
+        type="text"
+        value={value}
+        className="db w-100 pa3 br3 ma3 mb0 mt6"
+        placeholder="Add a new option to the mix..."
+        onChange={e => setValue(value)}
+      />
+      <button type="submit" className="db w-100 pa3 br3 ma3 mt0">
+        Add An Option
+      </button>
+    </form>
   );
 };
