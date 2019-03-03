@@ -31,8 +31,8 @@ const Routes = () => {
               <Route component={NoMatch} />
             </Switch>
           </div>
-          <div className="tc sans-serif fw1">
-            <small>Version 0.1.0</small>
+          <div className="tc sans-serif fw1 ma3">
+            <small>Version 0.2.0</small>
           </div>
         </Errors>
       </React.StrictMode>

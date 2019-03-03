@@ -1,12 +1,9 @@
 import React from 'react';
-import { VoteContext } from '../../context/VoteContext';
 
-export const CreatePoll = ({ dispatch }) => {
+export const CreatePoll = ({ dispatch, set }) => {
   const [value, setValue] = React.useState('');
   const [fields, setFields] = React.useState([]);
   const [title, setTitle] = React.useState('');
-
-  const { createPoll } = React.useContext(VoteContext);
 
   return (
     <div>
@@ -34,6 +31,7 @@ export const CreatePoll = ({ dispatch }) => {
           type="text"
           value={value}
           className="db"
+          placeholder="options go here..."
           onChange={e => setValue(e.target.value)}
         />
         <button type="submit">Add Option</button>
@@ -42,20 +40,15 @@ export const CreatePoll = ({ dispatch }) => {
       <form
         onSubmit={e => {
           e.preventDefault();
-          dispatch({
-            type: 'POLL_CREATED',
-            payload: {
-              newPoll: {
-                title,
-                id: +new Date(),
-                createdBy: 'Josh',
-                votes: 15,
-                fields,
-                deadline: '14 days'
-              },
-              createPoll
-            }
+          set({
+            title,
+            createdBy: 'Josh',
+            description: value,
+            deadline: '7 days',
+            fields
           });
+
+          dispatch('POLL_CREATED');
         }}
       >
         <button type="submit">Complete</button>

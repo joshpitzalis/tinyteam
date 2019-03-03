@@ -7,7 +7,6 @@ import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
 import { app, googleAuthProvider } from '../utils/firebase';
 import { Static } from './../features/static/index.jsx';
-import { Stats } from './../features/stats/index.jsx';
 
 export const authMachine = Machine({
   id: 'auth',
@@ -62,7 +61,7 @@ const Project = () => {
           <Chat />
           <Votes />
           <Tasks />
-          <Stats />
+          {/* <Stats /> */}
         </>
       ) : (
         <div className="tc">
