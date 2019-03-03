@@ -1,14 +1,13 @@
 import React from 'react';
-import { Machine } from 'xstate';
+import { State, withStateMachine } from 'react-automata';
 import { useFireColl } from '../../hooks/firebase';
-import { useMachine } from '../../hooks/useMachine';
+import { firestore } from '../../utils/firebase';
 import Modal from '../modals/Modal';
 import { CreatePoll } from './CreatePoll';
 import { Poll } from './Poll';
 import { Vote } from './Vote';
 
-export const voteMachine = Machine({
-  id: 'votes',
+export const voteMachine = {
   initial: 'idle',
   states: {
     idle: {
@@ -29,9 +28,10 @@ export const voteMachine = Machine({
       }
     },
     loading: {
+      onEntry: 'createNewPoll',
       on: {
         SUCCEEDED: 'idle',
-        ERRORED: 'error'
+        ERRORRED: 'error'
       }
     },
     error: {
@@ -40,44 +40,82 @@ export const voteMachine = Machine({
       }
     }
   }
-});
+};
 
-const Votes = () => {
+class Polls extends React.PureComponent {
+  state = {
+    payload: null,
+    error: null
+  };
+
+  createNewPoll = async (data = this.state.payload) => {
+    const { transition } = this.props;
+    try {
+      const vote = await firestore.collection(`decisions`).doc();
+      await firestore.doc(`decisions/${vote.id}`).set({
+        title: data.title,
+        createdBy: 'Josh',
+        deadline: '7 days',
+        id: vote.id
+      });
+
+      for (const option of data.fields) {
+        const newTask = await firestore
+          .collection(`decisions/${vote.id}/options`)
+          .doc();
+        await firestore
+          .doc(`decisions/${vote.id}/options/${newTask.id}`)
+          .set({ title: option, id: newTask.id });
+      }
+
+      transition('SUCCEEDED');
+    } catch (error) {
+      transition('ERRORRED', { error });
+    }
+  };
+
+  set = payload => this.setState({ payload });
+
+  render() {
+    console.log('this.props.error', this.props.error);
+    return <Votes transition={this.props.transition} set={this.set} />;
+  }
+}
+
+const Votes = ({ transition, set }) => {
   const polls = useFireColl(`decisions`);
-  const [state, send] = useMachine(voteMachine);
   const [id, setId] = React.useState('');
-  console.log('decision', polls);
   return (
     <section className="mw9 center pa3 pa5-ns ">
-      {state.matches('loading') && <p>Loading...</p>}
-      {state.matches('error') && <p>Error!</p>}
-      {state.matches('idle') && (
-        <>
-          <div className="flex items-center justify-between">
-            <h2>Current Decisions</h2>
-            <button onClick={() => send('POLL_CREATE_FORM_OPENED')}>
-              + Create a new vote
-            </button>
-          </div>
-          {polls &&
-            polls.map(poll => (
-              <Vote key={poll.id} {...poll} dispatch={send} setId={setId} />
-            ))}
-        </>
-      )}
-      {state.matches('newVote') && (
-        <Modal onClose={() => send('MODAL_CLOSED')}>
-          <CreatePoll dispatch={send} />
+      <State is="loading">Loading...</State>
+      <State is="error">Error!</State>
+      <State is="idle">
+        <div className="flex items-center justify-between">
+          <h2>Current Decisions</h2>
+          <button onClick={() => transition('POLL_CREATE_FORM_OPENED')}>
+            + Create a new vote
+          </button>
+        </div>
+        {polls &&
+          polls.map(poll => (
+            <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
+          ))}
+      </State>
+      <State is="newVote">
+        <Modal onClose={() => transition('MODAL_CLOSED')}>
+          <CreatePoll dispatch={transition} set={set} />
         </Modal>
-      )}
-
-      {state.matches('existingVote') && (
-        <Modal onClose={() => send({ type: 'MODAL_CLOSED' })}>
-          <Poll poll={polls.find(poll => poll.id === id)} />
+      </State>
+      <State is="existingVote">
+        <Modal onClose={() => transition({ type: 'MODAL_CLOSED' })}>
+          <Poll
+            poll={polls.find(poll => poll.id === id)}
+            transition={transition}
+          />
         </Modal>
-      )}
+      </State>
     </section>
   );
 };
 
-export default Votes;
+export default withStateMachine(voteMachine)(Polls);

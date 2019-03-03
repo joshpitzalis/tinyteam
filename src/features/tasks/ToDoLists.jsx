@@ -41,7 +41,12 @@ export const List = ({ dispatch, id, title }) => {
           tasks.map((task, index, array) => {
             const lastTask = index + 1 === array.length;
             return (
-              <ToDoItem task={task} lastTask={lastTask} key={id} listId={id} />
+              <ToDoItem
+                task={task}
+                lastTask={lastTask}
+                key={task.id}
+                listId={id}
+              />
             );
           })}
       </ul>

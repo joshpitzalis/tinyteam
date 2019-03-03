@@ -35,4 +35,5 @@ it.skip('lets me edit an existing tasks list', async () => {
   getByText('example task');
 });
 
+it('add an option when creating a vote', () => {});
 it('lets me create a vote', () => {});
