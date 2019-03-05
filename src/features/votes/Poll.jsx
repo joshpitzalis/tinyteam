@@ -80,7 +80,7 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         Delete this poll
       </p>
 
-      <Discussion />
+      <Discussion listId={id} />
     </section>
   );
 };
