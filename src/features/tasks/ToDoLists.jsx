@@ -6,9 +6,10 @@ export const ToDoLists = ({ lists, dispatch }) => {
   return (
     <div className="dib ma3 flex col">
       {lists &&
-        lists.map(list => (
+        lists.map((list, index) => (
           <List
             key={list.id}
+            index={index}
             dispatch={dispatch}
             id={list.id}
             title={list.title}
@@ -18,12 +19,17 @@ export const ToDoLists = ({ lists, dispatch }) => {
   );
 };
 
-export const List = ({ dispatch, id, title }) => {
+export const List = ({ dispatch, id, title, index }) => {
   const tasks = useFireColl(`todoLists/${id}/tasks`);
   return (
-    <div className="dib pa3">
+    <div className={`dib pa3`} style={{ color: `${index === 0 && '#c8494d'}` }}>
       <div>
-        <h1 className="f4 bold  dib">{title}</h1>
+        <h1
+          className="f4 bold  dib"
+          style={{ color: `${index === 0 && '#c8494d'}` }}
+        >
+          {title}
+        </h1>
         <small
           onClick={() =>
             dispatch({
@@ -37,12 +43,17 @@ export const List = ({ dispatch, id, title }) => {
           Edit
         </small>
       </div>
-      <ul className="list pl0 ml0 center mw5 ba b--light-silver br3" key={id}>
+      <ul
+        className="list pl0 ml0 center mw5 ba br3"
+        key={id}
+        style={{ borderColor: `${index === 0 && '#c8494d'}` }}
+      >
         {tasks &&
-          tasks.map((task, index, array) => {
-            const lastTask = index + 1 === array.length;
+          tasks.map((task, indexx, array) => {
+            const lastTask = indexx + 1 === array.length;
             return (
               <ToDoItem
+                index={index}
                 task={task}
                 lastTask={lastTask}
                 key={task.id}

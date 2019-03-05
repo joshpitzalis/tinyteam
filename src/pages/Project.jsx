@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { authState } from 'rxfire/auth';
 import { Machine } from 'xstate';
 import Chat from '../features/chat/Chat';
+import { Stats } from '../features/stats';
 import Tasks from '../features/tasks';
 import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
 import { app, googleAuthProvider } from '../utils/firebase';
 import { Static } from './../features/static/index.jsx';
-
 export const authMachine = Machine({
   id: 'auth',
   initial: 'loggedIn',
@@ -47,6 +47,7 @@ const Project = () => {
   return (
     <article>
       <Static />
+      <Stats />
       {state.matches('loggedIn') ? (
         <>
           <div className="tc">
@@ -61,9 +62,6 @@ const Project = () => {
           <Tasks />
           <Votes />
           <Chat />
-          
-          
-          {/* <Stats /> */}
         </>
       ) : (
         <div className="tc">
