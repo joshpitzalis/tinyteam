@@ -1,6 +1,7 @@
 import { Button, Comment, Form, Input, List } from 'antd';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
+import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 
@@ -44,7 +45,7 @@ class App extends PureComponent {
     value: ''
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async name => {
     if (!this.state.value) {
       return;
     }
@@ -66,7 +67,7 @@ class App extends PureComponent {
         .doc(`discussions/${listId}/comments/${comment.id}`)
         .set({
           id: comment.id,
-          author: 'Josh',
+          author: name,
           // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content: this.state.value,
           datetime: new Date()
@@ -150,20 +151,23 @@ const CommentList = ({ listId }) => {
   ) : null;
 };
 
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
-  <div>
-    <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
-    </Form.Item>
-    <Form.Item>
-      <Button
-        htmlType="submit"
-        loading={submitting}
-        onClick={onSubmit}
-        type="primary"
-      >
-        Add Comment
-      </Button>
-    </Form.Item>
-  </div>
-);
+const Editor = ({ onChange, onSubmit, submitting, value }) => {
+  const user = useAuth();
+  return (
+    <div>
+      <Form.Item>
+        <TextArea rows={4} onChange={onChange} value={value} />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          htmlType="submit"
+          loading={submitting}
+          onClick={() => onSubmit(user.displayName)}
+          type="primary"
+        >
+          Add Comment
+        </Button>
+      </Form.Item>
+    </div>
+  );
+};
