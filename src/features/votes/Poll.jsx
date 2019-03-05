@@ -3,6 +3,7 @@ import React from 'react';
 import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
+import Discussion from '../chat/Discussion';
 
 export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
@@ -78,6 +79,8 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
       <p className="washed-red b pointer" onClick={() => deletePoll(id)}>
         Delete this poll
       </p>
+
+      <Discussion />
     </section>
   );
 };
