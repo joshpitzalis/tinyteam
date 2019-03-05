@@ -76,7 +76,7 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         setValue={setValue}
       />
 
-      <p className="washed-red b pointer" onClick={() => deletePoll(id)}>
+      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id)}>
         Delete this poll
       </p>
 
@@ -91,11 +91,11 @@ export const InputForm = ({ submitNewOption, id, value, setValue }) => {
       <input
         type="text"
         value={value}
-        className="db w-100 pa3 br3 ma3 mb0 mt6"
+        className="db w-100 pa3 br3 ma0"
         placeholder="Add a new option to the mix..."
-        onChange={e => setValue(value)}
+        onChange={e => setValue(e.target.value)}
       />
-      <button type="submit" className="db w-100 pa3 br3 ma3 mt0">
+      <button type="submit" className="db w-100 pa3 br3 ma0">
         Add An Option
       </button>
     </form>
