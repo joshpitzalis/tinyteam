@@ -3,7 +3,7 @@ import React from 'react';
 export const Vote = ({ title, deadline, votes, id, dispatch, setId }) => {
   return (
     <article
-      className="dt w-100 bb b--black-05 pb2 mt2 grow pointer"
+      className="dt w-100 pb2 mt2 grow pointer"
       onClick={() => {
         setId(id);
         dispatch({ type: 'EXISTING_POLL_OPENED' });
@@ -14,7 +14,8 @@ export const Vote = ({ title, deadline, votes, id, dispatch, setId }) => {
       </div> */}
 
       <div className="dtc  v-mid">
-        <div className="f3 f2-ns b ml0">{title}</div>
+        <div className="f3 f2-ns b ml0 dib">{title}</div>
+        <button className="dib ml3">Click Here To Vote</button>
       </div>
 
       {/* <div className="dtc v-mid pl3">

@@ -3,6 +3,8 @@ import React from 'react';
 import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
+import Discussion from '../chat/Discussion';
+import { Components } from './Components';
 
 export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
@@ -44,35 +46,28 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         {/* <h3>A little desctiption goes heres</h3> */}
       </header>
       <hr className="dn" />
-      <form className="mt3">
-        <div className="ma0">
-          {options &&
-            options.map(option => {
-              const voted = new Set(option.votes).has(user.uid);
-              const count = option.votes ? option.votes.length : 0;
-              return (
-                <div key={option.id} className="pa2 ma0 tl bg-white">
-                  <label className=" ma0 w-100 ">
-                    <input
-                      type="checkbox"
-                      name="responses"
-                      checked={voted}
-                      onChange={() => handleChange(voted, option.id)}
-                    />{' '}
-                    {option.title}
-                    <span className="radiomark " />
-                  </label>
-                  <b className="f3 fr">{count}</b>
-                </div>
-              );
-            })}
-        </div>
-        <input
-          type="submit"
-          value="Submit"
-          className="mt3 pa4 br3 ttu pointer b"
-        />
-      </form>
+      <div className="ma0">
+        {options &&
+          options.map(option => {
+            const voted = new Set(option.votes).has(user.uid);
+            const count = option.votes ? option.votes.length : 0;
+            return (
+              <div key={option.id} className="pa2 ma0 tl bg-white">
+                <label className=" ma0 w-100 ">
+                  <input
+                    type="checkbox"
+                    name="responses"
+                    checked={voted}
+                    onChange={() => handleChange(voted, option.id)}
+                  />{' '}
+                  {option.title}
+                  <span className="radiomark " />
+                </label>
+                <b className="f3 fr">{count}</b>
+              </div>
+            );
+          })}
+      </div>
       {/* <h3>{deadline} left...</h3> */}
 
       <InputForm
@@ -82,9 +77,11 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
         setValue={setValue}
       />
 
-      <p className="washed-red b pointer" onClick={() => deletePoll(id)}>
+      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id)}>
         Delete this poll
       </p>
+
+      <Discussion listId={id} />
     </section>
   );
 };
@@ -92,14 +89,12 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
 export const InputForm = ({ submitNewOption, id, value, setValue }) => {
   return (
     <form onSubmit={submitNewOption(id)}>
-      <input
-        type="text"
+      <Components
         value={value}
-        className="db w-100 pa3 br3 ma3 mb0 mt6"
+        setValue={setValue}
         placeholder="Add a new option to the mix..."
-        onChange={e => setValue(value)}
       />
-      <button type="submit" className="db w-100 pa3 br3 ma3 mt0">
+      <button type="submit" className="db w-100 pa3 br3 ma0">
         Add An Option
       </button>
     </form>

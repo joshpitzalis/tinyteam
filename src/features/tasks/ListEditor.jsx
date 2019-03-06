@@ -29,6 +29,15 @@ export const ListEditor = ({ dispatch, listId }) => {
 
   return (
     <section data-testid="taskListEditor">
+      <small
+        className="washed-red pt3"
+        onClick={() => {
+          dispatch({ type: 'EDITOR_MODAL_CLOSED' });
+          firestore.doc(`todoLists/${listId}`).delete();
+        }}
+      >
+        Delete Entire List
+      </small>
       <h1>Create a task list here</h1>
       <div>
         <div>
@@ -63,15 +72,6 @@ export const ListEditor = ({ dispatch, listId }) => {
         todo={todo}
         setTodo={setTodo}
       />
-      <small
-        className="red pt3"
-        onClick={() => {
-          dispatch({ type: 'EDITOR_MODAL_CLOSED' });
-          firestore.doc(`todoLists/${listId}`).delete();
-        }}
-      >
-        Delete Entire List
-      </small>{' '}
     </section>
   );
 };

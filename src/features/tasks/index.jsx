@@ -25,29 +25,35 @@ const taskReducer = (state, action) => {
   }
 };
 
-const Tasks = () => {
-  const [state, dispatch] = React.useReducer(taskReducer, {
-    modalVisible: false
-  });
+const initialState = {
+  modalVisible: false
+};
 
+const Tasks = () => {
+  const [state, dispatch] = React.useReducer(taskReducer, initialState);
   const { lists } = React.useContext(TasksContext);
   return (
-    <section className="flex items-center mw9 center pa3 pa5-ns ">
-      <ToDoLists lists={lists} dispatch={dispatch} />
-      <button
-        className="dib ml5"
-        onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
-        data-testid="createTask"
-      >
-        + Create New List
-      </button>
-      <Dialogue
-        modalVisible={state.modalVisible}
-        id={state.id}
-        dispatch={dispatch}
-        listId={state.id}
-      />
-    </section>
+    <div className="mw9 center pa3 pa5-ns ">
+      <div className="bb b--black-05 w-100 mw9 flex items-center justify-between ">
+        <h2 className="f5 fw2   ">Current Workload</h2>
+        <button
+          className="dib"
+          onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
+          data-testid="createTask"
+        >
+          + Create New Todo List
+        </button>
+      </div>
+      <section className="flex ">
+        <ToDoLists lists={lists} dispatch={dispatch} />
+        <Dialogue
+          modalVisible={state.modalVisible}
+          id={state.id}
+          dispatch={dispatch}
+          listId={state.id}
+        />
+      </section>
+    </div>
   );
 };
 

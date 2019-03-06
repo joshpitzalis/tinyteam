@@ -45,6 +45,10 @@ const Chat = () => {
 
   return (
     <section className="ph3 ph5-ns pv5">
+      <div className="flex items-center justify-between bb b--black-05 w-100">
+        {/* <h2 className="f5 fw2 ">Group Chat</h2> */}
+      </div>
+
       <div
         className="mw9 center br2 ba br--top pa3 b--silver vh-50"
         id="messageList"

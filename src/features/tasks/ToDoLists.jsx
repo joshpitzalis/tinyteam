@@ -4,7 +4,7 @@ import { ToDoItem } from './ToDoItem';
 
 export const ToDoLists = ({ lists, dispatch }) => {
   return (
-    <div className="dib ma3">
+    <div className="dib ma3 flex col">
       {lists &&
         lists.map(list => (
           <List
@@ -22,8 +22,8 @@ export const List = ({ dispatch, id, title }) => {
   const tasks = useFireColl(`todoLists/${id}/tasks`);
   return (
     <div className="dib pa3">
-      <div className="flex justify-between">
-        <h1 className="f4 bold center w5">{title}</h1>
+      <div>
+        <h1 className="f4 bold  dib">{title}</h1>
         <small
           onClick={() =>
             dispatch({
@@ -32,6 +32,7 @@ export const List = ({ dispatch, id, title }) => {
             })
           }
           data-testid="editTaskList"
+          className="pl3 dib"
         >
           Edit
         </small>

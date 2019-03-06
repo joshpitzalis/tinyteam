@@ -58,9 +58,11 @@ const Project = () => {
               Logout
             </button>
           </div>
-          <Chat />
-          <Votes />
           <Tasks />
+          <Votes />
+          <Chat />
+          
+          
           {/* <Stats /> */}
         </>
       ) : (

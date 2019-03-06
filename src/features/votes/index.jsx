@@ -86,12 +86,12 @@ const Votes = ({ transition, set }) => {
   const polls = useFireColl(`decisions`);
   const [id, setId] = React.useState('');
   return (
-    <section className="mw9 center pa3 pa5-ns ">
+    <section className="mw9 center pa3 pa5-ns mb6">
       <State is="loading">Loading...</State>
       <State is="error">Error!</State>
       <State is="idle">
-        <div className="flex items-center justify-between">
-          <h2 className="f5 fw2">Current Team Decisions</h2>
+        <div className="flex items-center justify-between bb b--black-05 w-100">
+          <h2 className="f5 fw2 ">Group Decisions</h2>
           <button onClick={() => transition('POLL_CREATE_FORM_OPENED')}>
             + Create A New Decision
           </button>
