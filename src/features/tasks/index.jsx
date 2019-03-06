@@ -25,11 +25,12 @@ const taskReducer = (state, action) => {
   }
 };
 
-const Tasks = () => {
-  const [state, dispatch] = React.useReducer(taskReducer, {
-    modalVisible: false
-  });
+const initialState = {
+  modalVisible: false
+};
 
+const Tasks = () => {
+  const [state, dispatch] = React.useReducer(taskReducer, initialState);
   const { lists } = React.useContext(TasksContext);
   return (
     <div className="mw9 center pa3 pa5-ns ">
@@ -45,7 +46,6 @@ const Tasks = () => {
       </div>
       <section className="flex ">
         <ToDoLists lists={lists} dispatch={dispatch} />
-
         <Dialogue
           modalVisible={state.modalVisible}
           id={state.id}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Components } from './Components';
 
 export const CreatePoll = ({ dispatch, set }) => {
   const [value, setValue] = React.useState('');
@@ -27,12 +28,10 @@ export const CreatePoll = ({ dispatch, set }) => {
           placeholder="title"
           className="db"
         />
-        <input
-          type="text"
+        <Components
           value={value}
-          className="db"
-          placeholder="options go here..."
-          onChange={e => setValue(e.target.value)}
+          setValue={setValue}
+          placeholder="Options go here..."
         />
         <button type="submit">Add Option</button>
       </form>
