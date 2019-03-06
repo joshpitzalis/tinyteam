@@ -7,34 +7,6 @@ import { firestore } from '../../utils/firebase';
 
 const TextArea = Input.TextArea;
 
-// const data = [
-//   {
-//     // actions: [<span>Reply to</span>],
-//     author: 'Han Solo',
-//     // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-//     content: (
-//       <p>
-//         We supply a series of design principles, practical patterns and high
-//         quality design resources (Sketch and Axure), to help people create their
-//         product prototypes beautifully and efficiently.
-//       </p>
-//     ),
-//     datetime: (
-//       <Tooltip
-//         title={moment()
-//           .subtract(1, 'days')
-//           .format('YYYY-MM-DD HH:mm:ss')}
-//       >
-//         <span>
-//           {moment()
-//             .subtract(1, 'days')
-//             .fromNow()}
-//         </span>
-//       </Tooltip>
-//     )
-//   }
-// ];
-
 class App extends PureComponent {
   static propTypes = {
     listId: PropTypes.string.isRequired
@@ -62,7 +34,6 @@ class App extends PureComponent {
         .collection(`discussions/${listId}/comments`)
         .doc();
 
-      console.log('listId', listId, 'commenId', comment.id);
       firestore
         .doc(`discussions/${listId}/comments/${comment.id}`)
         .set({
@@ -122,7 +93,7 @@ export default App;
 
 const CommentList = ({ listId }) => {
   const comments = useFireColl(`discussions/${listId}/comments`)
-    .sort((a, b) => a.datetime - b.datetime)
+    .sort((a, b) => a.datetime.seconds - b.datetime.seconds)
     .map(comment => ({
       ...comment,
       datetime: null
