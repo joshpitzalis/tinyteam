@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 import Discussion from '../chat/Discussion';
+import { Components } from './Components';
 
 export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
@@ -88,12 +89,10 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
 export const InputForm = ({ submitNewOption, id, value, setValue }) => {
   return (
     <form onSubmit={submitNewOption(id)}>
-      <input
-        type="text"
+      <Components
         value={value}
-        className="db w-100 pa3 br3 ma0"
+        setValue={setValue}
         placeholder="Add a new option to the mix..."
-        onChange={e => setValue(e.target.value)}
       />
       <button type="submit" className="db w-100 pa3 br3 ma0">
         Add An Option
