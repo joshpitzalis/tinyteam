@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+.sans-serif {
+  font-family: roboto, noto, 'segoe ui', arial, sans-serif !important;
+}
+
 .grid-block,
 .main,
 .post,
@@ -14,12 +18,12 @@
 }
 
 body {
-  background-color: #f5ede5;
-  color: #595c5e;
+  background-color: #ffffff;
+  color: #0b0c0c;
 }
 
 .black {
-  color: #595c5e;
+  color: #0b0c0c;
 }
 
 .red {
@@ -222,4 +226,26 @@ body {
   clear: both;
   margin-bottom: 5px;
   pointer-events: auto;
+}
+.rot30 {
+  -webkit-transform: rotate(30deg);
+      -ms-transform: rotate(30deg);
+          transform: rotate(30deg);
+}
+
+.rotate {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }

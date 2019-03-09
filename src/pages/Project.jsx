@@ -1,3 +1,4 @@
+import Button from 'antd/lib/button';
 import React, { useEffect } from 'react';
 import { authState } from 'rxfire/auth';
 import { Machine } from 'xstate';
@@ -8,6 +9,7 @@ import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
 import { app, googleAuthProvider } from '../utils/firebase';
 import { Static } from './../features/static/index.jsx';
+
 export const authMachine = Machine({
   id: 'auth',
   initial: 'loggedIn',
@@ -51,13 +53,14 @@ const Project = () => {
       {state.matches('loggedIn') ? (
         <>
           <div className="tc">
-            <button
+            <Button
+              size="large"
               onClick={() =>
                 send({ type: 'SIGNED_OUT', payload: app.auth().signOut() })
               }
             >
               Logout
-            </button>
+            </Button>
           </div>
           <Tasks />
           <Votes />

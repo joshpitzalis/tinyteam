@@ -1,56 +1,145 @@
+import Icon from 'antd/lib/icon';
 import Slider from 'antd/lib/slider';
 import React from 'react';
-const marks = {
-  0: 'Dec 11th 2018',
+import { useFireColl } from '../../hooks/firebase';
+// 'Dec 11th'
+
+const marks = (setVisbility, setColor) => ({
+  0: {
+    date: 'Dec 11th',
+    details: 'Project Started',
+    label: (
+      <Objective
+        icon="trophy"
+        color={null}
+        setColor={setColor}
+        setVisbility={setVisbility}
+        fontSize="24px"
+      />
+    )
+  },
   16: {
-    label: <small>Landing Page Up</small>
+    style: {
+      fontSize: '24px'
+    },
+    label: <Icon type="trophy" />
   },
   37: {
-    label: <small className="db">Launched MVP</small>
+    style: {
+      fontSize: '24px'
+    },
+    label: (
+      <Objective
+        icon="trophy"
+        color={null}
+        setColor={setColor}
+        setVisbility={setVisbility}
+        fontsize="24px"
+      />
+    )
   },
   50: {
     style: {
-      color: '#4fafa0'
+      color: '#70bdd2',
+      fontSize: '24px'
     },
     label: (
-      <>
-        <strong className="db">100 Email Subscribers</strong>
-        <small className="db">May 16th</small>
-      </>
+      <Icon
+        type="rocket"
+        className="rot30"
+        onClick={() => {
+          setColor('#70bdd2');
+          setVisbility(true);
+        }}
+        onMouseLeave={() => {
+          setColor(null);
+          setVisbility(false);
+        }}
+      />
     )
   },
   70: {
     style: {
-      color: '#c8494d'
+      color: '#f4c368',
+      fontSize: '24px'
     },
-    label: (
-      <>
-        <strong className="db">Begin Beta Testing</strong>
-        <small className="db">April 26th</small>
-      </>
-    )
+    label: <Icon type="rocket" />
   },
   100: {
     style: {
-      color: '#1d5095'
+      color: '#4191f7',
+      fontSize: '24px'
     },
-    label: (
-      <>
-        <strong className="db">First Paid Customer</strong>
-        <small className="db">June 16th 2019</small>
-      </>
-    )
-  }
-};
-export const Stats = () => {
-  return (
-    <>
-      {/* <TeamStats /> */}
+    label: <Icon type="rocket" />
+  },
 
-      <div className="mw9 center ph3 ph5-ns mb6">
-        <Slider marks={marks} defaultValue={42} disabled />
+  231: {
+    style: {
+      color: '#a9749e',
+      fontSize: '24px'
+    },
+    label: <Icon type="rocket" />
+  },
+  365: {
+    style: {
+      color: '#de5c37',
+      fontSize: '24px'
+    },
+    label: <Icon type="rocket" />
+  }
+});
+export const Stats = () => {
+  const [value, setValue] = React.useState(42);
+  const [color, setColor] = React.useState(null);
+  const [visible, setVisbility] = React.useState(false);
+  const objectives = useFireColl(`objectives`);
+  console.log('objectives', objectives);
+  // tk reduce objectives array into mark object liket he one above
+  return (
+    <div data-testid="goalRoad">
+      <div className="h3 flex align-items">
+        {visible && (
+          <div data-testid="detailsBox" className="w-100 tc pa3">
+            <h1 style={{ color: `${color}` }}>hello</h1>
+          </div>
+        )}
       </div>
-    </>
+      <div
+        className="mw9 center ph3 ph5-ns mb6"
+        onMouseLeave={() => setValue(42)}
+      >
+        <Slider
+          marks={marks(setVisbility, setColor)}
+          onChange={val => setValue(val)}
+          value={value}
+          max={365}
+          tipFormatter={e => e * 2}
+          tooltipVisible
+        />
+      </div>
+    </div>
+  );
+};
+
+const Objective = ({ icon, color, setColor, setVisbility, fontSize }) => {
+  return (
+    <div
+      data-testid="objective"
+      onMouseEnter={() => {
+        setColor(color);
+        setVisbility(true);
+      }}
+      onMouseLeave={() => {
+        setColor(color);
+        setVisbility(true);
+      }}
+      onMouseLeave={() => {
+        setColor(null);
+        setVisbility(false);
+      }}
+    >
+      <Icon type={icon} className="rot30" style={{ fontSize }} />
+    </div>
   );
 };
 
