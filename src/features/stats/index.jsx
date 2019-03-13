@@ -71,7 +71,9 @@ export const Stats = () => {
         aria-valuenow="2"
         aria-valuetext="Monday"
         className="mw9 center ph3 ph5-ns mb6"
-        onDoubleClick={() => createNewGoal(value)}
+        onDoubleClick={() =>
+          createNewGoal(value, objectives[0].deadline.seconds)
+        }
         onKeyDown={() => createNewGoal(value)}
         tabIndex="-1"
       >

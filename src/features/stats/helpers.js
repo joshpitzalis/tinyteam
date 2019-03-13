@@ -29,16 +29,22 @@ export const calculateTodayDateinDaysFromStartDate = startDateInSecondsFromEpoch
   return today - 1;
 };
 
-export const createNewGoal = async deadline => {
+export const convertDaysToDate = (days, startDateInSecondsFromEpoch) => {
+  const startDate = startDateInSecondsFromEpoch * 1000;
+  const extraDays = days * 86400 * 1000;
+  return new Date(extraDays + startDate);
+};
+
+export const createNewGoal = async (deadline, startDateInSecondsFromEpoch) => {
   const newObjective = await firestore.collection(`objectives`).doc();
-  console.log('deadline', deadline);
+
   await firestore.doc(`objectives/${newObjective.id}`).set({
     id: newObjective.id,
     createdBy: 'JOsh',
     assignedTo: 'Josh',
     color: 'red',
     createdOn: new Date(),
-    deadline: new Date('April 17, 2019'),
+    deadline: convertDaysToDate(deadline, startDateInSecondsFromEpoch),
     details: 'new goal',
     size: '24px',
     team: 'dev123',
