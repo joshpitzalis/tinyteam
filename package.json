@@ -15,7 +15,8 @@
     "react-test-renderer": "^16.8.3",
     "rxfire": "^3.3.4",
     "rxjs": "^6.4.0",
-    "xstate": "^4.3.2"
+    "xstate": "^4.3.2",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,8 +35,19 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-wesbos": "0.0.19",
+    "eslint-plugin-html": "^5.0.3",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.5.0",
     "jest-dom": "^3.1.2",
     "lighthousebot": "git+https://github.com/GoogleChromeLabs/lighthousebot.git",
+    "prettier": "^1.16.4",
     "react-testing-library": "^5.9.0"
   }
 }

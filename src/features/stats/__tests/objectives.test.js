@@ -15,8 +15,7 @@ expect(queryByTestId('detailsBox')).toBeNull()
   getByTestId('detailsBox')
 
 
-   // tk reduce objectives array into mark object liket he one above
-   
+// tk reduce objectives array into mark object liket he one above
 // correct color
 // correct date
 // correct details

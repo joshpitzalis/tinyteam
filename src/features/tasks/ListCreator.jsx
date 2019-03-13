@@ -13,7 +13,7 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
     await firestore.doc(`todoLists/${list.id}`).set({
       title: title || providedTitle,
       id: list.id,
-      createdOn: +new Date()
+      createdOn: +new Date(),
     });
 
     for (const task of tasks) {
@@ -25,7 +25,7 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
         .set({ ...task, id: newTask.id });
     }
     dispatch({
-      type: 'LIST_CREATED'
+      type: 'LIST_CREATED',
     });
   };
 
@@ -38,8 +38,8 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
         createdOn: +new Date(),
         createdBy: 'Josh',
         completed: false,
-        deadline: '3 days'
-      }
+        deadline: '3 days',
+      },
     ]);
     setValue('');
   };
