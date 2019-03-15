@@ -13,14 +13,15 @@ import Votes from './features/votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+
 const theme = {
   global: {
     font: {
       family: 'Roboto',
       size: '14px',
       height: '20px',
-    },
-  },
+    }
+  }
 };
 
 const Routes = () => (

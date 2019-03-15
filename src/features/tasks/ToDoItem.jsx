@@ -5,7 +5,8 @@ export const ToDoItem = ({ lastTask, task, listId, index }) => {
   const markTodoCompleted = async (id, completed) => {
     await firestore
       .doc(`todoLists/${listId}/tasks/${id}`)
-      .update({ completed });
+      .update({ completed })
+      .catch(error => console.error('Error marking todo complete:', error));
   };
   return (
     <li

@@ -9,12 +9,12 @@ const TextArea = Input.TextArea;
 
 class App extends PureComponent {
   static propTypes = {
-    listId: PropTypes.string.isRequired
+    listId: PropTypes.string.isRequired,
   };
 
   state = {
     submitting: false,
-    value: ''
+    value: '',
   };
 
   handleSubmit = async name => {
@@ -28,11 +28,12 @@ class App extends PureComponent {
       const { listId } = this.props;
 
       this.setState({
-        submitting: true
+        submitting: true,
       });
       const comment = await firestore
         .collection(`discussions/${listId}/comments`)
-        .doc();
+        .doc()
+        .catch(error => console.error('Error submitting chat:', error));
 
       firestore
         .doc(`discussions/${listId}/comments/${comment.id}`)
@@ -41,14 +42,15 @@ class App extends PureComponent {
           author: name,
           // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content: this.state.value,
-          datetime: new Date()
+          datetime: new Date(),
         })
         .then(() =>
           this.setState({
             submitting: false,
-            value: ''
+            value: '',
           })
-        );
+        )
+        .catch(error => console.error('Error submitting chat:', error));
     } catch (error) {
       console.log('error adding a comment to the discussion', error);
     }
@@ -56,7 +58,7 @@ class App extends PureComponent {
 
   handleChange = e => {
     this.setState({
-      value: e.target.value
+      value: e.target.value,
     });
   };
 
@@ -96,7 +98,7 @@ const CommentList = ({ listId }) => {
     .sort((a, b) => a.datetime.seconds - b.datetime.seconds)
     .map(comment => ({
       ...comment,
-      datetime: null
+      datetime: null,
       // <Tooltip
       //   title={moment()
       //     .subtract(1, 'days')

@@ -29,7 +29,12 @@
     "lh": "lighthousebot"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "wesbos"
+    ],
+    "rules": {
+      "no-console": 2
+    }
   },
   "browserslist": [
     ">0.2%",

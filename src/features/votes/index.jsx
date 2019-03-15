@@ -13,59 +13,64 @@ export const voteMachine = {
     idle: {
       on: {
         POLL_CREATE_FORM_OPENED: 'newVote',
-        EXISTING_POLL_OPENED: 'existingVote'
-      }
+        EXISTING_POLL_OPENED: 'existingVote',
+      },
     },
     newVote: {
       on: {
         MODAL_CLOSED: 'idle',
-        POLL_CREATED: 'loading'
-      }
+        POLL_CREATED: 'loading',
+      },
     },
     existingVote: {
       on: {
-        MODAL_CLOSED: 'idle'
-      }
+        MODAL_CLOSED: 'idle',
+      },
     },
     loading: {
       onEntry: 'createNewPoll',
       on: {
         SUCCEEDED: 'idle',
-        ERRORRED: 'error'
-      }
+        ERRORRED: 'error',
+      },
     },
     error: {
       on: {
-        MODAL_CLOSED: 'idle'
-      }
-    }
-  }
+        MODAL_CLOSED: 'idle',
+      },
+    },
+  },
 };
 
 class Polls extends React.PureComponent {
   state = {
     payload: null,
-    error: null
+    error: null,
   };
 
   createNewPoll = async (data = this.state.payload) => {
     const { transition } = this.props;
     try {
       const vote = await firestore.collection(`decisions`).doc();
-      await firestore.doc(`decisions/${vote.id}`).set({
-        title: data.title,
-        createdBy: 'Josh',
-        deadline: '7 days',
-        id: vote.id
-      });
+      await firestore
+        .doc(`decisions/${vote.id}`)
+        .set({
+          title: data.title,
+          createdBy: 'Josh',
+          deadline: '7 days',
+          id: vote.id,
+        })
+        .catch(error => console.error('Error submitting vote:', error));
 
       for (const option of data.fields) {
         const newTask = await firestore
           .collection(`decisions/${vote.id}/options`)
-          .doc();
+          .doc()
+          .catch(error => console.error('Error submitting vote:', error));
         await firestore
           .doc(`decisions/${vote.id}/options/${newTask.id}`)
-          .set({ title: option, id: newTask.id });
+          .set({ title: option, id: newTask.id })
+          .catch(error => console.error('Error submitting vote:', error));
       }
 
       transition('SUCCEEDED');

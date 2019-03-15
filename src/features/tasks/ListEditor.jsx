@@ -16,14 +16,14 @@ export const ListEditor = ({ dispatch, listId }) => {
     e.preventDefault();
     const newTask = await firestore
       .collection(`todoLists/${listId}/tasks`)
-      .doc();
+      .doc().catch(error => console.error('Error creating todo:', error));
 
     await firestore.doc(`todoLists/${listId}/tasks/${newTask.id}`).set({
       title: todo,
       id: newTask.id,
       completed: false,
       createdOn: +new Date()
-    });
+    }).catch(error => console.error('Error creating todo:', error));
     setTodo('');
   };
 

@@ -10,11 +10,14 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
 
   const handleChange = async (voted, optionId) => {
-    await firestore.doc(`decisions/${id}/options/${optionId}`).update({
-      votes: voted
-        ? firebase.firestore.FieldValue.arrayRemove(user.uid)
-        : firebase.firestore.FieldValue.arrayUnion(user.uid)
-    });
+    await firestore
+      .doc(`decisions/${id}/options/${optionId}`)
+      .update({
+        votes: voted
+          ? firebase.firestore.FieldValue.arrayRemove(user.uid)
+          : firebase.firestore.FieldValue.arrayUnion(user.uid),
+      })
+      .catch(error => console.error('Error submitting vote:', error));
   };
 
   const user = useAuth();
@@ -31,10 +34,12 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
 
     const newOption = await firestore
       .collection(`decisions/${voteId}/options`)
-      .doc();
+      .doc()
+      .catch(error => console.error('Error submitting poll:', error));
     await firestore
       .doc(`decisions/${voteId}/options/${newOption.id}`)
-      .set({ title: value, id: newOption.id });
+      .set({ title: value, id: newOption.id })
+      .catch(error => console.error('Error submitting poll:', error));
 
     setValue('');
   };
@@ -86,17 +91,15 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   );
 };
 
-export const InputForm = ({ submitNewOption, id, value, setValue }) => {
-  return (
-    <form onSubmit={submitNewOption(id)}>
-      <Components
-        value={value}
-        setValue={setValue}
-        placeholder="Add a new option to the mix..."
-      />
-      <button type="submit" className="db w-100 pa3 br3 ma0">
-        Add An Option
-      </button>
-    </form>
-  );
-};
+export const InputForm = ({ submitNewOption, id, value, setValue }) => (
+  <form onSubmit={submitNewOption(id)}>
+    <Components
+      value={value}
+      setValue={setValue}
+      placeholder="Add a new option to the mix..."
+    />
+    <button type="submit" className="db w-100 pa3 br3 ma0">
+      Add An Option
+    </button>
+  </form>
+);
