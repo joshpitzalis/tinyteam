@@ -1,3 +1,4 @@
+import { Grommet } from 'grommet';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -12,9 +13,18 @@ import Votes from './features/votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+const theme = {
+  global: {
+    font: {
+      family: 'Roboto',
+      size: '14px',
+      height: '20px',
+    },
+  },
+};
 
-const Routes = () => {
-  return (
+const Routes = () => (
+  <Grommet theme={theme}>
     <BrowserRouter>
       <React.StrictMode>
         <Errors>
@@ -37,8 +47,8 @@ const Routes = () => {
         </Errors>
       </React.StrictMode>
     </BrowserRouter>
-  );
-};
+  </Grommet>
+);
 
 ReactDOM.render(
   <TaskProvider>

@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { firestore } from '../../utils/firebase';
 
 /** @params {number}  timestamp */
-export const inPast = timestamp => timestamp - Date.now() / 1000 > 0;
+export const inPast = timestamp => Date.now() / 1000 - timestamp > 0;
 export const convertSecondsToDaysFrom = (seconds, startDate) =>
   Math.floor(seconds / 86400) - Math.floor(startDate / 86400);
 
