@@ -39,3 +39,22 @@ it.skip('connect a decision to goal by colour', () => {});
 it.skip('filter all activities onboard by clicking on a goal', () => {});
 it.skip('tooltip shows the date', () => {});
 it.skip('date resets to correct date when you leave the component', () => {});
+
+
+
+it.skip('cannot delete a goal if there is a connected list of dcision', () => {});
+
+it.skip('only show active colour in list or decision to chose from', () => {});
+
+it.skip('only show non active colours when creating a goal', () => {});
+
+it.skip('force a coloyr, date and name ehen ceatinga goal', () => {});
+it.skip('add colour to active when goal created', () => {});
+
+it.skip('remove colour from active when goal deleted', () => {});
+
+it.skip('remove colour from active when goal in past', () => {});
+
+it.skip('last node is last goal', () => {});
+
+it.skip('last two nodes cannot be deleted', () => {});
