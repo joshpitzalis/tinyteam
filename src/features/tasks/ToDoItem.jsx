@@ -1,7 +1,8 @@
+import { CheckBox } from 'grommet';
 import React from 'react';
 import { firestore } from '../../utils/firebase';
 
-export const ToDoItem = ({ lastTask, task, listId, index }) => {
+export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
   const markTodoCompleted = async (id, completed) => {
     await firestore
       .doc(`todoLists/${listId}/tasks/${id}`)
@@ -11,14 +12,21 @@ export const ToDoItem = ({ lastTask, task, listId, index }) => {
   return (
     <li
       className={`ph3 pv2 truncate ${!lastTask && 'bb '}`}
-      style={{ borderColor: `${index === 0 ? '#c8494d' : 'b--light-silver'}` }}
+      style={{ borderColor: color }}
     >
-      <input
+      {/* <input
         type="checkbox"
         checked={task.completed}
         onChange={() => markTodoCompleted(task.id, !task.completed)}
       />{' '}
-      {task.title}
+      {task.title} */}
+      <CheckBox
+      
+        truncate
+        label={task.title}
+        checked={task.completed}
+        onChange={() => markTodoCompleted(task.id, !task.completed)}
+      />
     </li>
   );
 };

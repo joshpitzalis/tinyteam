@@ -1,9 +1,10 @@
+import { Box } from 'grommet';
 import React from 'react';
 import { useFireColl } from '../../hooks/firebase';
 import { ToDoItem } from './ToDoItem';
 
 export const ToDoLists = ({ lists, dispatch }) => (
-  <div className="dib ma3 flex col">
+  <Box direction="row" wrap justify="between">
     {lists &&
       lists.map((list, index) => (
         <List
@@ -12,39 +13,25 @@ export const ToDoLists = ({ lists, dispatch }) => (
           dispatch={dispatch}
           id={list.id}
           title={list.title}
+          color={list.colour}
         />
       ))}
-  </div>
+  </Box>
 );
 
-export const List = ({ dispatch, id, title, index }) => {
+export const List = ({ dispatch, id, title, index, color }) => {
   const tasks = useFireColl(`todoLists/${id}/tasks`);
   return (
-    <div className="dib pa3" style={{ color: `${index === 0 && '#f17a6a'}` }}>
+    <div className="dib ma1" style={{ color }}>
       <div>
-        <h1
-          className="f4 bold  dib"
-          style={{ color: `${index === 0 && '#c8494d'}` }}
-        >
+        <h1 className="f4 bold  dib" style={{ color }}>
           {title}
         </h1>
-        <small
-          onClick={() =>
-            dispatch({
-              type: 'OPENED_TASK_LIST_EDITOR',
-              payload: id,
-            })
-          }
-          data-testid="editTaskList"
-          className="pl3 dib"
-        >
-          Edit
-        </small>
       </div>
       <ul
         className="list pl0 ml0 center mw5 ba br3"
         key={id}
-        style={{ borderColor: `${index === 0 && '#c8494d'}` }}
+        style={{ borderColor: color }}
       >
         {tasks &&
           tasks.map((task, indexx, array) => {
@@ -56,10 +43,23 @@ export const List = ({ dispatch, id, title, index }) => {
                 lastTask={lastTask}
                 key={task.id}
                 listId={id}
+                color={color}
               />
             );
           })}
       </ul>
+      <small
+        onClick={() =>
+          dispatch({
+            type: 'OPENED_TASK_LIST_EDITOR',
+            payload: id,
+          })
+        }
+        data-testid="editTaskList"
+        className="pr3 dib pointer"
+      >
+        Edit
+      </small>
     </div>
   );
 };

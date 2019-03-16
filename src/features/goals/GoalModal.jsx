@@ -1,5 +1,6 @@
 import { Box, Button, Calendar, Form, FormField, Layer, Text } from 'grommet';
 import React from 'react';
+import { useFireDoc } from '../../hooks/firebase';
 import { convertDaysToDate } from './helpers';
 
 export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
@@ -9,6 +10,24 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
 
   const [colour, setColor] = React.useState('white');
   const [error, setError] = React.useState({});
+
+  const activeColours = useFireDoc(`teams/devteam123test`);
+  const selectableColours = [
+    '#adcfe2',
+    '#588C73',
+    '#8C4646',
+    '#F2AE72',
+    '#2F9599',
+    '#A7226E',
+    '#f17a6a',
+    '#2F9599',
+    '#A7226E',
+    '#f17a6a',
+  ];
+
+  // http://everyknightshoulddesign.blogspot.com/2013/08/beautiful-color-palettes-their-hex-codes.html
+
+  // https://digitalsynopsis.com/design/minimal-web-color-palettes-combination-hex-code/
 
   const handleSubmit = values => {
     if (!values.name) {
@@ -50,18 +69,23 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
               ? 'You must pick a colour for this goal'
               : 'Pick a colour for this goal'}
           </Text>
-          <Box direction="row" wrap>
-            {['#f37966', '#adcfe2', '#dce8bd'].map(backgroundColor => (
-              <Box
-                style={{
-                  backgroundColor,
-                }}
-                onClick={() => setColor(backgroundColor)}
-                pad="medium"
-                margin="small"
-              />
-            ))}
-          </Box>
+          {activeColours.activeGoalColours && (
+            <Box direction="row" justify="between">
+              {selectableColours
+                .filter(a => !activeColours.activeGoalColours.includes(a))
+                .slice(0, 4)
+                .map(backgroundColor => (
+                  <Box
+                    style={{
+                      backgroundColor,
+                    }}
+                    onClick={() => setColor(backgroundColor)}
+                    pad="medium"
+                    margin="xsmall"
+                  />
+                ))}
+            </Box>
+          )}
           <Box>
             <Button type="submit" primary label="Submit" margin="medium" />
           </Box>

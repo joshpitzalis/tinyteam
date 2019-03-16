@@ -1,3 +1,4 @@
+import firebase from 'firebase/app';
 import { Menu } from 'grommet';
 import { Achievement, Launch } from 'grommet-icons';
 import React from 'react';
@@ -10,16 +11,24 @@ import { inPast } from './helpers';
  * goalId: number
  * })} props */
 export const Objective = ({ details, deadline, goalId, color }) => {
-  const handleDelete = goalId =>
-    firestore
-      .doc(`objectives/${goalId}`)
-      .delete()
-      .then(function() {
-        console.log('Document successfully deleted!');
-      })
-      .catch(function(error) {
-        console.error('Error removing document: ', error);
-      });
+  const handleDelete = async (goalId, color) => {
+    try {
+      await firestore
+        .doc(`objectives/${goalId}`)
+        .delete()
+        .then(() => console.log('Document successfully deleted!'))
+        .catch(error => console.error('Error removing document: ', error));
+
+      firestore
+        .doc(`teams/devteam123test`)
+        .update({
+          activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
+        })
+        .catch(error => console.error('Error submitting vote:', error));
+    } catch (error) {
+      console.log('Error deleting goal', error);
+    }
+  };
 
   return (
     <div
@@ -43,7 +52,7 @@ export const Objective = ({ details, deadline, goalId, color }) => {
           { label: <strong>{`${details}`}</strong> },
           {
             label: <small style={{ color: 'red' }}>Delete This Goal</small>,
-            onClick: () => handleDelete(goalId),
+            onClick: () => handleDelete(goalId, color),
           },
           // {
           //   label: `Due ${format(new Date(deadline), 'd MMM yyyy')}`,

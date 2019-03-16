@@ -1,48 +1,84 @@
+import { Box, Heading, Menu } from 'grommet';
 import React from 'react';
-import { actions } from 'xstate';
 import { useFireColl, useFireDoc } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 import { EditableToDoItem } from './components/EditableToDoItem';
-const { assign } = actions;
+import { Todo } from './Todo';
 
 export const ListEditor = ({ dispatch, listId }) => {
   const tasks = useFireColl(`todoLists/${listId}/tasks`);
   const list = useFireDoc(`todoLists/${listId}`);
-
+  const [backgroundColor, setBackgroundColor] = React.useState();
   const [title, setTitle] = React.useState('');
   const [todo, setTodo] = React.useState('');
+
+  const colours = useFireDoc(`teams/devteam123test`);
 
   const createTodo = (todo, listId) => async e => {
     e.preventDefault();
     const newTask = await firestore
       .collection(`todoLists/${listId}/tasks`)
-      .doc().catch(error => console.error('Error creating todo:', error));
+      .doc()
+      .catch(error => console.error('Error creating todo:', error));
 
-    await firestore.doc(`todoLists/${listId}/tasks/${newTask.id}`).set({
-      title: todo,
-      id: newTask.id,
-      completed: false,
-      createdOn: +new Date()
-    }).catch(error => console.error('Error creating todo:', error));
+    await firestore
+      .doc(`todoLists/${listId}/tasks/${newTask.id}`)
+      .set({
+        title: todo,
+        id: newTask.id,
+        completed: false,
+        createdOn: +new Date(),
+      })
+      .catch(error => console.error('Error creating todo:', error));
     setTodo('');
+  };
+
+  const setColor = async color => {
+    await firestore
+      .doc(`todoLists/${listId}`)
+      .set({ colour: color }, { merge: true });
   };
 
   return (
     <section data-testid="taskListEditor">
-      <small
-        className="washed-red pt3"
-        onClick={() => {
-          dispatch({ type: 'EDITOR_MODAL_CLOSED' });
-          firestore.doc(`todoLists/${listId}`).delete();
-        }}
-      >
-        Delete Entire List
-      </small>
-      <h1>Create a task list here</h1>
       <div>
-        <div>
-          <p data-testid="title">{list.title}</p>{' '}
-        </div>
+        {list && (
+          <Box direction="row" align="center">
+            <Menu
+              label={
+                <Box
+                  style={{
+                    backgroundColor: backgroundColor || list.colour,
+                  }}
+                  // onClick={() => setColor(backgroundColor)}
+                  pad="medium"
+                  margin="xsmall"
+                />
+              }
+              items={
+                colours && colours.activeGoalColours && 
+                colours.activeGoalColours
+                  .filter(colour => colour !== list.colour)
+                  .map(backgroundColor => ({
+                    label: (
+                      <Box
+                        style={{
+                          backgroundColor,
+                        }}
+                        pad="medium"
+                        margin="xsmall"
+                      />
+                    ),
+                    onClick: () => setColor(backgroundColor),
+                  }))
+              }
+            />
+            <Heading margin="none" data-testid="title">
+              {list.title}
+            </Heading>
+          </Box>
+        )}
+
         <input
           type="text"
           value={title || list.title}
@@ -54,7 +90,7 @@ export const ListEditor = ({ dispatch, listId }) => {
         <button
           onClick={() =>
             firestore.doc(`todoLists/${listId}`).update({
-              title: title || list.title
+              title: title || list.title,
             })
           }
           data-testid="submitTodoList"
@@ -72,43 +108,16 @@ export const ListEditor = ({ dispatch, listId }) => {
         todo={todo}
         setTodo={setTodo}
       />
-    </section>
-  );
-};
 
-export const Todo = ({ todo, id, listId }) => {
-  const [title, setTitle] = React.useState('');
-  return (
-    <li key={todo.id}>
-      <div>
-        <input
-          type="checkbox"
-          value={todo.completed}
-          onChange={() =>
-            firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
-              completed: !todo.completed
-            })
-          }
-        />
-        <label>{todo.title}</label>{' '}
-        <button
-          onClick={() =>
-            firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
-              title: title || todo.title
-            })
-          }
-        >
-          Update
-        </button>
-        <button
-          onClick={() =>
-            firestore.doc(`todoLists/${listId}/tasks/${id}`).delete()
-          }
-        >
-          Destroy
-        </button>
-      </div>
-      <input value={title} onChange={e => setTitle(e.target.value)} />
-    </li>
+      <small
+        className="washed-red pt3"
+        onClick={() => {
+          dispatch({ type: 'EDITOR_MODAL_CLOSED' });
+          firestore.doc(`todoLists/${listId}`).delete();
+        }}
+      >
+        Delete Entire List
+      </small>
+    </section>
   );
 };

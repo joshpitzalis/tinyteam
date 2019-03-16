@@ -1,5 +1,6 @@
 // @ts-check
 import { format } from 'date-fns';
+import firebase from 'firebase/app';
 import { firestore } from '../../utils/firebase';
 
 /** @params {number}  timestamp */
@@ -49,6 +50,12 @@ export const createNewGoal = async (details, deadline, color) => {
       size: '24px',
       team: 'dev123',
     });
+    firestore
+      .doc(`teams/devteam123test`)
+      .update({
+        activeGoalColours: firebase.firestore.FieldValue.arrayUnion(color),
+      })
+      .catch(error => console.error('Error submitting vote:', error));
   } catch (error) {
     console.error('error adding goal: ', error);
   }
