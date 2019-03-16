@@ -20,8 +20,8 @@ const theme = {
       family: 'Roboto',
       size: '14px',
       height: '20px',
-    }
-  }
+    },
+  },
 };
 
 const Routes = () => (
@@ -43,7 +43,7 @@ const Routes = () => (
             </Switch>
           </div>
           <div className="tc sans-serif fw1 ma3">
-            <small>Version 0.3.1</small>
+            <small>Version 0.4.1</small>
           </div>
         </Errors>
       </React.StrictMode>

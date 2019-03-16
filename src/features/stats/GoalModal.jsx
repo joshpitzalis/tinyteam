@@ -1,4 +1,4 @@
-import { Box, Button, Calendar, Form, FormField, Layer } from 'grommet';
+import { Box, Button, Calendar, Form, FormField, Layer , Text} from 'grommet';
 import React from 'react';
 import { convertDaysToDate } from './helpers';
 
@@ -32,6 +32,21 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
             }}
             margin="medium"
           />
+
+          <Box direction="row" wrap>
+            {['#f7db8c', '#ffaf39', '#f37966', '#adcfe2', '#dce8bd'].map(
+              backgroundColor => (
+                <Box
+                  style={{
+                    backgroundColor
+                  }}
+                  pad="medium"
+                  margin="medium"
+                />
+              )
+            )}
+          </Box>
+
           <Button type="submit" primary label="Submit" />
         </Form>
       </Box>
