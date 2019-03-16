@@ -2,12 +2,7 @@ import Slider from 'antd/lib/slider';
 import React from 'react';
 import { useFireColl } from '../../hooks/firebase';
 import { GoalModal } from './GoalModal';
-import {
-  calculateTodayDateinDaysFromStartDate,
-  convertNumberToDate,
-  convertSecondsToDaysFrom,
-  createNewGoal,
-} from './helpers';
+import { calculateTodayDateinDaysFromStartDate, convertNumberToDate, convertSecondsToDaysFrom, createNewGoal } from './helpers';
 import { Objective } from './Objective';
 
 export const Stats = () => {
@@ -29,6 +24,7 @@ export const Stats = () => {
     ] = {
       style: {
         fontSize: objective.size,
+        
       },
       label: (
         <Objective
@@ -37,7 +33,7 @@ export const Stats = () => {
           goalId={objective.id}
           startDate={objectives[0].deadline.seconds}
           // fontsize={objective.size}
-          // color={objective.color}
+          color={objective.color}
         />
       ),
     };

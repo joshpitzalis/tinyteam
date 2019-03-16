@@ -2,27 +2,25 @@ import React from 'react';
 import { useFireColl } from '../../hooks/firebase';
 import { ToDoItem } from './ToDoItem';
 
-export const ToDoLists = ({ lists, dispatch }) => {
-  return (
-    <div className="dib ma3 flex col">
-      {lists &&
-        lists.map((list, index) => (
-          <List
-            key={list.id}
-            index={index}
-            dispatch={dispatch}
-            id={list.id}
-            title={list.title}
-          />
-        ))}
-    </div>
-  );
-};
+export const ToDoLists = ({ lists, dispatch }) => (
+  <div className="dib ma3 flex col">
+    {lists &&
+      lists.map((list, index) => (
+        <List
+          key={list.id}
+          index={index}
+          dispatch={dispatch}
+          id={list.id}
+          title={list.title}
+        />
+      ))}
+  </div>
+);
 
 export const List = ({ dispatch, id, title, index }) => {
   const tasks = useFireColl(`todoLists/${id}/tasks`);
   return (
-    <div className={`dib pa3`} style={{ color: `${index === 0 && '#c8494d'}` }}>
+    <div className="dib pa3" style={{ color: `${index === 0 && '#f17a6a'}` }}>
       <div>
         <h1
           className="f4 bold  dib"
@@ -34,7 +32,7 @@ export const List = ({ dispatch, id, title, index }) => {
           onClick={() =>
             dispatch({
               type: 'OPENED_TASK_LIST_EDITOR',
-              payload: id
+              payload: id,
             })
           }
           data-testid="editTaskList"

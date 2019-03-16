@@ -9,7 +9,7 @@ import { inPast } from './helpers';
  * dealine: number,
  * goalId: number
  * })} props */
-export const Objective = ({ details, deadline, goalId }) => {
+export const Objective = ({ details, deadline, goalId, color }) => {
   const handleDelete = goalId =>
     firestore
       .doc(`objectives/${goalId}`)
@@ -34,7 +34,9 @@ export const Objective = ({ details, deadline, goalId }) => {
       // }}
     >
       <Menu
-        icon={inPast(deadline) ? <Achievement /> : <Launch />}
+        icon={
+          inPast(deadline) ? <Achievement /> : <Launch color={`${color}`} />
+        }
         margin="xsmall"
         size="medium"
         items={[

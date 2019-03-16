@@ -35,14 +35,14 @@ export const convertDaysToDate = (days, startDateInSecondsFromEpoch) => {
   return new Date(extraDays + startDate);
 };
 
-export const createNewGoal = async (details, deadline) => {
+export const createNewGoal = async (details, deadline, color) => {
   try {
     const newObjective = await firestore.collection(`objectives`).doc();
     await firestore.doc(`objectives/${newObjective.id}`).set({
       id: newObjective.id,
       createdBy: 'JOsh',
       assignedTo: 'Josh',
-      color: 'red',
+      color,
       createdOn: new Date(),
       deadline,
       details,

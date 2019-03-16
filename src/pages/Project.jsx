@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { authState } from 'rxfire/auth';
 import { Machine } from 'xstate';
 import Chat from '../features/chat/Chat';
-import { Stats } from '../features/stats';
+import { Stats } from '../features/goals';
 import Tasks from '../features/tasks';
 import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
