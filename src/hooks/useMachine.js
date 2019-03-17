@@ -7,7 +7,7 @@ export function useMachine(machine, options = {}) {
     () =>
       interpret(machine)
         .onTransition(state => {
-          options.log && console.log("CONTEXT:", state.context);
+          options.log && console.warn("CONTEXT:", state.context);
           setCurrent(state);
         })
         .onEvent(e => options.log && console.log("EVENT:", e))

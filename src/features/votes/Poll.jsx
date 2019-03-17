@@ -10,14 +10,15 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
   const options = useFireColl(`decisions/${id}/options`);
 
   const handleChange = async (voted, optionId) => {
-    await firestore
-      .doc(`decisions/${id}/options/${optionId}`)
-      .update({
+    try {
+      await firestore.doc(`decisions/${id}/options/${optionId}`).update({
         votes: voted
           ? firebase.firestore.FieldValue.arrayRemove(user.uid)
           : firebase.firestore.FieldValue.arrayUnion(user.uid),
-      })
-      .catch(error => console.error('Error submitting vote:', error));
+      });
+    } catch (error) {
+      console.error('Error submitting vote:', error);
+    }
   };
 
   const user = useAuth();
@@ -31,17 +32,19 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
 
   const submitNewOption = voteId => async e => {
     e.preventDefault();
+    try {
+      const newOption = await firestore
+        .collection(`decisions/${voteId}/options`)
+        .doc();
 
-    const newOption = await firestore
-      .collection(`decisions/${voteId}/options`)
-      .doc()
-      .catch(error => console.error('Error submitting poll:', error));
-    await firestore
-      .doc(`decisions/${voteId}/options/${newOption.id}`)
-      .set({ title: value, id: newOption.id })
-      .catch(error => console.error('Error submitting poll:', error));
+      await firestore
+        .doc(`decisions/${voteId}/options/${newOption.id}`)
+        .set({ title: value, id: newOption.id });
 
-    setValue('');
+      setValue('');
+    } catch (error) {
+      console.error('Error submitting poll:', error);
+    }
   };
 
   return (

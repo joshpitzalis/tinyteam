@@ -22,8 +22,6 @@ class App extends PureComponent {
       return;
     }
 
-    console.log('submitting...', this.state.value);
-
     try {
       const { listId } = this.props;
 
@@ -32,8 +30,7 @@ class App extends PureComponent {
       });
       const comment = await firestore
         .collection(`discussions/${listId}/comments`)
-        .doc()
-        .catch(error => console.error('Error submitting chat:', error));
+        .doc();
 
       firestore
         .doc(`discussions/${listId}/comments/${comment.id}`)
@@ -49,10 +46,9 @@ class App extends PureComponent {
             submitting: false,
             value: '',
           })
-        )
-        .catch(error => console.error('Error submitting chat:', error));
+        );
     } catch (error) {
-      console.log('error adding a comment to the discussion', error);
+      console.error('error adding a comment to the discussion', error);
     }
   };
 

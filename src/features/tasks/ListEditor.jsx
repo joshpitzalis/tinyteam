@@ -18,18 +18,15 @@ export const ListEditor = ({ dispatch, listId }) => {
     e.preventDefault();
     const newTask = await firestore
       .collection(`todoLists/${listId}/tasks`)
-      .doc()
-      .catch(error => console.error('Error creating todo:', error));
+      .doc();
 
-    await firestore
-      .doc(`todoLists/${listId}/tasks/${newTask.id}`)
-      .set({
-        title: todo,
-        id: newTask.id,
-        completed: false,
-        createdOn: +new Date(),
-      })
-      .catch(error => console.error('Error creating todo:', error));
+    await firestore.doc(`todoLists/${listId}/tasks/${newTask.id}`).set({
+      title: todo,
+      id: newTask.id,
+      completed: false,
+      createdOn: +new Date(),
+    });
+
     setTodo('');
   };
 
@@ -56,7 +53,8 @@ export const ListEditor = ({ dispatch, listId }) => {
                 />
               }
               items={
-                colours && colours.activeGoalColours && 
+                colours &&
+                colours.activeGoalColours &&
                 colours.activeGoalColours
                   .filter(colour => colour !== list.colour)
                   .map(backgroundColor => ({

@@ -4,10 +4,13 @@ import { firestore } from '../../utils/firebase';
 
 export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
   const markTodoCompleted = async (id, completed) => {
-    await firestore
-      .doc(`todoLists/${listId}/tasks/${id}`)
-      .update({ completed })
-      .catch(error => console.error('Error marking todo complete:', error));
+    try {
+      await firestore
+        .doc(`todoLists/${listId}/tasks/${id}`)
+        .update({ completed });
+    } catch (error) {
+      console.error('Error marking todo complete:', error);
+    }
   };
   return (
     <li
@@ -21,7 +24,6 @@ export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
       />{' '}
       {task.title} */}
       <CheckBox
-      
         truncate
         label={task.title}
         checked={task.completed}

@@ -50,12 +50,9 @@ export const createNewGoal = async (details, deadline, color) => {
       size: '24px',
       team: 'dev123',
     });
-    firestore
-      .doc(`teams/devteam123test`)
-      .update({
-        activeGoalColours: firebase.firestore.FieldValue.arrayUnion(color),
-      })
-      .catch(error => console.error('Error submitting vote:', error));
+    firestore.doc(`teams/devteam123test`).update({
+      activeGoalColours: firebase.firestore.FieldValue.arrayUnion(color),
+    });
   } catch (error) {
     console.error('error adding goal: ', error);
   }

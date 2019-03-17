@@ -8,33 +8,30 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
   const [tasks, setTasks] = React.useState([]);
 
   const createList = async () => {
-    const list = await firestore
-      .collection(`todoLists`)
-      .doc()
-      .catch(error => console.error('Error creating todo:', error));
+    try {
+      const list = await firestore.collection(`todoLists`).doc();
 
-    await firestore
-      .doc(`todoLists/${list.id}`)
-      .set({
+      await firestore.doc(`todoLists/${list.id}`).set({
         title: title || providedTitle,
         id: list.id,
         createdOn: +new Date(),
-      })
-      .catch(error => console.error('Error submitting todo:', error));
+      });
 
-    for (const task of tasks) {
-      const newTask = await firestore
-        .collection(`todoLists/${list.id}/tasks`)
-        .doc()
-        .catch(error => console.error('Error submitting todo:', error));
-      await firestore
-        .doc(`todoLists/${list.id}/tasks/${newTask.id}`)
-        .set({ ...task, id: newTask.id })
-        .catch(error => console.error('Error submitting todo:', error));
+      for (const task of tasks) {
+        const newTask = await firestore
+          .collection(`todoLists/${list.id}/tasks`)
+          .doc();
+
+        await firestore
+          .doc(`todoLists/${list.id}/tasks/${newTask.id}`)
+          .set({ ...task, id: newTask.id });
+      }
+      dispatch({
+        type: 'LIST_CREATED',
+      });
+    } catch (error) {
+      console.error('Error creating a list:', error);
     }
-    dispatch({
-      type: 'LIST_CREATED',
-    });
   };
 
   const setItem = e => {

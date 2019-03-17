@@ -13,20 +13,13 @@ import { inPast } from './helpers';
 export const Objective = ({ details, deadline, goalId, color }) => {
   const handleDelete = async (goalId, color) => {
     try {
-      await firestore
-        .doc(`objectives/${goalId}`)
-        .delete()
-        .then(() => console.log('Document successfully deleted!'))
-        .catch(error => console.error('Error removing document: ', error));
+      await firestore.doc(`objectives/${goalId}`).delete();
 
-      firestore
-        .doc(`teams/devteam123test`)
-        .update({
-          activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
-        })
-        .catch(error => console.error('Error submitting vote:', error));
+      firestore.doc(`teams/devteam123test`).update({
+        activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
+      });
     } catch (error) {
-      console.log('Error deleting goal', error);
+      console.error('Error deleting goal', error);
     }
   };
 

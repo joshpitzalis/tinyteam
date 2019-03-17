@@ -52,25 +52,21 @@ class Polls extends React.PureComponent {
     const { transition } = this.props;
     try {
       const vote = await firestore.collection(`decisions`).doc();
-      await firestore
-        .doc(`decisions/${vote.id}`)
-        .set({
-          title: data.title,
-          createdBy: 'Josh',
-          deadline: '7 days',
-          id: vote.id,
-        })
-        .catch(error => console.error('Error submitting vote:', error));
+      await firestore.doc(`decisions/${vote.id}`).set({
+        title: data.title,
+        createdBy: 'Josh',
+        deadline: '7 days',
+        id: vote.id,
+      });
 
       for (const option of data.fields) {
         const newTask = await firestore
           .collection(`decisions/${vote.id}/options`)
-          .doc()
-          .catch(error => console.error('Error submitting vote:', error));
+          .doc();
+
         await firestore
           .doc(`decisions/${vote.id}/options/${newTask.id}`)
-          .set({ title: option, id: newTask.id })
-          .catch(error => console.error('Error submitting vote:', error));
+          .set({ title: option, id: newTask.id });
       }
 
       transition('SUCCEEDED');
@@ -82,7 +78,6 @@ class Polls extends React.PureComponent {
   set = payload => this.setState({ payload });
 
   render() {
-    console.log('this.props.error', this.props.error);
     return <Votes transition={this.props.transition} set={this.set} />;
   }
 }
