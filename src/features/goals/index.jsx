@@ -4,6 +4,7 @@ import { useFireColl } from '../../hooks/firebase';
 import { GoalModal } from './GoalModal';
 import { calculateTodayDateinDaysFromStartDate, convertNumberToDate, convertSecondsToDaysFrom, createNewGoal } from './helpers';
 import { Objective } from './Objective';
+import { TeamStats } from './TeamStats';
 
 export const Stats = () => {
   const goals = useFireColl(`objectives`);
@@ -24,7 +25,6 @@ export const Stats = () => {
     ] = {
       style: {
         fontSize: objective.size,
-        
       },
       label: (
         <Objective
@@ -51,6 +51,7 @@ export const Stats = () => {
 
   return (
     <div data-testid="goalRoad" onMouseLeave={() => setValue(today)}>
+      <TeamStats />
       <div className="h3 flex align-items">
         {visible && (
           // <div data-testid="detailsBox" className="w-100 tc pa3">
