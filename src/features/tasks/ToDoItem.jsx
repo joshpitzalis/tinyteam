@@ -20,10 +20,8 @@ export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
       <CheckBox
         checked={task.completed}
         onChange={() => markTodoCompleted(task.id, !task.completed)}
-        label={task.title}
-        className="w5 pt2 truncate "/>
-
-      {/* <p className="w5 pt2 truncate ">{task.title}</p> */}
+        label={<p>{task.title}</p>}
+      />
     </li>
   );
 };
