@@ -1,6 +1,5 @@
-import { Button } from "grommet";
-import { Add } from "grommet-icons";
 import React from 'react';
+import { Header } from "../../components/ModuleHeader";
 import { TasksContext } from '../../context/TasksContext';
 import Modal from '../modals/Modal';
 import { ListCreator } from './ListCreator';
@@ -31,24 +30,14 @@ const initialState = {
   modalVisible: false
 };
 
-const Header = ({dispatch}) => <div className="bb b--black-05 w-100 mw9 flex items-center justify-between ">
-<h2 className="f5 fw2">Current Workload</h2>
-<Button
-  icon={<Add />}
-  className="dib"
-  label="Create A New List"
-  data-testid="createTask"
-  onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
-  margin={{'vertical': 'medium'}}
-/>
-</div>
+
 
 const Tasks = () => {
   const [state, dispatch] = React.useReducer(taskReducer, initialState);
   const { lists } = React.useContext(TasksContext);
   return (
     <div className="mw9 center pa3 pa5-ns ">
-      <Header dispatch={dispatch} />
+      <Header dispatch={dispatch} type='OPENED_TASK_LIST_CREATOR'/>
       <section className="flex">
         <ToDoLists lists={lists} dispatch={dispatch} />
         <Dialogue

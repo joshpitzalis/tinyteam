@@ -1,5 +1,6 @@
 import React from 'react';
 import { State, withStateMachine } from 'react-automata';
+import { Header } from '../../components/ModuleHeader';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 import Modal from '../modals/Modal';
@@ -90,12 +91,7 @@ const Votes = ({ transition, set }) => {
       <State is="loading">Loading...</State>
       <State is="error">Error!</State>
       <State is="idle">
-        <div className="flex items-center justify-between bb b--black-05 w-100">
-          <h2 className="f5 fw2 ">Group Decisions</h2>
-          <button onClick={() => transition('POLL_CREATE_FORM_OPENED')}>
-            + Create A New Decision
-          </button>
-        </div>
+        <Header dispatch={transition} type="POLL_CREATE_FORM_OPENED" />
         {polls &&
           polls.map(poll => (
             <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />

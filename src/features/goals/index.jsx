@@ -26,6 +26,7 @@ export const Stats = () => {
     const todaysDateInDays =
       objectives(goals) &&
       objectives(goals).length > 0 &&
+      objectives[0] &&
       calculateTodayDateinDaysFromStartDate(objectives[0].deadline.seconds);
     setToday(todaysDateInDays);
     setValue(todaysDateInDays);
@@ -73,29 +74,30 @@ const RoadMap = ({
   convertNumberToDate,
   visible,
   value,
-}) => (
-  <div
-    role="slider"
-    aria-valuemin="1"
-    aria-valuemax="7"
-    aria-valuenow="2"
-    aria-valuetext="Monday"
-    className="mw9 center ph3 ph5-ns mb6"
-    onDoubleClick={() => setVisibility(true)}
-    onKeyDown={() => setVisibility(true)}
-    tabIndex="-1"
-  >
-    {objectives && objectives.length > 0 && (
+}) =>
+  objectives &&
+  objectives.length > 0 && (
+    <div
+      role="slider"
+      aria-valuemin="1"
+      aria-valuemax="7"
+      aria-valuenow="2"
+      aria-valuetext="Monday"
+      className="mw9 center ph3 ph5-ns mb6"
+      onDoubleClick={() => setVisibility(true)}
+      onKeyDown={() => setVisibility(true)}
+      tabIndex="-1"
+    >
       <Slider
         marks={objectivesObject}
         onChange={val => setValue(val)}
         value={value}
         max={Object.keys(objectivesObject).pop()}
         tipFormatter={e =>
-          `${convertNumberToDate(e, objectives[0].deadline.seconds)}`
+          `${objectives[0] &&
+            convertNumberToDate(e, objectives[0].deadline.seconds)}`
         }
         tooltipVisible={!visible}
       />
-    )}
-  </div>
-);
+    </div>
+  );
