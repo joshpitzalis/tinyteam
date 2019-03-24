@@ -14,7 +14,7 @@ export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
   };
   return (
     <li
-      className={`ph3 pv2 ${!lastTask && 'bb '} flex items-center `}
+      className={`ph3 pv2 ${!lastTask && 'bb '} flex items-center`}
       style={{ borderColor: color }}
     >
       <CheckBox

@@ -36,29 +36,32 @@ export const Stats = () => {
           />
         )}
       </div>
-      <div
-        role="slider"
-        aria-valuemin="1"
-        aria-valuemax="7"
-        aria-valuenow="2"
-        aria-valuetext="Monday"
-        className="mw9 center ph3 ph5-ns mb6"
-        onDoubleClick={() => setVisibility(true)}
-        onKeyDown={() => setVisibility(true)}
-        tabIndex="-1">
-        {objectives && objectives.length > 0 && (
-          <Slider
-            marks={objectivesObject}
-            onChange={val => setValue(val)}
-            value={value}
-            max={Object.keys(objectivesObject).pop()}
-            tipFormatter={e =>
-              `${convertNumberToDate(e, objectives[0].deadline.seconds)}`
-            }
-            tooltipVisible={!visible}
-          />
-        )}
-      </div>
+      <RoadMap setVisibility={setVisibility} objectives={objectives} objectivesObject={objectivesObject} setValue={setValue} convertNumberToDate={convertNumberToDate} visible={visible} value={value}/>
     </div>
   );
 };
+
+
+const RoadMap = ({setVisibility, objectives, objectivesObject, setValue, convertNumberToDate, visible, value}) => <div
+role="slider"
+aria-valuemin="1"
+aria-valuemax="7"
+aria-valuenow="2"
+aria-valuetext="Monday"
+className="mw9 center ph3 ph5-ns mb6"
+onDoubleClick={() => setVisibility(true)}
+onKeyDown={() => setVisibility(true)}
+tabIndex="-1">
+{objectives && objectives.length > 0 && (
+  <Slider
+    marks={objectivesObject}
+    onChange={val => setValue(val)}
+    value={value}
+    max={Object.keys(objectivesObject).pop()}
+    tipFormatter={e =>
+      `${convertNumberToDate(e, objectives[0].deadline.seconds)}`
+    }
+    tooltipVisible={!visible}
+  />
+)}
+</div>

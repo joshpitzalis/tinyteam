@@ -3,15 +3,33 @@ import React from 'react';
 import { useFireDoc } from '../../hooks/firebase';
 import { convertDaysToDate } from './helpers';
 
+
+const handleSubmit = (values, setError, colour, createNewGoal, date, onClose) => {
+  if (!values.name) {
+    setError({ name: true });
+    return;
+  }
+
+  if (colour === 'white') {
+    setError({ color: true });
+    return;
+  }
+  createNewGoal(values.name, new Date(date), colour);
+  onClose();
+};
+
+
 export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
+
+  const activeColours = useFireDoc(`teams/devteam123test`);
+
   const deadlineDate = convertDaysToDate(deadline, startDate)
   const deadlineString = new Date(deadlineDate).toISOString()
   const [date, setDate] = React.useState(deadlineString);
 
-  const [colour, setColor] = React.useState('white');
   const [error, setError] = React.useState({});
-
-  const activeColours = useFireDoc(`teams/devteam123test`);
+  
+  const [colour, setColor] = React.useState('white');
   const selectableColours = [
     '#adcfe2',
     '#588C73',
@@ -29,20 +47,6 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
 
   // https://digitalsynopsis.com/design/minimal-web-color-palettes-combination-hex-code/
 
-  const handleSubmit = values => {
-    if (!values.name) {
-      setError({ name: true });
-      return;
-    }
-
-    if (colour === 'white') {
-      setError({ color: true });
-      return;
-    }
-    createNewGoal(values.name, new Date(date), colour);
-    onClose();
-  };
-
   return (
     <Layer
       position="center"
@@ -52,7 +56,7 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
       responsive
     >
       <Box pad="medium" gap="large" border={{ color: colour, size: 'xlarge' }}>
-        <Form onSubmit={event => handleSubmit(event.value)}>
+        <Form onSubmit={event => handleSubmit(event.value, setError, colour, createNewGoal, date, onClose)}>
           <FormField
             name="name"
             label="Name Your Goal"

@@ -4,7 +4,7 @@ import { useFireColl } from '../../hooks/firebase';
 import { ToDoItem } from './ToDoItem';
 
 export const ToDoLists = ({ lists, dispatch }) => (
-  <Box direction="row" wrap justify="between">
+  <Box direction="row" wrap justify="between"  >
     {lists &&
       lists.map((list, index) => (
         <List
@@ -21,17 +21,10 @@ export const ToDoLists = ({ lists, dispatch }) => (
 
 export const List = ({ dispatch, id, title, index, color }) => {
   const tasks = useFireColl(`todoLists/${id}/tasks`);
-
-  const moreThan5ArchivedTasks =  tasks
-  .filter(item => item.completed === false).length > 5
-
-const first5ActiveTasks = tasks
-.filter(item => item.completed === false).slice(0, 5)
-const activeTasks = tasks.filter(item => item.completed === false)
-
-const archivedTasks = tasks.filter(item => item.completed === true)
+  const activeTasks = tasks.filter(item => item.completed === false)
+  const archivedTasks = tasks.filter(item => item.completed === true)
   const [archived, setArchived] = React.useState(true);
-  const [full, setFull] = React.useState(tasks && moreThan5ArchivedTasks);
+  const [full, setFull] = React.useState(tasks && archivedTasks.length > 5);
 
   return (
     <div className="dib ma1 w5" style={{ color }}>
@@ -47,7 +40,7 @@ const archivedTasks = tasks.filter(item => item.completed === true)
       >
         {!full ? (
           <span onMouseLeave={() => setArchived(true)}>
-            {tasks && first5ActiveTasks.map((task, indexx, array) => {
+            {tasks && activeTasks.slice(0, 5).map((task, indexx, array) => {
                   const lastTask = indexx + 1 === array.length;
                   return (
                     <ToDoItem
@@ -67,34 +60,14 @@ const archivedTasks = tasks.filter(item => item.completed === true)
                 </small>
               </div>
             ) :
-            archivedTasks.length > 0 && (
-              <div className="tc ">
-                <small
-                  className="pointer pv3"
-                  onClick={() => {
-                    archived ? setArchived(false) : setArchived(true);
-                  }}
-                >
-                  {archived ? 'Show Archived Tasks' : 'Hide Archived Tasks'}
-                </small>
-              </div>
-            )}
-            {!archived &&
-              tasks &&
-              archivedTasks
-                .map((task, indexx, array) => {
-                  const lastTask = indexx + 1 === array.length;
-                  return (
-                    <ToDoItem
-                      index={index}
-                      task={task}
-                      lastTask={lastTask}
-                      key={task.id}
-                      listId={id}
-                      color={color}
-                    />
-                  );
-                })}
+            archivedTasks.length > 0 && <ShowArchivedTasks archivedTasks={archivedTasks} setArchived={setArchived} archived={archived}
+            />
+            }
+            <ArchivedTasks 
+            archived={archived} 
+            tasks={tasks} 
+            archivedTasks={archivedTasks} 
+            index={index} id={id} color={color}/>
             
           </span>
         ) : (
@@ -114,34 +87,15 @@ const archivedTasks = tasks.filter(item => item.completed === true)
                     />
                   );
                 })}
-            {tasks && archivedTasks.length > 0 && (
-              <div className="tc ">
-                <small
-                  className="pointer pv3"
-                  onClick={() => {
-                    archived ? setArchived(false) : setArchived(true);
-                  }}
-                >
-                  {archived ? 'Show Archived Tasks' : 'Hide Archived Tasks'}
-                </small>
-              </div>
-            )}
-            {!archived &&
-              tasks &&
-              archivedTasks
-                .map((task, indexx, array) => {
-                  const lastTask = indexx + 1 === array.length;
-                  return (
-                    <ToDoItem
-                      index={index}
-                      task={task}
-                      lastTask={lastTask}
-                      key={task.id}
-                      listId={id}
-                      color={color}
-                    />
-                  );
-                })}
+            {tasks && archivedTasks.length > 0 &&
+            <ShowArchivedTasks archivedTasks={archivedTasks} setArchived={setArchived} archived={archived}
+            />}
+            <ArchivedTasks 
+            archived={archived} 
+            tasks={tasks} 
+            archivedTasks={archivedTasks}
+            index={index} id={id} color={color} />
+           
           </span>
         )}
       </ul>
@@ -161,3 +115,34 @@ const archivedTasks = tasks.filter(item => item.completed === true)
     </div>
   );
 };
+
+
+const ArchivedTasks = ({archived, tasks, archivedTasks, index, id, color}) =>  !archived &&
+  tasks &&
+  archivedTasks
+    .map((task, indexx, array) => {
+      const lastTask = indexx + 1 === array.length;
+      return (
+        <ToDoItem
+          index={index}
+          task={task}
+          lastTask={lastTask}
+          key={task.id}
+          listId={id}
+          color={color}
+        />
+      );
+    })
+
+const ShowArchivedTasks = ({ setArchived, archived}) =>   
+      <div className="tc ">
+        <small
+          className="pointer pv3"
+          onClick={() => {
+            archived ? setArchived(false) : setArchived(true);
+          }}
+        >
+          {archived ? 'Show Archived Tasks' : 'Hide Archived Tasks'}
+        </small>
+      </div>
+

@@ -6,45 +6,46 @@ import { firestore } from '../../utils/firebase';
 import Discussion from '../chat/Discussion';
 import { Components } from './Components';
 
+const handleChange = async (voted, optionId, id, user, userUid) => {
+  try {
+    await firestore.doc(`decisions/${id}/options/${optionId}`).update({
+      votes: voted
+        ? firebase.firestore.FieldValue.arrayRemove(userUid)
+        : firebase.firestore.FieldValue.arrayUnion(userUid),
+    });
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+
+const submitNewOption = (voteId, value,setValue)  => async e => {
+  e.preventDefault();
+  try {
+    const newOption = await firestore
+      .collection(`decisions/${voteId}/options`)
+      .doc();
+
+    await firestore
+      .doc(`decisions/${voteId}/options/${newOption.id}`)
+      .set({ title: value, id: newOption.id });
+
+    setValue('');
+  } catch (error) {
+    console.error('Error submitting poll:', error);
+  }
+};
+
+const deletePoll = (id, transition) => {
+  transition('MODAL_CLOSED');
+  firestore.doc(`decisions/${id}`).delete();
+};
+
 export const Poll = ({ poll, transition }) => {
   const  { id, title, deadline } = poll
   const options = useFireColl(`decisions/${id}/options`);
   const user = useAuth();
-  const handleChange = async (voted, optionId) => {
-    try {
-      await firestore.doc(`decisions/${id}/options/${optionId}`).update({
-        votes: voted
-          ? firebase.firestore.FieldValue.arrayRemove(user.uid)
-          : firebase.firestore.FieldValue.arrayUnion(user.uid),
-      });
-    } catch (error) {
-      console.error('Error submitting vote:', error);
-    }
-  };
-
-  const deletePoll = id => {
-    transition('MODAL_CLOSED');
-    firestore.doc(`decisions/${id}`).delete();
-  };
-
   const [value, setValue] = React.useState('');
-
-  const submitNewOption = voteId => async e => {
-    e.preventDefault();
-    try {
-      const newOption = await firestore
-        .collection(`decisions/${voteId}/options`)
-        .doc();
-
-      await firestore
-        .doc(`decisions/${voteId}/options/${newOption.id}`)
-        .set({ title: value, id: newOption.id });
-
-      setValue('');
-    } catch (error) {
-      console.error('Error submitting poll:', error);
-    }
-  };
 
   return (
     <section className="mw6-ns w-100 center tc ">
@@ -65,7 +66,7 @@ export const Poll = ({ poll, transition }) => {
                     type="checkbox"
                     name="responses"
                     checked={voted}
-                    onChange={() => handleChange(voted, option.id)}
+                    onChange={() => handleChange(voted, option.id, id, user, user.uid)}
                   />{' '}
                   {option.title}
                   <span className="radiomark " />
@@ -76,25 +77,22 @@ export const Poll = ({ poll, transition }) => {
           })}
       </div>
       {/* <h3>{deadline} left...</h3> */}
-
       <InputForm
         submitNewOption={submitNewOption}
         id={id}
         value={value}
         setValue={setValue}
       />
-
-      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id)}>
+      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id, transition)}>
         Delete this poll
       </p>
-
       <Discussion listId={id} />
     </section>
   );
 };
 
 export const InputForm = ({ submitNewOption, id, value, setValue }) => (
-  <form onSubmit={submitNewOption(id)}>
+  <form onSubmit={submitNewOption(id, value,setValue)}>
     <Components
       value={value}
       setValue={setValue}
