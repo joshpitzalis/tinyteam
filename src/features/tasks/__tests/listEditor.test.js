@@ -48,4 +48,5 @@ it('lets me delete a tasks', () => {});
 it('lets me delete a list', () => {});
 it('lets me complete a tasks', () => {});
 it('lets me show completed tasks', () => {});
-
+it('create a task list ', () => {});
+it('create tasks in a list ', () => {});

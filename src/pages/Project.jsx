@@ -1,7 +1,9 @@
+import Button from 'antd/lib/button';
 import React, { useEffect } from 'react';
 import { authState } from 'rxfire/auth';
 import { Machine } from 'xstate';
 import Chat from '../features/chat/Chat';
+import { Stats } from '../features/goals';
 import Tasks from '../features/tasks';
 import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
@@ -47,23 +49,23 @@ const Project = () => {
   return (
     <article>
       <Static />
+      <Stats />
       {state.matches('loggedIn') ? (
         <>
           <div className="tc">
-            <button
+            <Button
+              size="large"
               onClick={() =>
                 send({ type: 'SIGNED_OUT', payload: app.auth().signOut() })
               }
             >
               Logout
-            </button>
+            </Button>
           </div>
           <Tasks />
           <Votes />
           <Chat />
-          
-          
-          {/* <Stats /> */}
+         
         </>
       ) : (
         <div className="tc">

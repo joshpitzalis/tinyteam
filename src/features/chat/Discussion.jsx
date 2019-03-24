@@ -9,12 +9,12 @@ const TextArea = Input.TextArea;
 
 class App extends PureComponent {
   static propTypes = {
-    listId: PropTypes.string.isRequired
+    listId: PropTypes.string.isRequired,
   };
 
   state = {
     submitting: false,
-    value: ''
+    value: '',
   };
 
   handleSubmit = async name => {
@@ -22,13 +22,11 @@ class App extends PureComponent {
       return;
     }
 
-    console.log('submitting...', this.state.value);
-
     try {
       const { listId } = this.props;
 
       this.setState({
-        submitting: true
+        submitting: true,
       });
       const comment = await firestore
         .collection(`discussions/${listId}/comments`)
@@ -41,22 +39,22 @@ class App extends PureComponent {
           author: name,
           // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
           content: this.state.value,
-          datetime: new Date()
+          datetime: new Date(),
         })
         .then(() =>
           this.setState({
             submitting: false,
-            value: ''
+            value: '',
           })
         );
     } catch (error) {
-      console.log('error adding a comment to the discussion', error);
+      console.error('error adding a comment to the discussion', error);
     }
   };
 
   handleChange = e => {
     this.setState({
-      value: e.target.value
+      value: e.target.value,
     });
   };
 
@@ -96,7 +94,7 @@ const CommentList = ({ listId }) => {
     .sort((a, b) => a.datetime.seconds - b.datetime.seconds)
     .map(comment => ({
       ...comment,
-      datetime: null
+      datetime: null,
       // <Tooltip
       //   title={moment()
       //     .subtract(1, 'days')

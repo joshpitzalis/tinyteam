@@ -2,32 +2,38 @@ import React from 'react';
 import { firestore } from '../../utils/firebase';
 import { EditableToDoItem } from './components/EditableToDoItem';
 
-export const ListCreator = ({ dispatch, providedTitle = '' }) => {
-  const [title, setTitle] = React.useState('');
-  const [value, setValue] = React.useState('');
-  const [tasks, setTasks] = React.useState([]);
-
-  const createList = async () => {
+const createList = async (title, providedTitle,  tasks, dispatch) => {
+  try {
     const list = await firestore.collection(`todoLists`).doc();
 
     await firestore.doc(`todoLists/${list.id}`).set({
       title: title || providedTitle,
       id: list.id,
-      createdOn: +new Date()
+      createdOn: +new Date(),
     });
 
     for (const task of tasks) {
       const newTask = await firestore
         .collection(`todoLists/${list.id}/tasks`)
         .doc();
+
       await firestore
         .doc(`todoLists/${list.id}/tasks/${newTask.id}`)
         .set({ ...task, id: newTask.id });
     }
     dispatch({
-      type: 'LIST_CREATED'
+      type: 'LIST_CREATED',
     });
-  };
+  } catch (error) {
+    console.error('Error creating a list:', error);
+  }
+};
+
+
+export const ListCreator = ({ dispatch, providedTitle = '' }) => {
+  const [title, setTitle] = React.useState('');
+  const [value, setValue] = React.useState('');
+  const [tasks, setTasks] = React.useState([]);
 
   const setItem = e => {
     e.preventDefault();
@@ -38,8 +44,8 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
         createdOn: +new Date(),
         createdBy: 'Josh',
         completed: false,
-        deadline: '3 days'
-      }
+        deadline: '3 days',
+      },
     ]);
     setValue('');
   };
@@ -61,7 +67,8 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
       </div>
       <ul>{tasks && tasks.map(todo => <li key={todo.id}>{todo.title}</li>)}</ul>
       <EditableToDoItem submit={setItem} todo={value} setTodo={setValue} />
-      <button onClick={() => createList()} data-testid="submitTodoList">
+      <button onClick={() => createList(title, providedTitle, tasks, dispatch)
+      } data-testid="submitTodoList">
         Save List
       </button>
     </section>

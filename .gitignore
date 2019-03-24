@@ -13,7 +13,9 @@ src/aws-exports.js
 
 # testing
 /coverage
-
+cypress/videos
+cypress/screenshots
+serviceAccount.json
 # production
 /build
 

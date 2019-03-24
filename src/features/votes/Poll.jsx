@@ -6,38 +6,67 @@ import { firestore } from '../../utils/firebase';
 import Discussion from '../chat/Discussion';
 import { Components } from './Components';
 
-export const Poll = ({ poll: { id, title, deadline }, transition }) => {
-  const options = useFireColl(`decisions/${id}/options`);
-
-  const handleChange = async (voted, optionId) => {
+const handleChange = async (voted, optionId, id, user, userUid) => {
+  try {
     await firestore.doc(`decisions/${id}/options/${optionId}`).update({
       votes: voted
-        ? firebase.firestore.FieldValue.arrayRemove(user.uid)
-        : firebase.firestore.FieldValue.arrayUnion(user.uid)
+        ? firebase.firestore.FieldValue.arrayRemove(userUid)
+        : firebase.firestore.FieldValue.arrayUnion(userUid),
     });
-  };
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
 
-  const user = useAuth();
-
-  const deletePoll = id => {
-    transition('MODAL_CLOSED');
-    firestore.doc(`decisions/${id}`).delete();
-  };
-
-  const [value, setValue] = React.useState('');
-
-  const submitNewOption = voteId => async e => {
-    e.preventDefault();
-
+const submitNewOption = (voteId, value, setValue) => async e => {
+  e.preventDefault();
+  try {
     const newOption = await firestore
       .collection(`decisions/${voteId}/options`)
       .doc();
+
     await firestore
       .doc(`decisions/${voteId}/options/${newOption.id}`)
       .set({ title: value, id: newOption.id });
 
     setValue('');
-  };
+  } catch (error) {
+    console.error('Error submitting poll:', error);
+  }
+};
+
+const deletePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).delete();
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+const archivePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).update({ archived: true });
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+const unArchivePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).update({ archived: false });
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+export const Poll = ({ poll, transition }) => {
+  const { id, title, deadline, archived } = poll;
+  const options = useFireColl(`decisions/${id}/options`);
+  const user = useAuth();
+  const [value, setValue] = React.useState('');
 
   return (
     <section className="mw6-ns w-100 center tc ">
@@ -58,7 +87,9 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
                     type="checkbox"
                     name="responses"
                     checked={voted}
-                    onChange={() => handleChange(voted, option.id)}
+                    onChange={() =>
+                      handleChange(voted, option.id, id, user, user.uid)
+                    }
                   />{' '}
                   {option.title}
                   <span className="radiomark " />
@@ -69,34 +100,42 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
           })}
       </div>
       {/* <h3>{deadline} left...</h3> */}
-
       <InputForm
         submitNewOption={submitNewOption}
         id={id}
         value={value}
         setValue={setValue}
       />
-
-      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id)}>
-        Delete this poll
-      </p>
+      {archived ? (
+        <small
+          className="washed-red b pointer mt3"
+          onClick={() => unArchivePoll(id, transition)}
+        >
+          Unarchive this poll
+        </small>
+      ) : (
+        <small
+          className="washed-red b pointer mt3"
+          onClick={() => archivePoll(id, transition)}
+        >
+          Archive this poll
+        </small>
+      )}
 
       <Discussion listId={id} />
     </section>
   );
 };
 
-export const InputForm = ({ submitNewOption, id, value, setValue }) => {
-  return (
-    <form onSubmit={submitNewOption(id)}>
-      <Components
-        value={value}
-        setValue={setValue}
-        placeholder="Add a new option to the mix..."
-      />
-      <button type="submit" className="db w-100 pa3 br3 ma0">
-        Add An Option
-      </button>
-    </form>
-  );
-};
+export const InputForm = ({ submitNewOption, id, value, setValue }) => (
+  <form onSubmit={submitNewOption(id, value, setValue)}>
+    <Components
+      value={value}
+      setValue={setValue}
+      placeholder="Add a new option to the mix..."
+    />
+    <button type="submit" className="db w-100 pa3 br3 ma0">
+      Add An Option
+    </button>
+  </form>
+);
