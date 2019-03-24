@@ -1,6 +1,7 @@
 import { Grommet } from 'grommet';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CommentsProvider from './context/CommentsContext';
 import TaskProvider from './context/TasksContext';
@@ -13,6 +14,7 @@ import Votes from './features/votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+import store from './store';
 
 const theme = {
   global: {
@@ -53,13 +55,15 @@ const Routes = () => (
 );
 
 ReactDOM.render(
-  <TaskProvider>
-    <VoteProvider>
-      <CommentsProvider>
-        <Routes />
-      </CommentsProvider>
-    </VoteProvider>
-  </TaskProvider>,
+  <Provider store={store}>
+    <TaskProvider>
+      <VoteProvider>
+        <CommentsProvider>
+          <Routes />
+        </CommentsProvider>
+      </VoteProvider>
+    </TaskProvider>
+  </Provider>,
   document.getElementById('root')
 );
 

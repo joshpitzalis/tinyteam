@@ -1,9 +1,8 @@
 import React from 'react';
-import { Header } from "../../components/ModuleHeader";
+import { connect } from 'react-redux';
+import { Header } from '../../components/ModuleHeader';
 import { TasksContext } from '../../context/TasksContext';
-import Modal from '../modals/Modal';
-import { ListCreator } from './ListCreator';
-import { ListEditor } from './ListEditor';
+import { Dialogue } from './Dialogue';
 import { ToDoLists } from './ToDoLists';
 
 const taskReducer = (state, action) => {
@@ -27,19 +26,21 @@ const taskReducer = (state, action) => {
 };
 
 const initialState = {
-  modalVisible: false
+  modalVisible: false,
 };
 
-
-
-const Tasks = () => {
+const Tasks = ({ count }) => {
   const [state, dispatch] = React.useReducer(taskReducer, initialState);
   const { lists } = React.useContext(TasksContext);
   return (
     <div className="mw9 center pa3 pa5-ns ">
-      <Header dispatch={dispatch} type='OPENED_TASK_LIST_CREATOR'
-      sectionTitle="Tasks"/>
+      <Header
+        dispatch={dispatch}
+        type="OPENED_TASK_LIST_CREATOR"
+        sectionTitle="Tasks"
+      />
       <section className="flex">
+        <p>{count} yolo</p>
         <ToDoLists lists={lists} dispatch={dispatch} />
         <Dialogue
           modalVisible={state.modalVisible}
@@ -52,24 +53,8 @@ const Tasks = () => {
   );
 };
 
-export default Tasks;
+const select = store => ({
+  count: store.tasks.count,
+});
 
-const Dialogue = ({ modalVisible, id, dispatch, listId }) => {
-  return (
-    modalVisible && (
-      <Modal
-        onClose={() =>
-          id
-            ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
-            : dispatch({ type: 'MODAL_CLOSED' })
-        }
-      >
-        {id ? (
-          <ListEditor dispatch={dispatch} listId={listId} />
-        ) : (
-          <ListCreator dispatch={dispatch} />
-        )}
-      </Modal>
-    )
-  );
-};
+export default connect(select)(Tasks);
