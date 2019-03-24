@@ -18,8 +18,7 @@ const handleChange = async (voted, optionId, id, user, userUid) => {
   }
 };
 
-
-const submitNewOption = (voteId, value,setValue)  => async e => {
+const submitNewOption = (voteId, value, setValue) => async e => {
   e.preventDefault();
   try {
     const newOption = await firestore
@@ -36,13 +35,35 @@ const submitNewOption = (voteId, value,setValue)  => async e => {
   }
 };
 
-const deletePoll = (id, transition) => {
-  transition('MODAL_CLOSED');
-  firestore.doc(`decisions/${id}`).delete();
+const deletePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).delete();
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+const archivePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).update({ archived: true });
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
+};
+
+const unArchivePoll = async (id, transition) => {
+  try {
+    await firestore.doc(`decisions/${id}`).update({ archived: false });
+    transition('MODAL_CLOSED');
+  } catch (error) {
+    console.error('Error submitting vote:', error);
+  }
 };
 
 export const Poll = ({ poll, transition }) => {
-  const  { id, title, deadline } = poll
+  const { id, title, deadline, archived } = poll;
   const options = useFireColl(`decisions/${id}/options`);
   const user = useAuth();
   const [value, setValue] = React.useState('');
@@ -66,7 +87,9 @@ export const Poll = ({ poll, transition }) => {
                     type="checkbox"
                     name="responses"
                     checked={voted}
-                    onChange={() => handleChange(voted, option.id, id, user, user.uid)}
+                    onChange={() =>
+                      handleChange(voted, option.id, id, user, user.uid)
+                    }
                   />{' '}
                   {option.title}
                   <span className="radiomark " />
@@ -83,16 +106,29 @@ export const Poll = ({ poll, transition }) => {
         value={value}
         setValue={setValue}
       />
-      <p className="washed-red b pointer mt3" onClick={() => deletePoll(id, transition)}>
-        Delete this poll
-      </p>
+      {archived ? (
+        <small
+          className="washed-red b pointer mt3"
+          onClick={() => unArchivePoll(id, transition)}
+        >
+          Unarchive this poll
+        </small>
+      ) : (
+        <small
+          className="washed-red b pointer mt3"
+          onClick={() => archivePoll(id, transition)}
+        >
+          Archive this poll
+        </small>
+      )}
+
       <Discussion listId={id} />
     </section>
   );
 };
 
 export const InputForm = ({ submitNewOption, id, value, setValue }) => (
-  <form onSubmit={submitNewOption(id, value,setValue)}>
+  <form onSubmit={submitNewOption(id, value, setValue)}>
     <Components
       value={value}
       setValue={setValue}

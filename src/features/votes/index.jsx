@@ -1,3 +1,4 @@
+import Timeline from 'antd/lib/timeline';
 import React from 'react';
 import { State, withStateMachine } from 'react-automata';
 import { Header } from '../../components/ModuleHeader';
@@ -79,20 +80,14 @@ class Polls extends React.PureComponent {
   set = payload => this.setState({ payload });
 
   render() {
-    return <Votes transition={this.props.transition} set={this.set} />;
+    const { transition } = this.props;
+    return <Votes transition={transition} set={this.set} />;
   }
 }
 
 const ActiveVotes = ({ polls, transition, setId }) =>
   polls
     .filter(item => item.archived !== true)
-    .map(poll => (
-      <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
-    ));
-
-const ArchivedVotes = ({ polls, transition, setId }) =>
-  polls
-    .filter(item => item.archived === true)
     .map(poll => (
       <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
     ));
@@ -106,21 +101,40 @@ const Votes = ({ transition, set }) => {
       <State is="loading">Loading...</State>
       <State is="error">Error!</State>
       <State is="idle">
-        <Header dispatch={transition} type="POLL_CREATE_FORM_OPENED" />
+        <Header
+          dispatch={transition}
+          type="POLL_CREATE_FORM_OPENED"
+          sectionTitle="Decisions"
+        />
         {polls && (
           <ActiveVotes polls={polls} transition={transition} setId={setId} />
         )}
-
         <small
           className="pointer"
-          onClick={() => {
-            archived ? setArchived(false) : setArchived(true);
-          }}
+          onClick={() => (archived ? setArchived(false) : setArchived(true))}
         >
-          {archived ? 'Show Archived Decisions' : 'Hide Archived Decisions'}
+          {archived
+            ? '+ Show Archived Decisions'
+            : ' - Hide Archived Decisions'}
         </small>
+        <br />
+        <br />
         {!archived && polls && (
-          <ArchivedVotes polls={polls} transition={transition} setId={setId} />
+          <Timeline onMouseLeave={() => setArchived(true)}>
+            {polls
+              .filter(item => item.archived === true)
+              .map(poll => (
+                <Timeline.Item
+                  className="pointer"
+                  onClick={() => {
+                    setId(poll.id);
+                    transition({ type: 'EXISTING_POLL_OPENED' });
+                  }}
+                >
+                  {poll.title}
+                </Timeline.Item>
+              ))}
+          </Timeline>
         )}
       </State>
       <State is="newVote">

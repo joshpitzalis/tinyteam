@@ -37,7 +37,8 @@ const Tasks = () => {
   const { lists } = React.useContext(TasksContext);
   return (
     <div className="mw9 center pa3 pa5-ns ">
-      <Header dispatch={dispatch} type='OPENED_TASK_LIST_CREATOR'/>
+      <Header dispatch={dispatch} type='OPENED_TASK_LIST_CREATOR'
+      sectionTitle="Tasks"/>
       <section className="flex">
         <ToDoLists lists={lists} dispatch={dispatch} />
         <Dialogue

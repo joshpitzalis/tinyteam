@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Vote = ({ title, id, dispatch, setId }) => (
   <Heading
-    level={2}
+    level={3}
     margin={{ vertical: 'medium' }}
     onClick={() => {
       setId(id);
