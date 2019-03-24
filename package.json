@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.14.1",
     "date-fns": "^2.0.0-alpha.27",
+    "eslint-plugin-cypress": "^2.2.1",
     "firebase": "^5.8.4",
     "grommet": "^2.5.5",
     "grommet-icons": "^4.2.0",
@@ -25,14 +26,25 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "jest": "react-scripts test",
     "eject": "react-scripts eject",
-    "lh": "lighthousebot"
+    "lh": "lighthousebot",
+    "build:testConfig": "cypress-firebase createTestEnvFile",
+    "test": "npm run build:testConfig && cypress run",
+    "test:open": "npm run build:testConfig && cypress open",
+    "test:stage": "npm run test -- --env envName=stage",
+    "test:open:stage": "npm run test:open -- --env envName=stage"
   },
   "eslintConfig": {
     "extends": [
       "wesbos"
     ],
+    "plugins": [
+      "eslint-plugin-cypress"
+    ],
+    "env": {
+      "cypress/globals": true
+    },
     "rules": {
       "no-console": 2
     }
@@ -45,6 +57,9 @@
   ],
   "devDependencies": {
     "babel-eslint": "^9.0.0",
+    "cross-env": "^5.2.0",
+    "cypress": "^3.2.0",
+    "cypress-firebase": "^0.1.4",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-config-wesbos": "0.0.19",
@@ -54,6 +69,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.5.0",
+    "firebase-tools-extra": "0.0.9",
     "jest-dom": "^3.1.2",
     "lighthousebot": "git+https://github.com/GoogleChromeLabs/lighthousebot.git",
     "prettier": "^1.16.4",
