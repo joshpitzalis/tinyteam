@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.14.1",
+    "cypress-testing-library": "^2.3.6",
     "date-fns": "^2.0.0-alpha.27",
     "eslint-plugin-cypress": "^2.2.1",
     "firebase": "^5.8.4",

@@ -65,6 +65,7 @@ const Project = () => {
           <Tasks />
           <Votes />
           <Chat />
+         
         </>
       ) : (
         <div className="tc">

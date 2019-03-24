@@ -4,9 +4,9 @@ import { useFireDoc } from '../../hooks/firebase';
 import { convertDaysToDate } from './helpers';
 
 export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
-  const [date, setDate] = React.useState(
-    new Date(convertDaysToDate(deadline, startDate)).toISOString()
-  );
+  const deadlineDate = convertDaysToDate(deadline, startDate)
+  const deadlineString = new Date(deadlineDate).toISOString()
+  const [date, setDate] = React.useState(deadlineString);
 
   const [colour, setColor] = React.useState('white');
   const [error, setError] = React.useState({});
@@ -63,6 +63,7 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
             date={date}
             onSelect={datex => setDate(datex)}
             margin="medium"
+          
           />
           <Text size="small" color={error.color && 'red'}>
             {error.color
@@ -86,8 +87,10 @@ export const GoalModal = ({ onClose, deadline, startDate, createNewGoal }) => {
                 ))}
             </Box>
           )}
-          <Box>
-            <Button type="submit" primary label="Submit" margin="medium" />
+          <Box
+        >
+            <Button type="submit"  label="Submit" margin="medium" 
+               />
           </Box>
         </Form>
       </Box>

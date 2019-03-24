@@ -16,12 +16,18 @@ describe('My First Test', () => {
     user.visit('http://localhost:3000/').contains('Analytics');
   });
 
-  it('creates and archives a task', () => {
+  it.only('archives and unarchives a task', () => {
     user.login();
-    user.visit('http://localhost:3000/').contains('churn rate');
+    user.visit('http://localhost:3000/')
+    .contains('churn rate 2% or lower').click()
+      .queryByText('churn rate 2% or lower').should('not.exist')
+        .getByText('Show Archived Tasks').click()
+          .getByText('churn rate 2% or lower').click()
+            .getByText('churn rate 2% or lower').should('exist')
+      
   });
 
-  it('Let me archive a task list', () => {});
+  it.skip('Let me archive a task list', () => {});
 
-  it('Let me archive a decision', () => {});
+  it.skip('Let me archive a decision', () => {});
 });

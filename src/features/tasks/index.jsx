@@ -6,6 +6,7 @@ import Modal from '../modals/Modal';
 import { ListCreator } from './ListCreator';
 import { ListEditor } from './ListEditor';
 import { ToDoLists } from './ToDoLists';
+
 const taskReducer = (state, action) => {
   switch (action.type) {
     case 'OPENED_TASK_LIST_CREATOR':
@@ -37,7 +38,6 @@ const Tasks = () => {
     <div className="mw9 center pa3 pa5-ns ">
       <div className="bb b--black-05 w-100 mw9 flex items-center justify-between ">
         <h2 className="f5 fw2   ">Current Workload</h2>
-
         <Button
           icon={<Add />}
           className="dib"

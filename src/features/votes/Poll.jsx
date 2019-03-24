@@ -6,9 +6,10 @@ import { firestore } from '../../utils/firebase';
 import Discussion from '../chat/Discussion';
 import { Components } from './Components';
 
-export const Poll = ({ poll: { id, title, deadline }, transition }) => {
+export const Poll = ({ poll, transition }) => {
+  const  { id, title, deadline } = poll
   const options = useFireColl(`decisions/${id}/options`);
-
+  const user = useAuth();
   const handleChange = async (voted, optionId) => {
     try {
       await firestore.doc(`decisions/${id}/options/${optionId}`).update({
@@ -20,8 +21,6 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
       console.error('Error submitting vote:', error);
     }
   };
-
-  const user = useAuth();
 
   const deletePoll = id => {
     transition('MODAL_CLOSED');

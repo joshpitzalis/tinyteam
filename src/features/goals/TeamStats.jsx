@@ -9,18 +9,21 @@ export const TeamStats = () => (
         {/* useful for finding github issues count history */}
         {/* https://9-volt.github.io/bug-life/?repo=joshpitzalis/tinyteams */}
         <Sparklines
-          data={[3, 12, 13, 8, 9, 10, 12, 21, 19, 22, 32, 46, 55, 51, 71]}
+          data={[3, 12, 13, 8, 9, 10, 12, 21, 19, 22, 32, 46, 55, 51, 71, 73]}
         >
           <SparklinesLine style={{ fill: 'none' }} />
         </Sparklines>
         <dd className="f6 fw4 ml0">Github Issues</dd>
-        <dd className="f7 fw4 ml0 o-30">Last updated 18 March</dd>
-        <dd className="f2 f-subheadline-l fw6 ml0">71</dd>
+        <dd className="f7 fw4 ml0 o-30">Last updated 24 March</dd>
+        <dd className="f2 f-subheadline-l fw6 ml0">73</dd>
       </dl>
       <dl className="db dib-l w-auto-l lh-title mr6-l">
+        <Sparklines data={[0, 2]}>
+          <SparklinesLine style={{ fill: 'none' }} />
+        </Sparklines>
         <dd className="f6 fw4 ml0">Email Subscribers</dd>
-        <dd className="f7 fw4 ml0 o-30">Last updated 18 March</dd>
-        <dd className="f2 f-subheadline-l fw6 ml0">0</dd>
+        <dd className="f7 fw4 ml0 o-30">Last updated 24 March</dd>
+        <dd className="f2 f-subheadline-l fw6 ml0">2</dd>
       </dl>
     </div>
   </section>

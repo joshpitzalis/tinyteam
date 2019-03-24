@@ -3,7 +3,9 @@ import { Menu } from 'grommet';
 import { Achievement, Launch } from 'grommet-icons';
 import React from 'react';
 import { firestore } from '../../utils/firebase';
-import { inPast } from './helpers';
+import { inPast, updateActiveGoalColours } from './helpers';
+
+
 
 /** @param {({
  * details:string,
@@ -14,10 +16,7 @@ export const Objective = ({ details, deadline, goalId, color }) => {
   const handleDelete = async (goalId, color) => {
     try {
       await firestore.doc(`objectives/${goalId}`).delete();
-
-      firestore.doc(`teams/devteam123test`).update({
-        activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
-      });
+      updateActiveGoalColours(color)
     } catch (error) {
       console.error('Error deleting goal', error);
     }
