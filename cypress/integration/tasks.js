@@ -1,7 +1,7 @@
 /**
  * @param {String} selectorValue - Value of the selector
  */
-const grab = selectorValue => `[data-test=${selectorValue}]`;
+
 
 describe('My First Test', () => {
   const user = cy;
@@ -28,6 +28,6 @@ describe('My First Test', () => {
   });
 
   it.skip('Let me archive a task list', () => {});
-
+// const grab = selectorValue => `[data-test=${selectorValue}]`;
   it.skip('Let me archive a decision', () => {});
 });
