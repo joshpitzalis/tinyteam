@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Header } from '../../components/ModuleHeader';
-import { TasksContext } from '../../context/TasksContext';
 import { Dialogue } from './Dialogue';
 import { ToDoLists } from './ToDoLists';
 
@@ -29,9 +28,9 @@ const initialState = {
   modalVisible: false,
 };
 
-const Tasks = ({ count }) => {
+const Tasks = ({ lists }) => {
   const [state, dispatch] = React.useReducer(taskReducer, initialState);
-  const { lists } = React.useContext(TasksContext);
+
   return (
     <div className="mw9 center pa3 pa5-ns ">
       <Header
@@ -40,7 +39,6 @@ const Tasks = ({ count }) => {
         sectionTitle="Tasks"
       />
       <section className="flex">
-        <p>{count} yolo</p>
         <ToDoLists lists={lists} dispatch={dispatch} />
         <Dialogue
           modalVisible={state.modalVisible}
@@ -54,7 +52,7 @@ const Tasks = ({ count }) => {
 };
 
 const select = store => ({
-  count: store.tasks.count,
+  lists: store.tasks.data,
 });
 
 export default connect(select)(Tasks);

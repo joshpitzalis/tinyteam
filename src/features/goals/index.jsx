@@ -33,13 +33,13 @@ export const Stats = () => {
   }, [goals, objectives]);
   return (
     <div data-testid="goalRoad" onMouseLeave={() => setValue(today)}>
-      <TeamStats />
       <ModalForGoals
         visible={visible}
         setVisibility={setVisibility}
         value={value}
         objectives={objectives}
       />
+      <TeamStats />
       <RoadMap
         setVisibility={setVisibility}
         objectives={objectives}

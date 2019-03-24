@@ -16,13 +16,15 @@ export const Header = ({ dispatch, type, sectionTitle }) => (
     margin={{ vertical: 'medium' }}
     alignContent="center"
   >
-    <Heading level={2}>{sectionTitle} </Heading>
-    <Button
-      icon={<Add />}
-      alignSelf="end"
-      data-testid="createTask"
-      onClick={() => dispatch({ type })}
-    />
+    <span className="flex items-baseline">
+      <Heading level={2}>{sectionTitle}</Heading>
+      <Button
+        icon={<Add />}
+        data-testid="createTask"
+        onClick={() => dispatch({ type })}
+      />
+    </span>
+    <span />
   </Box>
 );
 

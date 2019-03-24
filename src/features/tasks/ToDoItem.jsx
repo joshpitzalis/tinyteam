@@ -2,7 +2,7 @@ import { CheckBox } from 'grommet';
 import React from 'react';
 import { firestore } from '../../utils/firebase';
 
-export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
+export const ToDoItem = ({ lastTask, task, listId, color }) => {
   const markTodoCompleted = async (id, completed) => {
     try {
       await firestore

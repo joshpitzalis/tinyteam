@@ -48,6 +48,7 @@ const Project = () => {
   }, []);
   return (
     <article>
+   
       <Static />
       <Stats />
       {state.matches('loggedIn') ? (
@@ -62,6 +63,7 @@ const Project = () => {
               Logout
             </Button>
           </div>
+          
           <Tasks />
           <Votes />
           <Chat />
@@ -81,3 +83,4 @@ const Project = () => {
 };
 
 export default Project;
+

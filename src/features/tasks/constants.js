@@ -1,0 +1,1 @@
+export const FETCH_FULFILLED = 'FETCH_FULFILLED';
