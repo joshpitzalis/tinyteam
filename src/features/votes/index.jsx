@@ -83,19 +83,45 @@ class Polls extends React.PureComponent {
   }
 }
 
+const ActiveVotes = ({ polls, transition, setId }) =>
+  polls
+    .filter(item => item.archived !== true)
+    .map(poll => (
+      <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
+    ));
+
+const ArchivedVotes = ({ polls, transition, setId }) =>
+  polls
+    .filter(item => item.archived === true)
+    .map(poll => (
+      <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
+    ));
+
 const Votes = ({ transition, set }) => {
   const polls = useFireColl(`decisions`);
   const [id, setId] = React.useState('');
+  const [archived, setArchived] = React.useState(true);
   return (
     <section className="mw9 center pa3 pa5-ns mb6">
       <State is="loading">Loading...</State>
       <State is="error">Error!</State>
       <State is="idle">
         <Header dispatch={transition} type="POLL_CREATE_FORM_OPENED" />
-        {polls &&
-          polls.map(poll => (
-            <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
-          ))}
+        {polls && (
+          <ActiveVotes polls={polls} transition={transition} setId={setId} />
+        )}
+
+        <small
+          className="pointer"
+          onClick={() => {
+            archived ? setArchived(false) : setArchived(true);
+          }}
+        >
+          {archived ? 'Show Archived Decisions' : 'Hide Archived Decisions'}
+        </small>
+        {!archived && polls && (
+          <ArchivedVotes polls={polls} transition={transition} setId={setId} />
+        )}
       </State>
       <State is="newVote">
         <Modal onClose={() => transition('MODAL_CLOSED')}>

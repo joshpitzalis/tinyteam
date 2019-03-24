@@ -39,80 +39,31 @@ export const List = ({ dispatch, id, title, index, color }) => {
         style={{ borderColor: color }}
       >
         {!full ? (
-          <span onMouseLeave={() => setArchived(true)}>
-            {tasks &&
-              activeTasks.slice(0, 5).map((task, indexx, array) => {
-                const lastTask = indexx + 1 === array.length;
-                return (
-                  <ToDoItem
-                    index={index}
-                    task={task}
-                    lastTask={lastTask}
-                    key={task.id}
-                    listId={id}
-                    color={color}
-                  />
-                );
-              })}
-            {tasks && activeTasks.length > 5 ? (
-              <div className="tc ">
-                <small className="pointer pv3" onClick={() => setFull(true)}>
-                  {'Show More Tasks..'}
-                </small>
-              </div>
-            ) : (
-              archivedTasks.length > 0 && (
-                <ShowArchivedTasks
-                  archivedTasks={archivedTasks}
-                  setArchived={setArchived}
-                  archived={archived}
-                />
-              )
-            )}
-            <ArchivedTasks
-              archived={archived}
-              tasks={tasks}
-              archivedTasks={archivedTasks}
-              index={index}
-              id={id}
-              color={color}
-            />
-          </span>
+          <ShortTaskList
+            setArchived={setArchived}
+            tasks={tasks}
+            activeTasks={activeTasks}
+            index={index}
+            id={id}
+            color={color}
+            setFull={setFull}
+            archivedTasks={archivedTasks}
+            archived={archived}
+          />
         ) : (
-          <span onMouseLeave={() => setFull(false)}>
-            {tasks &&
-              activeTasks.map((task, indexx, array) => {
-                const lastTask = indexx + 1 === array.length;
-                return (
-                  <ToDoItem
-                    index={index}
-                    task={task}
-                    lastTask={lastTask}
-                    key={task.id}
-                    listId={id}
-                    color={color}
-                  />
-                );
-              })}
-            {tasks && archivedTasks.length > 0 && (
-              <ShowArchivedTasks
-                archivedTasks={archivedTasks}
-                setArchived={setArchived}
-                archived={archived}
-              />
-            )}
-            <ArchivedTasks
-              archived={archived}
-              tasks={tasks}
-              archivedTasks={archivedTasks}
-              index={index}
-              id={id}
-              color={color}
-            />
-          </span>
+          <LongTaskList
+            setFull={setFull}
+            tasks={tasks}
+            activeTasks={activeTasks}
+            index={index}
+            id={id}
+            color={color}
+            setArchived={setArchived}
+            archived={archived}
+            archivedTasks={archivedTasks}
+          />
         )}
       </ul>
-
       <small
         onClick={() =>
           dispatch({
@@ -128,6 +79,102 @@ export const List = ({ dispatch, id, title, index, color }) => {
     </div>
   );
 };
+
+const ShortTaskList = ({
+  setArchived,
+  tasks,
+  activeTasks,
+  index,
+  id,
+  color,
+  setFull,
+  archivedTasks,
+  archived,
+}) => (
+  <span onMouseLeave={() => setArchived(true)}>
+    {tasks &&
+      activeTasks.slice(0, 5).map((task, indexx, array) => {
+        const lastTask = indexx + 1 === array.length;
+        return (
+          <ToDoItem
+            index={index}
+            task={task}
+            lastTask={lastTask}
+            key={task.id}
+            listId={id}
+            color={color}
+          />
+        );
+      })}
+    {tasks && activeTasks.length > 5 ? (
+      <div className="tc ">
+        <small className="pointer pv3" onClick={() => setFull(true)}>
+          {'Show More Tasks..'}
+        </small>
+      </div>
+    ) : (
+      archivedTasks.length > 0 && (
+        <ShowArchivedTasks
+          archivedTasks={archivedTasks}
+          setArchived={setArchived}
+          archived={archived}
+        />
+      )
+    )}
+    <ArchivedTasks
+      archived={archived}
+      tasks={tasks}
+      archivedTasks={archivedTasks}
+      index={index}
+      id={id}
+      color={color}
+    />
+  </span>
+);
+
+const LongTaskList = ({
+  setFull,
+  tasks,
+  activeTasks,
+  index,
+  id,
+  color,
+  setArchived,
+  archived,
+  archivedTasks,
+}) => (
+  <span onMouseLeave={() => setFull(false)}>
+    {tasks &&
+      activeTasks.map((task, indexx, array) => {
+        const lastTask = indexx + 1 === array.length;
+        return (
+          <ToDoItem
+            index={index}
+            task={task}
+            lastTask={lastTask}
+            key={task.id}
+            listId={id}
+            color={color}
+          />
+        );
+      })}
+    {tasks && archivedTasks.length > 0 && (
+      <ShowArchivedTasks
+        archivedTasks={archivedTasks}
+        setArchived={setArchived}
+        archived={archived}
+      />
+    )}
+    <ArchivedTasks
+      archived={archived}
+      tasks={tasks}
+      archivedTasks={archivedTasks}
+      index={index}
+      id={id}
+      color={color}
+    />
+  </span>
+);
 
 const ArchivedTasks = ({ archived, tasks, archivedTasks, index, id, color }) =>
   !archived &&
