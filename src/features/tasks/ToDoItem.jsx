@@ -14,21 +14,15 @@ export const ToDoItem = ({ lastTask, task, listId, index, color }) => {
   };
   return (
     <li
-      className={`ph3 pv2 truncate ${!lastTask && 'bb '}`}
+      className={`ph3 pv2 ${!lastTask && 'bb '} flex items-center `}
       style={{ borderColor: color }}
     >
-      {/* <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={() => markTodoCompleted(task.id, !task.completed)}
-      />{' '}
-      {task.title} */}
       <CheckBox
-        truncate
-        label={task.title}
         checked={task.completed}
         onChange={() => markTodoCompleted(task.id, !task.completed)}
       />
+
+      <p className="w5 pt2 truncate ">{task.title}</p>
     </li>
   );
 };

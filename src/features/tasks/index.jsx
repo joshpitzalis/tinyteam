@@ -1,10 +1,11 @@
+import { Button } from "grommet";
+import { Add } from "grommet-icons";
 import React from 'react';
 import { TasksContext } from '../../context/TasksContext';
 import Modal from '../modals/Modal';
 import { ListCreator } from './ListCreator';
 import { ListEditor } from './ListEditor';
 import { ToDoLists } from './ToDoLists';
-
 const taskReducer = (state, action) => {
   switch (action.type) {
     case 'OPENED_TASK_LIST_CREATOR':
@@ -36,13 +37,15 @@ const Tasks = () => {
     <div className="mw9 center pa3 pa5-ns ">
       <div className="bb b--black-05 w-100 mw9 flex items-center justify-between ">
         <h2 className="f5 fw2   ">Current Workload</h2>
-        <button
+
+        <Button
+          icon={<Add />}
           className="dib"
-          onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
+          label="Create A New List"
           data-testid="createTask"
-        >
-          + Create New Todo List
-        </button>
+          onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
+          margin={{'vertical': 'medium'}}
+        />
       </div>
       <section className="flex ">
         <ToDoLists lists={lists} dispatch={dispatch} />

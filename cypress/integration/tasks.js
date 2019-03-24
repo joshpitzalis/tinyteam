@@ -13,10 +13,15 @@ describe('My First Test', () => {
 
   it('Checks authenticated pages load', () => {
     user.login();
-    user
-      .visit('http://localhost:3000/')
-      //   .get('.tc > button')
-      //   .should('have.text', 'Logout')
-      .contains('Analytics');
+    user.visit('http://localhost:3000/').contains('Analytics');
   });
+
+  it('creates and archives a task', () => {
+    user.login();
+    user.visit('http://localhost:3000/').contains('churn rate');
+  });
+
+  it('Let me archive a task list', () => {});
+
+  it('Let me archive a decision', () => {});
 });
