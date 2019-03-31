@@ -97,7 +97,7 @@ const Votes = ({ transition, set }) => {
   const [id, setId] = React.useState('');
   const [archived, setArchived] = React.useState(true);
   return (
-    <section className="mw9 center pa3 pa5-ns mb6">
+    <section className="mw9 center pa3 pa5-ns mb6 bg-light-blue">
       <State is="loading">Loading...</State>
       <State is="error">Error!</State>
       <State is="idle">

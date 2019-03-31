@@ -14,11 +14,11 @@ export const chatMachine = Machine({
     idle: {
       on: {
         COMMENT_SUBMITTED: {
-          actions: 'addComment'
-        }
-      }
-    }
-  }
+          actions: 'addComment',
+        },
+      },
+    },
+  },
 });
 
 const Chat = () => {
@@ -29,8 +29,8 @@ const Chat = () => {
   const [state, send] = useMachine(
     chatMachine.withConfig({
       actions: {
-        addComment: (ctx, e) => addComment(e.payload)
-      }
+        addComment: (ctx, e) => addComment(e.payload),
+      },
     })
   );
   const inputEl = React.useRef(null);

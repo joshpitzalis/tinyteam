@@ -63,7 +63,7 @@ class App extends PureComponent {
     const { listId } = this.props;
 
     return (
-      <div className="tl">
+      <div className="tl bg-white">
         <hr />
         <CommentList listId={listId} />
         <Comment

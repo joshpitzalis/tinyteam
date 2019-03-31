@@ -7,13 +7,14 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
 };
-
 export const Header = ({ dispatch, type, sectionTitle }) => (
   <Box
     className="bb b--black-05 w-100 mw9"
     justify="between"
     direction="row"
-    margin={{ vertical: 'medium' }}
+    margin={{
+      vertical: 'medium',
+    }}
     alignContent="center"
   >
     <span className="flex items-baseline">
@@ -21,11 +22,14 @@ export const Header = ({ dispatch, type, sectionTitle }) => (
       <Button
         icon={<Add />}
         data-testid="createTask"
-        onClick={() => dispatch({ type })}
+        onClick={() =>
+          dispatch({
+            type,
+          })
+        }
       />
     </span>
     <span />
   </Box>
 );
-
 Header.propTypes = propTypes;

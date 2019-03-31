@@ -8,5 +8,3 @@ export const fetchTaskLists = () =>
     map(docs => docs.map(doc => doc.data())),
     map(data => ({ type: FETCH_FULFILLED, payload: data }))
   );
-
-// .subscribe(lists => this.setState({ lists }));

@@ -32,7 +32,7 @@ const Tasks = ({ lists }) => {
   const [state, dispatch] = React.useReducer(taskReducer, initialState);
 
   return (
-    <div className="mw9 center pa3 pa5-ns ">
+    <div className="mw9 center pa3 pa5-ns mb3">
       <Header
         dispatch={dispatch}
         type="OPENED_TASK_LIST_CREATOR"
