@@ -3,6 +3,7 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import {
   authStream$,
   logUserOut,
+  myProjects$,
   signUserIn,
 } from './features/authentication/epics';
 import { authReducer } from './features/authentication/reducer';
@@ -18,7 +19,8 @@ const rootEpic = combineEpics(
   fetchTaskLists,
   signUserIn,
   logUserOut,
-  authStream$
+  authStream$,
+  myProjects$
 );
 
 const epicMiddleware = createEpicMiddleware();

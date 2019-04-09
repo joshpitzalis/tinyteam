@@ -13,7 +13,7 @@ export const ToDoLists = ({ lists, dispatch }) => (
           dispatch={dispatch}
           id={list.id}
           title={list.title}
-          color={list.colour}
+          // color={list.colour}
         />
       ))}
   </Box>

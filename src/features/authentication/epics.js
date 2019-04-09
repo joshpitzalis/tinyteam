@@ -1,14 +1,23 @@
 import { ofType } from 'redux-observable';
 import { authState } from 'rxfire/auth';
+import { collection } from 'rxfire/firestore';
 import { of } from 'rxjs';
-import { catchError, mergeMap, switchMap } from 'rxjs/operators';
-import { app, googleAuthProvider } from '../../utils/firebase';
+import {
+  catchError,
+  filter,
+  flatMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
+import { app, firestore, googleAuthProvider } from '../../utils/firebase';
 import {
   AUTH_STATUS_CHECKED,
   LOG_OUT_REQUEST,
   SIGNED_IN,
   SIGNED_OUT,
 } from './constants';
+import { setMyProjects } from './reducer';
 
 const signIn = authProvider =>
   app
@@ -44,13 +53,14 @@ export const logUserOut = action$ =>
     catchError(error => console.log('problems signing out'))
   );
 
-// http://thecodebarbarian.com/a-beginners-guide-to-redux-observable
-
-// const countEpic = action$ => action$.pipe(
-//   filter(action => action.type === 'CLICK_INCREMENT'),
-//   // `mergeMap()` supports functions that return promises, as well as observables
-//   mergeMap(async (action) => {
-//     await new Promise(resolve => setTimeout(resolve, 1000));
-//     return { type: 'INCREMENT', amount: 1 };
-//   })
-// );
+export const myProjects$ = () =>
+  authState(app.auth()).pipe(
+    switchMap(user =>
+      collection(firestore.collection('teams')).pipe(
+        flatMap(docs => docs.map(doc => doc.data())),
+        filter(data => data.members.includes(user.uid)),
+        map(data => setMyProjects(data))
+      )
+    ),
+    catchError(error => console.log('problems getting your project', error))
+  );

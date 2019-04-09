@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Team stats snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="pa5 w-100 pb0"
+    data-name="slab-stat-small"
+  >
+    <div
+      class=""
+    >
+      <dl
+        class="db dib-l w-auto-l lh-title mr6-l"
+      >
+        <svg
+          preserveAspectRatio="none"
+          viewBox="0 0 240 60"
+        >
+          <g>
+            <circle
+              cx="2"
+              cy="58"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="16.75"
+              cy="50.800000000000004"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="31.5"
+              cy="50"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="46.25"
+              cy="54"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="61"
+              cy="53.2"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="75.75"
+              cy="52.400000000000006"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="90.5"
+              cy="50.800000000000004"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="105.25"
+              cy="43.6"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="120"
+              cy="45.2"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="134.75"
+              cy="42.800000000000004"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="149.5"
+              cy="34.800000000000004"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="164.25"
+              cy="23.6"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="179"
+              cy="16.4"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="193.75"
+              cy="19.6"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="208.5"
+              cy="3.6"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="223.25"
+              cy="2"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="238"
+              cy="6"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <polyline
+              points="2 58 16.75 50.800000000000004 31.5 50 46.25 54 61 53.2 75.75 52.400000000000006 90.5 50.800000000000004 105.25 43.6 120 45.2 134.75 42.800000000000004 149.5 34.800000000000004 164.25 23.6 179 16.4 193.75 19.6 208.5 3.6 223.25 2 238 6 238 58 2 58 2 58"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <polyline
+              points="2 58 16.75 50.800000000000004 31.5 50 46.25 54 61 53.2 75.75 52.400000000000006 90.5 50.800000000000004 105.25 43.6 120 45.2 134.75 42.800000000000004 149.5 34.800000000000004 164.25 23.6 179 16.4 193.75 19.6 208.5 3.6 223.25 2 238 6"
+              style="stroke: slategray; stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; fill: none;"
+            />
+          </g>
+        </svg>
+        <dd
+          class="f6 fw4 ml0"
+        >
+          Github Issues
+        </dd>
+        <dd
+          class="f7 fw4 ml0 o-30"
+        >
+          Last updated 27 March
+        </dd>
+        <dd
+          class="f2 f-subheadline-l fw6 ml0"
+        >
+          68
+        </dd>
+      </dl>
+      <dl
+        class="db dib-l w-auto-l lh-title mr6-l"
+      >
+        <svg
+          preserveAspectRatio="none"
+          viewBox="0 0 240 60"
+        >
+          <g>
+            <circle
+              cx="2"
+              cy="58"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="80.66666666666667"
+              cy="50.53333333333333"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="159.33333333333334"
+              cy="16.933333333333334"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <circle
+              cx="238"
+              cy="2"
+              r="2"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <polyline
+              points="2 58 80.66666666666667 50.53333333333333 159.33333333333334 16.933333333333334 238 2 238 58 2 58 2 58"
+              style="stroke: none; stroke-width: 0; fill-opacity: .1; fill: none; pointer-events: auto;"
+            />
+            <polyline
+              points="2 58 80.66666666666667 50.53333333333333 159.33333333333334 16.933333333333334 238 2"
+              style="stroke: slategray; stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; fill: none;"
+            />
+          </g>
+        </svg>
+        <dd
+          class="f6 fw4 ml0"
+        >
+          Email Subscribers
+        </dd>
+        <dd
+          class="f7 fw4 ml0 o-30"
+        >
+          Last updated 27 March
+        </dd>
+        <dd
+          class="f2 f-subheadline-l fw6 ml0"
+        >
+          11
+        </dd>
+      </dl>
+    </div>
+  </section>
+</DocumentFragment>
+`;

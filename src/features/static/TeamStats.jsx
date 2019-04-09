@@ -2,7 +2,7 @@ import React from 'react';
 import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 export const TeamStats = () => {
-  const emailSubscribers = [0, 2, 11];
+  const emailSubscribers = [0, 2, 11, 15];
   const githubIssues = [
     3,
     12,
@@ -23,9 +23,9 @@ export const TeamStats = () => {
     68,
   ];
   return (
-    <section className="pa3 pa5-ns" data-name="slab-stat-small">
+    <section className="pa5 w-100 pb0" data-name="slab-stat-small">
       {/* <h3 className="f6 ttu tracked">Project Stats</h3> */}
-      <div className="cf">
+      <div className="">
         <dl className="db dib-l w-auto-l lh-title mr6-l">
           {/* useful for finding github issues count history */}
           {/* https://9-volt.github.io/bug-life/?repo=joshpitzalis/tinyteams */}

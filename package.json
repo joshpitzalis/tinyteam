@@ -4,9 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.14.1",
-    "cypress-testing-library": "^2.3.6",
     "date-fns": "^2.0.0-alpha.27",
-    "eslint-plugin-cypress": "^2.2.1",
     "firebase": "^5.8.4",
     "grommet": "^2.5.5",
     "grommet-icons": "^4.2.0",
@@ -21,6 +19,7 @@
     "react-scripts": "^2.1.5",
     "react-sparklines": "^1.7.0",
     "react-test-renderer": "^16.8.3",
+    "rebass": "^3.1.0",
     "redux": "^4.0.1",
     "redux-observable": "^1.0.0",
     "redux-thunk": "^2.3.0",
@@ -33,18 +32,18 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "jest": "react-scripts test",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lh": "lighthousebot",
     "build:testConfig": "cypress-firebase createTestEnvFile",
-    "test": "npm run build:testConfig && cypress run",
     "cypress": "npm run build:testConfig && cypress open",
     "test:stage": "npm run test -- --env envName=stage",
     "test:open:stage": "npm run test:open -- --env envName=stage"
   },
   "eslintConfig": {
     "extends": [
-      "wesbos"
+      "wesbos",
+      "plugin:cypress/recommended"
     ],
     "plugins": [
       "eslint-plugin-cypress"
@@ -67,9 +66,11 @@
     "cross-env": "^5.2.0",
     "cypress": "^3.2.0",
     "cypress-firebase": "^0.1.4",
+    "cypress-testing-library": "^2.4.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-config-wesbos": "0.0.19",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",

@@ -2,13 +2,11 @@ import React from 'react';
 import { useFireColl } from '../../hooks/firebase';
 import {
   calculateTodayDateinDaysFromStartDate,
-  convertNumberToDate,
   convertSecondsToDaysFrom,
   objectivesObjectCreator,
 } from './helpers';
 import { ModalForGoals } from './ModalForGoals';
-import { RoadMap } from './RoadMap';
-import { TeamStats } from './TeamStats';
+// import { TeamStats } from '../static/TeamStats';
 
 export const Stats = () => {
   const goals = useFireColl(`objectives`);
@@ -39,8 +37,8 @@ export const Stats = () => {
         value={value}
         objectives={objectives}
       />
-      <TeamStats />
-      <RoadMap
+      {/* <TeamStats /> */}
+      {/* <RoadMap
         setVisibility={setVisibility}
         objectives={objectives}
         objectivesObject={objectivesObject}
@@ -48,7 +46,7 @@ export const Stats = () => {
         convertNumberToDate={convertNumberToDate}
         visible={visible}
         value={value}
-      />
+      /> */}
     </div>
   );
 };

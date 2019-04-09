@@ -5,26 +5,22 @@ import { Stats } from '../index';
 
 afterEach(cleanup);
 
-it('shows goal details when I hover', async () => {
-  const {  queryByTestId, getByTestId } = render(
-      <Stats />
-  );
-getByTestId('goalRoad')
-expect(queryByTestId('detailsBox')).toBeNull()
+it.skip('shows goal details when I hover', async () => {
+  const { queryByTestId, getByTestId } = render(<Stats />);
+  getByTestId('goalRoad');
+  expect(queryByTestId('detailsBox')).toBeNull();
   fireEvent.click(getByTestId('objective'));
-  getByTestId('detailsBox')
+  getByTestId('detailsBox');
 
+  // tk reduce objectives array into mark object liket he one above
+  // correct color
+  // correct date
+  // correct details
 
-// tk reduce objectives array into mark object liket he one above
-// correct color
-// correct date
-// correct details
-
-//   await waitForElement(() => getByTestId('taskListCreator'));
+  //   await waitForElement(() => getByTestId('taskListCreator'));
   //   fireEvent.change(getByTestId('titleInput'), {
   //     target: { value: 'Thingy List' }
   //   });
-
 });
 it.skip('shows the current day', () => {});
 it.skip('lets me add a goal', () => {});
@@ -39,8 +35,6 @@ it.skip('connect a decision to goal by colour', () => {});
 it.skip('filter all activities onboard by clicking on a goal', () => {});
 it.skip('tooltip shows the date', () => {});
 it.skip('date resets to correct date when you leave the component', () => {});
-
-
 
 it.skip('cannot delete a goal if there is a connected list of dcision', () => {});
 
