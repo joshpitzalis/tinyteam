@@ -2,7 +2,7 @@ import { Grommet } from 'grommet';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Footer } from './components/Footer';
-import { Navbar } from './features/authentication/components/Navbar';
+import { Navbar } from './features/auth/components/Navbar';
 import Errors from './features/errors';
 import NoMatch from './features/errors/NoMatch';
 import Dashboard from './pages/Dashboard';

@@ -1,7 +1,12 @@
 import produce from 'immer';
-import { SIGNED_IN, SIGNED_OUT } from './constants';
 
-const MY_PROJECTS_RECIEVED = 'MY_PROJECTS_RECIEVED';
+export const MY_PROJECTS_RECIEVED = 'MY_PROJECTS_RECIEVED';
+export const SIGNED_IN = 'SIGNED_IN';
+export const SIGNED_OUT = 'SIGNED_OUT';
+export const AUTH_STATUS_CHECKED = 'AUTH_STATUS_CHECKED';
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+
+export const signedIn = user => ({ type: SIGNED_IN, payload: user });
 
 export const setMyProjects = payload => ({
   type: MY_PROJECTS_RECIEVED,
@@ -21,7 +26,7 @@ export const authReducer = produce(
     }
 
     if (action.type === MY_PROJECTS_RECIEVED) {
-      draft.projects.push(action.payload);
+      draft.projects = action.payload;
     }
   },
   { status: false, user: null, projects: [] }

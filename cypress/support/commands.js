@@ -23,12 +23,17 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import { firebase } from '@firebase/app';
+import '@firebase/auth';
+import '@firebase/database';
+import '@firebase/firestore';
 import { attachCustomCommands } from 'cypress-firebase';
 import 'cypress-testing-library/add-commands';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
-import 'firebase/firestore';
+
+// import firebase from 'firebase/app';
+// import 'firebase/auth';
+// import 'firebase/database';
+// import 'firebase/firestore';
 
 const projectId = 'tinyteams-dev';
 const env = Cypress.env('env') || 'stage';

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAuthStatus } from '../features/authentication/selectors';
 import Chat from '../features/chat/Chat';
 // import { Stats } from '../features/goals';
 import { Static } from '../features/static/index.jsx';
@@ -20,6 +19,8 @@ const Project = ({ loggedIn }) => (
     )}
   </article>
 );
+
+export const getAuthStatus = store => store.auth.status;
 
 const select = store => ({
   loggedIn: getAuthStatus(store),

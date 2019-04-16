@@ -1,8 +1,7 @@
-import firebase from 'firebase/app';
+import firebase, { firestore } from 'firebase/app';
 import React from 'react';
 import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
-import { firestore } from '../../utils/firebase';
 import Discussion from '../chat/Discussion';
 import { Components } from './Components';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { firestore } from '../../utils/firebase';
 import { EditableToDoItem } from './components/EditableToDoItem';
 
-const createList = async (title, providedTitle,  tasks, dispatch) => {
+const createList = async (title, providedTitle, tasks, dispatch) => {
   try {
     const list = await firestore.collection(`todoLists`).doc();
 
@@ -28,7 +28,6 @@ const createList = async (title, providedTitle,  tasks, dispatch) => {
     console.error('Error creating a list:', error);
   }
 };
-
 
 export const ListCreator = ({ dispatch, providedTitle = '' }) => {
   const [title, setTitle] = React.useState('');
@@ -67,8 +66,10 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
       </div>
       <ul>{tasks && tasks.map(todo => <li key={todo.id}>{todo.title}</li>)}</ul>
       <EditableToDoItem submit={setItem} todo={value} setTodo={setValue} />
-      <button onClick={() => createList(title, providedTitle, tasks, dispatch)
-      } data-testid="submitTodoList">
+      <button
+        onClick={() => createList(title, providedTitle, tasks, dispatch)}
+        data-testid="submitTodoList"
+      >
         Save List
       </button>
     </section>

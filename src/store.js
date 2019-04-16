@@ -1,12 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import {
-  authStream$,
-  logUserOut,
-  myProjects$,
-  signUserIn,
-} from './features/authentication/epics';
-import { authReducer } from './features/authentication/reducer';
+import thunk from 'redux-thunk';
+import { authReducer } from './features/auth/authReducer';
 import { fetchTaskLists } from './features/tasks/epic';
 import { taskReducer } from './features/tasks/reducer';
 
@@ -16,11 +11,12 @@ const rootReducer = combineReducers({
 });
 
 const rootEpic = combineEpics(
-  fetchTaskLists,
-  signUserIn,
-  logUserOut,
-  authStream$,
-  myProjects$
+  fetchTaskLists
+  // signUserIn,
+  // logUserOut,
+  // authStream$,
+  // myProjects$,
+  // createNewTeam
 );
 
 const epicMiddleware = createEpicMiddleware();
@@ -28,7 +24,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(epicMiddleware))
+  composeEnhancers(applyMiddleware(thunk, epicMiddleware))
 );
 
 epicMiddleware.run(rootEpic);

@@ -8,6 +8,7 @@ import './index.css';
 import { Routes } from './Routes';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
+// import { initializeFirePerf } from './utils/firebase';
 
 export const App = () => (
   <Provider store={store}>
@@ -21,6 +22,7 @@ export const App = () => (
   </Provider>
 );
 
+// initializeFirePerf();
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

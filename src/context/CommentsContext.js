@@ -2,7 +2,7 @@ import React from 'react';
 import { authState } from 'rxfire/auth';
 import { list } from 'rxfire/database';
 import { map } from 'rxjs/operators';
-import { app, db } from '../utils/firebase';
+import { auth, db } from '../utils/firebase';
 
 export const CommentsContext = React.createContext({});
 
@@ -13,11 +13,10 @@ class CommentsProvider extends React.Component {
         postId: 4,
         created: new Date(),
         author: 'Tiny Teams',
-        body: 'Loading...'
-      }
+        body: 'Loading...',
+      },
     ],
-    user: null
-    
+    user: null,
   };
 
   componentDidMount() {
@@ -25,9 +24,9 @@ class CommentsProvider extends React.Component {
       .pipe(map(changes => changes.map(c => c.snapshot.val())))
       .subscribe(list => this.setState({ comments: list }));
 
-      this.auth$ = authState(app.auth()).subscribe(user => user &&
-        this.setState({ user: user.displayName })
-      );
+    this.auth$ = authState(auth).subscribe(
+      user => user && this.setState({ user: user.displayName })
+    );
   }
 
   componentWillUnmount() {
@@ -37,14 +36,12 @@ class CommentsProvider extends React.Component {
 
   addComment = body => {
     const newCommentRef = db.ref('chats/devteam123test').push();
-    newCommentRef.update(
-      {
-        postId: newCommentRef.key,
-        created: new Date(),
-        author: this.state.user,
-        body
-      }
-    );
+    newCommentRef.update({
+      postId: newCommentRef.key,
+      created: new Date(),
+      author: this.state.user,
+      body,
+    });
   };
 
   render() {
@@ -52,7 +49,7 @@ class CommentsProvider extends React.Component {
       <CommentsContext.Provider
         value={{
           comments: this.state.comments,
-          addComment: this.addComment
+          addComment: this.addComment,
         }}
       >
         {this.props.children}

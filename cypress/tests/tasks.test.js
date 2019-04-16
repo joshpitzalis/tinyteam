@@ -11,7 +11,7 @@ describe.skip('My First Test', () => {
     user.visit('http://localhost:3000/').contains('Analytics');
   });
 
-  it.only('archives and unarchives a task', () => {
+  it('archives and unarchives a task', () => {
     user.login();
     user
       .visit('http://localhost:3000/')

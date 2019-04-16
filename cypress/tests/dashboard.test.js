@@ -1,7 +1,11 @@
+import { hacker } from 'faker';
+
 describe('Dashboard', () => {
+  const newProjectName = `${hacker.verb()} ${hacker.adjective()} ${hacker.noun()}`;
+
   const user = cy;
 
-  it.only('shows me all the projects I am a part of', () => {
+  it('shows me all the projects I am a part of', () => {
     user
       .login()
       .visit('/')
@@ -10,10 +14,44 @@ describe('Dashboard', () => {
   });
 
   it('lets me create a new project', () => {
+    user
+      .login()
+      .visit('/')
+      .getByTestId('dashboard')
+      .getByText('devteam123test')
+      // get length of projects
+      .getByTestId('createNewProject')
+      .click();
+    // measure lengths again
+  });
+
+  // newProjectName
+
+  it.only('lets me delete a project', () => {
+    user
+      .login()
+      .visit('/')
+      .getByTestId('dashboard')
+      .getByText('devteam123test')
+      // get length of projects
+      .getByTestId('createNewProject')
+      .click();
+    // measure lengths again
+  });
+
+  it('project shoudl loads when i am inside the dashboard not kjust on route', () => {
     throw new Error('not written yet');
   });
 
-  it('lets me delete a project', () => {
+  it('test that the length of projects on incremenets by one when a new project is added', () => {
+    throw new Error('not written yet');
+  });
+
+  it('clicking ona  projec takes me to teh project', () => {
+    throw new Error('not written yet');
+  });
+
+  it('see little pictures of everynes face on project', () => {
     throw new Error('not written yet');
   });
 
