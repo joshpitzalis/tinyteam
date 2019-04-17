@@ -1,6 +1,7 @@
 import { Grommet } from 'grommet';
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Footer } from './components/Footer';
 import { Navbar } from './features/auth/components/Navbar';
 import Errors from './features/errors';
@@ -19,7 +20,7 @@ const theme = {
     colors: { brand: 'currentColor' },
   },
 };
-export const Routes = () => (
+const _Routes = ({ authStatus }) => (
   <Grommet theme={theme}>
     <BrowserRouter>
       <React.StrictMode>
@@ -28,9 +29,19 @@ export const Routes = () => (
             <Navbar />
             <main className="sans-serif pa4">
               <Switch>
-                <Route exact path="/project/:project" component={Projects} />
                 <Route exact path="/" component={Login} />
-                <Route exact path="/dashboard/:user" component={Dashboard} />
+                <PrivateRoute
+                  authStatus={authStatus}
+                  exact
+                  path="/project/:project"
+                  component={Projects}
+                />
+                <PrivateRoute
+                  authStatus={authStatus}
+                  exact
+                  path="/dashboard/:user"
+                  component={Dashboard}
+                />
                 <Route component={NoMatch} />
               </Switch>
             </main>
@@ -40,4 +51,28 @@ export const Routes = () => (
       </React.StrictMode>
     </BrowserRouter>
   </Grommet>
+);
+
+const select = store => ({
+  authStatus: store.auth && store.auth.status,
+});
+
+export const Routes = connect(select)(_Routes);
+
+const PrivateRoute = ({ component: Component, authStatus, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      authStatus ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/',
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
+  />
 );

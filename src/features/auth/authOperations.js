@@ -1,6 +1,6 @@
 import { hacker } from 'faker';
-import { firestore } from '../../utils/firebase';
-import { setMyProjects } from './authReducer';
+import { auth, firestore } from '../../utils/firebase';
+import { setMyProjects, signedIn } from './authReducer';
 
 export const fetchUserProjects = uid => dispatch =>
   firestore
@@ -41,3 +41,18 @@ export const deleteTeam = (uid, projectId) => dispatch =>
     .catch(error => console.error('Error creating a new project: ', error));
 
 // tk when you ceate a new project there shoudl be some kind fo toast or notificatiosn that it is done
+
+export const checkAuth = () => dispatch => {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      dispatch(signedIn(user));
+      dispatch(fetchUserProjects(user.uid));
+      // // tk error handling needed here
+      // // what if no projects?
+      // return transition('AUTH', {
+      //   user,
+      //   redirectTo: `/dashboard/${user.uid}`,
+      // });
+    }
+  });
+};

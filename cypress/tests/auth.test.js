@@ -5,23 +5,27 @@ describe('Dashboard', () => {
     user
       .login()
       .visit('/')
-      .getByTestId('dashboard')
       .getByText('devteam123test');
   });
 
-  it.skip('lets me log out', () => {
+  it('lets me log out', () => {
     user
       .login()
       .visit('/')
       .getByTestId('dashboard')
-      .getByText('devteam123test');
+      .getByTestId('navDropdown')
+      .click()
+      .getByText(/logout/i)
+      .click()
+      .queryByTestId('dashboard')
+      .should('not.exist');
   });
 
-  it.skip('protects authenticated pages if I am logged out', () => {
+  it('protects authenticated pages if I am logged out', () => {
     user
-      .login()
-      .visit('/')
-      .getByTestId('dashboard')
-      .getByText('devteam123test');
+
+      .visit('dashboard/goYvbvDdgsPzb2IwAvmbKIS2noH2')
+      .queryByTestId('dashboard')
+      .should('not.exist');
   });
 });

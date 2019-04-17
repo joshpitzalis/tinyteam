@@ -1,7 +1,8 @@
+import { Trash } from 'grommet-icons';
 import React from 'react';
 import { State, withStateMachine } from 'react-automata';
 import { connect } from 'react-redux';
-import { Button, Card, Text } from 'rebass';
+import { Button, Card, Image, Text } from 'rebass';
 import { createNewTeam, deleteTeam } from '../features/auth/authOperations';
 
 const dashboardStatemachine = {
@@ -82,6 +83,7 @@ class Dashboard extends React.Component {
               data-testid="createNewProject"
               onClick={() => this.handleCreateNewProject()}
               className="pointer"
+              m={5}
             >
               Create a new Team
             </Button>
@@ -101,33 +103,47 @@ class Dashboard extends React.Component {
                   >
                     <Text lineHeight={1}>{project.id}</Text>
 
-                    <State is="idle">
-                      <Button
-                        bg="red"
-                        onClick={() =>
-                          transition('DELETED', { projectId: project.id })
-                        }
-                      >
-                        Delete
-                      </Button>
-                    </State>
+                    <div className="db mv3">
+                      {project.users &&
+                        project.users.map(user => (
+                          <Image
+                            height={50}
+                            src={user.photoURL}
+                            borderRadius={8}
+                          />
+                        ))}
+                    </div>
 
-                    {project.id === projectId && (
-                      <State is="makingSure">
-                        <Text lineHeight={1}>
-                          You absolutely sure about this?
-                        </Text>
+                    <div className="">
+                      <State is="idle">
                         <Button
-                          bg="red"
-                          onClick={() => transition('DELETES_FO_SHO')}
+                          bg="white"
+                          className='pointer'
+                          onClick={() =>
+                            transition('DELETED', { projectId: project.id })
+                          }
                         >
-                          DELETE FO SHO !
-                        </Button>
-                        <Button onClick={() => transition('JUST_KIDDING')}>
-                          Just Kidding
+                          <Trash color="red" />
                         </Button>
                       </State>
-                    )}
+
+                      {project.id === projectId && (
+                        <State is="makingSure">
+                          <Text lineHeight={1}>
+                            You absolutely sure about this?
+                          </Text>
+                          <Button
+                            bg="red"
+                            onClick={() => transition('DELETES_FO_SHO')}
+                          >
+                            DELETE FO SHO !
+                          </Button>
+                          <Button onClick={() => transition('JUST_KIDDING')}>
+                            Just Kidding
+                          </Button>
+                        </State>
+                      )}
+                    </div>
                   </Card>
                 ))}
             </div>

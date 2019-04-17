@@ -7,7 +7,7 @@ import { fetchUserProjects } from '../features/auth/authOperations';
 import { signedIn } from '../features/auth/authReducer';
 import { auth } from '../utils/firebase';
 
-const authStateMachine = {
+export const authStateMachine = {
   initial: 'loading',
   states: {
     loading: {
@@ -68,7 +68,7 @@ class _Login extends React.Component {
           <div data-testid="login">
             <Flex justifyContent="center" flexDirection="column">
               <Box flex="grow">
-                <Heading>You logged out</Heading>
+                <Heading>You Be Logged out</Heading>
               </Box>
             </Flex>
           </div>

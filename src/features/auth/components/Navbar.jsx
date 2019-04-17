@@ -3,8 +3,9 @@ import { Notification } from 'grommet-icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Logo from '../../../images/tiny_logo.png';
-import { AUTH_STATUS_CHECKED, LOG_OUT_REQUEST } from '../authReducer';
+import { auth, googleAuthProvider } from '../../../utils/firebase';
 
 const propTypes = {
   signedIn: PropTypes.bool,
@@ -14,7 +15,7 @@ const propTypes = {
 
 const defaultProps = { signedIn: false };
 
-export const Nav = ({ signedIn, handleSignIn, handleSignout }) => (
+export const Nav = ({ signedIn, handleSignIn, handleSignout, history }) => (
   <nav className="pa3 ph5-ns">
     <div className="ph4 dt border-box w-100 ">
       <a className="dtc v-mid mid-gray link dim w-25" href="#" title="Home">
@@ -24,15 +25,36 @@ export const Nav = ({ signedIn, handleSignIn, handleSignout }) => (
         {signedIn ? (
           <Menu
             label={<Notification />}
+            data-testid="navDropdown"
             items={[
               // { label: 'Dashboard', onClick: () => {} },
               // { label: 'Proposals', onClick: () => {} },
               // { label: 'Active Disputes', onClick: () => {} },
-              { label: 'Logout', onClick: () => handleSignout() },
+              {
+                label: 'Logout',
+                onClick: () => {
+                  auth
+                    .signOut()
+                    .then(() => handleSignout())
+                    .catch(error => console.error('error signing out', error));
+                },
+              },
             ]}
           />
         ) : (
-          <Button size="large" onClick={() => handleSignIn()}>
+          <Button
+            size="large"
+            data-testid="login"
+            onClick={() => {
+              auth
+                .signInWithPopup(googleAuthProvider)
+                .then(user => {
+                  handleSignIn();
+                  history.push(`/dashboard/${user.uid}`);
+                })
+                .catch(error => console.error('error signing in', error));
+            }}
+          >
             Login
           </Button>
         )}
@@ -47,14 +69,14 @@ const select = store => ({
 });
 
 const actions = {
-  handleSignIn: () => ({ type: AUTH_STATUS_CHECKED }),
-  handleSignout: () => ({ type: LOG_OUT_REQUEST }),
+  handleSignIn: () => ({ type: 'SIGNED_IN' }),
+  handleSignout: () => ({ type: 'SIGNED_OUT' }),
 };
 
 export const Navbar = connect(
   select,
   actions
-)(Nav);
+)(withRouter(Nav));
 
 Nav.propTypes = propTypes;
 Nav.defaultProps = defaultProps;

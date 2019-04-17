@@ -4,11 +4,14 @@ import { Provider } from 'react-redux';
 import CommentsProvider from './context/CommentsContext';
 import TaskProvider from './context/TasksContext';
 import VoteProvider from './context/VoteContext';
+// import { initializeFirePerf } from './utils/firebase';
+import { checkAuth } from './features/auth/authOperations';
 import './index.css';
 import { Routes } from './Routes';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
-// import { initializeFirePerf } from './utils/firebase';
+
+store.dispatch(checkAuth());
 
 export const App = () => (
   <Provider store={store}>

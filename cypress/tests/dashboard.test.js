@@ -27,7 +27,7 @@ describe('Dashboard', () => {
 
   // newProjectName
 
-  it.only('lets me delete a project', () => {
+  it('lets me delete a project', () => {
     user
       .login()
       .visit('/')
@@ -39,11 +39,7 @@ describe('Dashboard', () => {
     // measure lengths again
   });
 
-  it('project shoudl loads when i am inside the dashboard not kjust on route', () => {
-    throw new Error('not written yet');
-  });
-
-  it('test that the length of projects on incremenets by one when a new project is added', () => {
+  it.only('project shoudl loads when i am inside the dashboard not kjust on route', () => {
     throw new Error('not written yet');
   });
 
@@ -67,7 +63,7 @@ describe('Dashboard', () => {
     throw new Error('not written yet');
   });
 
-  it('ensures  only people on a project have access to that projects data', () => {
+  it('ensures only people on a project have access to that projects data', () => {
     throw new Error('not written yet');
   });
 });
