@@ -37,6 +37,9 @@ export default class UploadFeature extends Component {
     if (file === undefined) {
       errors.push('Please choose a file');
     }
+    if (file && file.size > 20971520) {
+      errors.push('The file is too large');
+    }
 
     return errors;
   };
@@ -75,8 +78,6 @@ export default class UploadFeature extends Component {
         })
         .catch(error => console.error('error uploading file', error));
     }
-
-    console.log('frog');
   };
 
   render() {

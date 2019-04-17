@@ -49,8 +49,6 @@ Cypress.Commands.add('upload_file', (fileName, selector) =>
       .fixture(fileName, 'base64')
       .then(Cypress.Blob.base64StringToBlob)
       .then(blob => {
-        console.log('blob, subject', blob, subject);
-
         if (blob) {
           const el = subject[0];
           const testFile = new File([blob], fileName, {
@@ -64,27 +62,6 @@ Cypress.Commands.add('upload_file', (fileName, selector) =>
         }
       })
   )
-);
-
-Cypress.Commands.add(
-  'dropFile',
-  { prevSubject: 'element' },
-  (subject, fileName) =>
-    cy
-      .fixture(fileName, 'base64')
-      .then(Cypress.Blob.base64StringToBlob)
-      .then(blob =>
-        // instantiate File from `application` window, not cypress window
-        cy.window().then(win => {
-          const file = new win.File([blob], fileName);
-          const dataTransfer = new win.DataTransfer();
-          dataTransfer.items.add(file);
-
-          return cy.wrap(subject).trigger('drop', {
-            dataTransfer,
-          });
-        })
-      )
 );
 
 // UTILS
