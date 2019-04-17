@@ -1,7 +1,7 @@
 describe('Dashboard', () => {
   const user = cy;
 
-  it.only('shows me all the projects I am a part of', () => {
+  it('shows me all the projects I am a part of', () => {
     user
       .login()
       .visit('/')
