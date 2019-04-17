@@ -25,6 +25,18 @@ describe('Dashboard', () => {
     // measure lengths again
   });
 
+  it.skip('shows a placeholder or it shows no projects text', () => {
+    user
+      .login()
+      .visit('/')
+      .getByTestId('dashboard')
+      .getByText('devteam123test')
+      // get length of projects
+      .getByTestId('createNewProject')
+      .click();
+    // measure lengths again
+  });
+
   // newProjectName
 
   it('lets me delete a project', () => {

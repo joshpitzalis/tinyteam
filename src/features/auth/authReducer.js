@@ -27,7 +27,17 @@ export const authReducer = produce(
 
     if (action.type === MY_PROJECTS_RECIEVED) {
       draft.projects = action.payload;
+      draft.loading = false;
+      if (action.payload.length === 0) {
+        draft.noProjects = true;
+      }
     }
   },
-  { status: false, user: null, projects: [] }
+  {
+    status: false,
+    user: null,
+    projects: [],
+
+    noProjects: false,
+  }
 );

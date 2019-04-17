@@ -40,13 +40,10 @@ const defaultProps = {};
 class _Login extends React.Component {
   checkAuth = () => {
     const { transition, handleSignedIn, getAllMyProjects } = this.props;
-
     auth.onAuthStateChanged(user => {
       if (user) {
         handleSignedIn(user);
         getAllMyProjects(user.uid);
-        // tk error handling needed here
-        // what if no projects?
         return transition('AUTH', {
           user,
           redirectTo: `/dashboard/${user.uid}`,

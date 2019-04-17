@@ -1,6 +1,7 @@
 import { Trash } from 'grommet-icons';
 import React from 'react';
 import { State, withStateMachine } from 'react-automata';
+import { Skeleton } from 'react-loading-skeleton-placeholders';
 import { connect } from 'react-redux';
 import { Button, Card, Image, Text } from 'rebass';
 import { createNewTeam, deleteTeam } from '../features/auth/authOperations';
@@ -71,7 +72,14 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { projects, transition, machineState, projectId } = this.props;
+    const {
+      projects,
+      transition,
+      machineState,
+      projectId,
+      noProjects,
+    } = this.props;
+
     return (
       <React.Fragment>
         <State is={['loading', 'creating', 'deleting']}>
@@ -87,8 +95,9 @@ class Dashboard extends React.Component {
             >
               Create a new Team
             </Button>
-            <div className="flex wrap">
-              {projects &&
+
+            <div className="flex wrap ">
+              {projects && projects.length > 0 ? (
                 projects.map(project => (
                   <Card
                     key={project.id}
@@ -117,8 +126,8 @@ class Dashboard extends React.Component {
                     <div className="">
                       <State is="idle">
                         <Button
-                          bg="white"
-                          className='pointer'
+                          bg="#f6f6ff"
+                          className="pointer"
                           onClick={() =>
                             transition('DELETED', { projectId: project.id })
                           }
@@ -145,7 +154,23 @@ class Dashboard extends React.Component {
                       )}
                     </div>
                   </Card>
-                ))}
+                ))
+              ) : noProjects ? (
+                <Text m={5}>No projects Yet.</Text>
+              ) : (
+                <Card
+                  fontSize={6}
+                  fontWeight="bold"
+                  width={[1, 1, 1 / 2]}
+                  p={5}
+                  m={5}
+                  bg="#f6f6ff"
+                  borderRadius={8}
+                  boxShadow="0 2px 16px rgba(0, 0, 0, 0.25)"
+                >
+                  <Skeleton amount={3} skull />
+                </Card>
+              )}
             </div>
           </div>
         </State>
@@ -168,6 +193,7 @@ const getUser = store =>
 const select = store => ({
   projects: getProjects(store),
   myUserDetails: getUser(store),
+  noProjects: store.auth && store.auth.noProjects,
 });
 
 const actions = {
