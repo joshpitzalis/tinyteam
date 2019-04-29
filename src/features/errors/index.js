@@ -1,27 +1,24 @@
+import { captureException, showReportDialog, withScope } from '@sentry/browser';
 import React from 'react';
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state = { error: null, eventId: null };
 
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, info) {
-    // You can also log the error to an error reporting service
-    console.error(error, info);
+  componentDidCatch(error, errorInfo) {
+    this.setState({ error });
+    withScope(scope => {
+      scope.setExtras(errorInfo);
+      const eventId = captureException(error);
+      this.setState({ eventId });
+    });
   }
 
   render() {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong. </h1>;
+    if (this.state.error) {
+      // render user feedback error modal UI
+      return showReportDialog({ eventId: this.state.eventId });
     }
-
+    // when there's not an error, render children untouched
     return this.props.children;
   }
 }

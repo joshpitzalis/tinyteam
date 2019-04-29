@@ -14,15 +14,15 @@ export const fetchUserProjects = uid => dispatch =>
     })
     .catch(error => console.error('Error getting user projects: ', error));
 
-export const createNewTeam = user => dispatch => {
+export const createNewTeam = (user, name) => dispatch => {
   const newProjectName = `${hacker.verb()} ${hacker.adjective()} ${hacker.noun()}`;
 
   return firestore
     .collection(`teams`)
-    .doc(newProjectName)
+    .doc(name)
     .set({
       created: new Date(),
-      id: newProjectName,
+      id: name,
       members: [user.uid],
       users: [user],
     })

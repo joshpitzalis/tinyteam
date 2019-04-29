@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Footer({}) {
+export function Footer() {
   return (
     <footer className="bg-near-black white-80 pa5-l">
       <div className="ph4 tc ">

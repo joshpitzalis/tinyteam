@@ -15,12 +15,22 @@ const propTypes = {
 
 const defaultProps = { signedIn: false };
 
-export const Nav = ({ signedIn, handleSignIn, handleSignout, history }) => (
+export const Nav = ({
+  signedIn,
+  handleSignIn,
+  handleSignout,
+  history,
+  userId,
+}) => (
   <nav className="pa3 ph5-ns">
     <div className="ph4 dt border-box w-100 ">
-      <a className="dtc v-mid mid-gray link dim w-25" href="#" title="Home">
+      <div
+        className="dtc v-mid mid-gray link dim w-25"
+        data-testid="goTodashboard"
+        onClick={() => history.push(`/dashboard/${userId}`)}
+      >
         <img src={Logo} className="dib w3 h3 br-100" alt="Site Name" />
-      </a>
+      </div>
       <div className="dtc v-mid w-75 tr">
         {signedIn ? (
           <Menu
@@ -30,6 +40,10 @@ export const Nav = ({ signedIn, handleSignIn, handleSignout, history }) => (
               // { label: 'Dashboard', onClick: () => {} },
               // { label: 'Proposals', onClick: () => {} },
               // { label: 'Active Disputes', onClick: () => {} },
+              {
+                label: 'Dashboard',
+                onClick: () => history.push(`/dashboard/${userId}`),
+              },
               {
                 label: 'Logout',
                 onClick: () => {

@@ -1,9 +1,9 @@
 // @ts-check
 import { format } from 'date-fns';
 import firebase from 'firebase/app';
+import React from 'react';
 import { firestore } from '../../utils/firebase';
 import { Objective } from './Objective';
-import React from 'react';
 /** @params {number}  timestamp */
 export const inPast = timestamp => Date.now() / 1000 - timestamp > 0;
 export const convertSecondsToDaysFrom = (seconds, startDate) =>
@@ -37,9 +37,10 @@ export const convertDaysToDate = (days, startDateInSecondsFromEpoch) => {
   return new Date(extraDays + startDate);
 };
 
-export const updateActiveGoalColours = (color) => firestore.doc(`teams/devteam123test`).update({
-  activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
-});
+export const updateActiveGoalColours = color =>
+  firestore.doc(`teams/devteam123test`).update({
+    activeGoalColours: firebase.firestore.FieldValue.arrayRemove(color),
+  });
 
 export const createNewGoal = async (details, deadline, color) => {
   try {
@@ -55,33 +56,33 @@ export const createNewGoal = async (details, deadline, color) => {
       size: '24px',
       team: 'dev123',
     });
-    updateActiveGoalColours(color)
+    updateActiveGoalColours(color);
   } catch (error) {
     console.error('error adding goal: ', error);
   }
 };
 
-
-export const objectivesObjectCreator = (objectives, convertSecondsToDaysFrom) => objectives.reduce((total, objective) => {
-  total[
-    convertSecondsToDaysFrom(
-      objective.deadline.seconds,
-      objectives[0].deadline.seconds
-    )
-  ] = {
-    style: {
-      fontSize: objective.size,
-    },
-    label: (
-      <Objective
-        details={objective.details}
-        deadline={objective.deadline.seconds}
-        goalId={objective.id}
-        startDate={objectives[0].deadline.seconds}
-        // fontsize={objective.size}
-        color={objective.color}
-      />
-    ),
-  };
-  return total;
-}, {});
+export const objectivesObjectCreator = (objectives, convertSecondsToDaysFrom) =>
+  objectives.reduce((total, objective) => {
+    total[
+      convertSecondsToDaysFrom(
+        objective.deadline.seconds,
+        objectives[0].deadline.seconds
+      )
+    ] = {
+      style: {
+        fontSize: objective.size,
+      },
+      label: (
+        <Objective
+          details={objective.details}
+          deadline={objective.deadline.seconds}
+          goalId={objective.id}
+          startDate={objectives[0].deadline.seconds}
+          // fontsize={objective.size}
+          color={objective.color}
+        />
+      ),
+    };
+    return total;
+  }, {});

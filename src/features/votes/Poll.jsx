@@ -34,14 +34,14 @@ const submitNewOption = (voteId, value, setValue) => async e => {
   }
 };
 
-const deletePoll = async (id, transition) => {
-  try {
-    await firestore.doc(`decisions/${id}`).delete();
-    transition('MODAL_CLOSED');
-  } catch (error) {
-    console.error('Error submitting vote:', error);
-  }
-};
+// const deletePoll = async (id, transition) => {
+//   try {
+//     await firestore.doc(`decisions/${id}`).delete();
+//     transition('MODAL_CLOSED');
+//   } catch (error) {
+//     console.error('Error submitting vote:', error);
+//   }
+// };
 
 const archivePoll = async (id, transition) => {
   try {
@@ -62,7 +62,7 @@ const unArchivePoll = async (id, transition) => {
 };
 
 export const Poll = ({ poll, transition }) => {
-  const { id, title, deadline, archived } = poll;
+  const { id, title,  archived } = poll;
   const options = useFireColl(`decisions/${id}/options`);
   const user = useAuth();
   const [value, setValue] = React.useState('');

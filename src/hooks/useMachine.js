@@ -1,23 +1,35 @@
-import { useEffect, useMemo, useState } from "react";
-import { interpret } from "xstate/lib/interpreter";
+import { useEffect, useRef, useState } from 'react';
+import { interpret } from 'xstate';
 
-export function useMachine(machine, options = {}) {
+export function useMachine(machine, options) {
+  // Keep track of the current machine state
   const [current, setCurrent] = useState(machine.initialState);
-  const service = useMemo(
-    () =>
-      interpret(machine)
-        .onTransition(state => {
-          options.log && console.warn("CONTEXT:", state.context);
-          setCurrent(state);
-        })
-        .onEvent(e => options.log && console.log("EVENT:", e))
-        .start(),
-    []
-  );
+
+  // Reference the service
+  const serviceRef = useRef(null);
+
+  // Create the service only once
+  // See https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily
+  if (serviceRef.current === null) {
+    serviceRef.current = interpret(machine, options).onTransition(state => {
+      // Update the current machine state when a transition occurs
+      if (state.changed) {
+        setCurrent(state);
+      }
+    });
+  }
+
+  const service = serviceRef.current;
 
   useEffect(() => {
-    return () => service.stop();
-  }, []);
+    // Start the service when the component mounts
+    service.start();
+
+    return () => {
+      // Stop the service when the component unmounts
+      service.stop();
+    };
+  }, [service]);
 
   return [current, service.send];
 }

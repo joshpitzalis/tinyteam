@@ -1,3 +1,4 @@
+import { init } from '@sentry/browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,6 +11,14 @@ import './index.css';
 import { Routes } from './Routes';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
+
+init({
+  dsn: 'https://dee50e1595054d5593b340f0c7a09850@sentry.io/1448450',
+  release: '0.4.3',
+});
+
+// associates commits with a release
+// https://docs.sentry.io/workflow/releases/?_ga=2.31975358.1662074257.1556518671-1269246170.1539319282%3F_ga&platform=javascript
 
 store.dispatch(checkAuth());
 

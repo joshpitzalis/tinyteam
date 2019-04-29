@@ -20,13 +20,13 @@ const theme = {
     colors: { brand: 'currentColor' },
   },
 };
-const _Routes = ({ authStatus }) => (
+const _Routes = ({ authStatus, userId }) => (
   <Grommet theme={theme}>
     <BrowserRouter>
       <React.StrictMode>
         <Errors>
           <div className="wrapper">
-            <Navbar />
+            <Navbar userId={userId} />
             <main className="sans-serif pa4">
               <Switch>
                 <Route exact path="/" component={Login} />
@@ -55,6 +55,7 @@ const _Routes = ({ authStatus }) => (
 
 const select = store => ({
   authStatus: store.auth && store.auth.status,
+  userId: store.auth.user && store.auth.user.uid,
 });
 
 export const Routes = connect(select)(_Routes);
