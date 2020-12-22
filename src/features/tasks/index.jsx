@@ -26,7 +26,7 @@ const taskReducer = (state, action) => {
 };
 
 const initialState = {
-  modalVisible: false
+  modalVisible: false,
 };
 
 const Tasks = () => {
@@ -34,17 +34,17 @@ const Tasks = () => {
   const { lists } = React.useContext(TasksContext);
   return (
     <div className="mw9 center pa3 pa5-ns ">
-      <div className="bb b--black-05 w-100 mw9 flex items-center justify-between ">
-        <h2 className="f5 fw2   ">Current Workload</h2>
+      <div className="mb4 mw9 flex items-center justify-between ">
         <button
-          className="dib"
+          type="button"
+          className="center"
           onClick={() => dispatch({ type: 'OPENED_TASK_LIST_CREATOR' })}
           data-testid="createTask"
         >
           + Create New Todo List
         </button>
       </div>
-      <section className="flex ">
+      <section className="mw7 flex flex-wrap justify-around center">
         <ToDoLists lists={lists} dispatch={dispatch} />
         <Dialogue
           modalVisible={state.modalVisible}
@@ -59,22 +59,19 @@ const Tasks = () => {
 
 export default Tasks;
 
-const Dialogue = ({ modalVisible, id, dispatch, listId }) => {
-  return (
-    modalVisible && (
-      <Modal
-        onClose={() =>
-          id
-            ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
-            : dispatch({ type: 'MODAL_CLOSED' })
-        }
-      >
-        {id ? (
-          <ListEditor dispatch={dispatch} listId={listId} />
-        ) : (
-          <ListCreator dispatch={dispatch} />
-        )}
-      </Modal>
-    )
+const Dialogue = ({ modalVisible, id, dispatch, listId }) =>
+  modalVisible && (
+    <Modal
+      onClose={() =>
+        id
+          ? dispatch({ type: 'EDITOR_MODAL_CLOSED' })
+          : dispatch({ type: 'MODAL_CLOSED' })
+      }
+    >
+      {id ? (
+        <ListEditor dispatch={dispatch} listId={listId} />
+      ) : (
+        <ListCreator dispatch={dispatch} />
+      )}
+    </Modal>
   );
-};

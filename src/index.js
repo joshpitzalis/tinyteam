@@ -13,6 +13,7 @@ import Votes from './features/votes';
 import './index.css';
 import Projects from './pages/Project';
 import * as serviceWorker from './serviceWorker';
+import './tailwind.output.css';
 
 const theme = {
   global: {
@@ -29,7 +30,7 @@ const Routes = () => (
     <BrowserRouter>
       <React.StrictMode>
         <Errors>
-          <div className="sans-serif pa4">
+          <div className="sans-serif pa4 bg-light-brown">
             <Switch>
               <Route exact path="/" component={Projects} />
               <Route
@@ -42,7 +43,7 @@ const Routes = () => (
               <Route component={NoMatch} />
             </Switch>
           </div>
-          <div className="tc sans-serif fw1 ma3">
+          <div className="tc sans-serif fw1 ma3 bg-yellow-100">
             <small>Version 0.4.1</small>
           </div>
         </Errors>

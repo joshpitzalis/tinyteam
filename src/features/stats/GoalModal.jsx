@@ -1,4 +1,4 @@
-import { Box, Button, Calendar, Form, FormField, Layer , Text} from 'grommet';
+import { Box, Button, Calendar, Form, FormField, Layer } from 'grommet';
 import React from 'react';
 import { convertDaysToDate } from './helpers';
 
