@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
@@ -18,9 +19,13 @@ export const List = ({ dispatch, id, title, index, tasks }) => {
   if (!tasks) {
     tasks = useFireColl(`todoLists/${id}/tasks`);
   }
+
+  const completedTasks = tasks.filter((item) => item.completed).length;
+  const totalTasks = tasks.length;
+
   return (
     <button
-      className="flex-col p-2 shadow-md rounded-lg w-52 h-72 text-left"
+      className="flex-col p-2 shadow-md rounded-lg w-52 h-72 text-left mt-10 overflow-hidden"
       type="button"
       onClick={() =>
         dispatch({
@@ -36,9 +41,11 @@ export const List = ({ dispatch, id, title, index, tasks }) => {
       }
       data-testid="editTaskList"
     >
-      <small className="font-thin block">1/5 Complete</small>
-      <p className="medium block pl-0 ml-0">{title}</p>
-      <ul key={id} className="pl-0 ml-0">
+      <small className="font-thin block text-xs" data-testid="taskListCounter">
+        {completedTasks}/{totalTasks} Complete
+      </small>
+      <p className="block pl-0 ml-0 bold text-xl  mb-4">{title}</p>
+      <ul key={id} className="pl-0 ml-0  w-100">
         {tasks &&
           tasks.map(
             (task, count) =>
@@ -47,7 +54,6 @@ export const List = ({ dispatch, id, title, index, tasks }) => {
               )
           )}
       </ul>
-      {tasks.length >= 4 && <p>...</p>}
     </button>
   );
 };
@@ -57,7 +63,7 @@ export const ToDoItem = ({ task, listId, index }) => {
     await firestore
       .doc(`todoLists/${listId}/tasks/${id}`)
       .update({ completed })
-      .catch(error => console.error('Error marking todo complete:', error));
+      .catch((error) => console.error('Error marking todo complete:', error));
   };
   return (
     <li className="break-words">

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { TasksContext } from '../../context/TasksContext';
 import Modal from '../modals/Modal';

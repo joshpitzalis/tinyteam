@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Machine } from 'xstate';
 import { CommentsContext } from '../../context/CommentsContext';
@@ -14,11 +15,11 @@ export const chatMachine = Machine({
     idle: {
       on: {
         COMMENT_SUBMITTED: {
-          actions: 'addComment'
-        }
-      }
-    }
-  }
+          actions: 'addComment',
+        },
+      },
+    },
+  },
 });
 
 const Chat = () => {
@@ -29,8 +30,8 @@ const Chat = () => {
   const [state, send] = useMachine(
     chatMachine.withConfig({
       actions: {
-        addComment: (ctx, e) => addComment(e.payload)
-      }
+        addComment: (ctx, e) => addComment(e.payload),
+      },
     })
   );
   const inputEl = React.useRef(null);
@@ -38,7 +39,7 @@ const Chat = () => {
     inputEl.current.scrollTop = inputEl.current.scrollHeight;
   }, [comments]);
 
-  const dispatch = action => {
+  const dispatch = (action) => {
     action.payload.updateLists(action.payload.list);
     setModal(false);
   };
@@ -59,11 +60,11 @@ const Chat = () => {
           ref={inputEl}
         >
           {comments &&
-            comments.map(item => (
+            comments.map((item) => (
               <Message
                 key={item.postId}
                 item={item}
-                send={action => {
+                send={(action) => {
                   setModal(true);
                   setTitle(action.payload);
                 }}
@@ -73,7 +74,7 @@ const Chat = () => {
       </div>
       <form
         className="pa3 bg-silver br2 br--bottom flex"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           send({ type: 'COMMENT_SUBMITTED', payload: value });
           setValue('');
@@ -84,7 +85,7 @@ const Chat = () => {
           className="w-100 pa3 dib"
           placeholder="Add your comment here..."
           value={value}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
         />
         <input type="submit" value="Submit" className="dib pa3" />
       </form>

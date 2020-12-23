@@ -6,10 +6,8 @@ export const useAuth = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-
-    const auth$ = authState(app.auth()).subscribe(user =>
-      user ? 
-      setUser(user) : setUser(null)
+    const auth$ = authState(app.auth()).subscribe((_user) =>
+      _user ? setUser(_user) : setUser(null)
     );
 
     return () => auth$.unsubscribe();
@@ -17,7 +15,3 @@ export const useAuth = () => {
 
   return user;
 };
-
-
-
-

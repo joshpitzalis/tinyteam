@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { firestore } from '../../utils/firebase';
 import { EditableToDoItem } from './components/EditableToDoItem';
@@ -11,7 +12,7 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
     const list = await firestore
       .collection(`todoLists`)
       .doc()
-      .catch(error => console.error('Error creating todo:', error));
+      .catch((error) => console.error('Error creating todo:', error));
 
     await firestore
       .doc(`todoLists/${list.id}`)
@@ -20,24 +21,24 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
         id: list.id,
         createdOn: +new Date(),
       })
-      .catch(error => console.error('Error submitting todo:', error));
+      .catch((error) => console.error('Error submitting todo:', error));
 
     for (const task of tasks) {
       const newTask = await firestore
         .collection(`todoLists/${list.id}/tasks`)
         .doc()
-        .catch(error => console.error('Error submitting todo:', error));
+        .catch((error) => console.error('Error submitting todo:', error));
       await firestore
         .doc(`todoLists/${list.id}/tasks/${newTask.id}`)
         .set({ ...task, id: newTask.id })
-        .catch(error => console.error('Error submitting todo:', error));
+        .catch((error) => console.error('Error submitting todo:', error));
     }
     dispatch({
       type: 'LIST_CREATED',
     });
   };
 
-  const setItem = e => {
+  const setItem = (e) => {
     e.preventDefault();
     setTasks([
       ...tasks,
@@ -63,11 +64,13 @@ export const ListCreator = ({ dispatch, providedTitle = '' }) => {
           value={title || providedTitle}
           placeholder="List title goes here"
           className="db"
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           data-testid="titleInput"
         />
       </div>
-      <ul>{tasks && tasks.map(todo => <li key={todo.id}>{todo.title}</li>)}</ul>
+      <ul>
+        {tasks && tasks.map((todo) => <li key={todo.id}>{todo.title}</li>)}
+      </ul>
       <EditableToDoItem submit={setItem} todo={value} setTodo={setValue} />
       <button onClick={() => createList()} data-testid="submitTodoList">
         Save List

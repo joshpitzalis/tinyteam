@@ -1,9 +1,11 @@
+/* eslint-disable */
 import Button from 'antd/lib/button';
 import React, { useEffect } from 'react';
 import { authState } from 'rxfire/auth';
 import { Machine } from 'xstate';
 // import Chat from '../features/chat/Chat';
 // import { Stats } from '../features/stats';
+import HillChart from 'hill-chart';
 import Tasks from '../features/tasks';
 import Votes from '../features/votes';
 import { useMachine } from '../hooks/useMachine';
@@ -11,8 +13,6 @@ import { app, googleAuthProvider } from '../utils/firebase';
 // import { Static } from '../features/static/index.jsx';
 
 import 'hill-chart/dist/styles.css';
-
-import HillChart from 'hill-chart';
 
 export const authMachine = Machine({
   id: 'auth',

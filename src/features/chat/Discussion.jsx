@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Button, Comment, Form, Input, List } from 'antd';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
@@ -5,7 +6,7 @@ import { useAuth } from '../../hooks/auth';
 import { useFireColl } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 
-const TextArea = Input.TextArea;
+const { TextArea } = Input;
 
 class App extends PureComponent {
   static propTypes = {
@@ -17,7 +18,7 @@ class App extends PureComponent {
     value: '',
   };
 
-  handleSubmit = async name => {
+  handleSubmit = async (name) => {
     if (!this.state.value) {
       return;
     }
@@ -33,7 +34,7 @@ class App extends PureComponent {
       const comment = await firestore
         .collection(`discussions/${listId}/comments`)
         .doc()
-        .catch(error => console.error('Error submitting chat:', error));
+        .catch((error) => console.error('Error submitting chat:', error));
 
       firestore
         .doc(`discussions/${listId}/comments/${comment.id}`)
@@ -50,13 +51,13 @@ class App extends PureComponent {
             value: '',
           })
         )
-        .catch(error => console.error('Error submitting chat:', error));
+        .catch((error) => console.error('Error submitting chat:', error));
     } catch (error) {
       console.log('error adding a comment to the discussion', error);
     }
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       value: e.target.value,
     });
@@ -96,7 +97,7 @@ export default App;
 const CommentList = ({ listId }) => {
   const comments = useFireColl(`discussions/${listId}/comments`)
     .sort((a, b) => a.datetime.seconds - b.datetime.seconds)
-    .map(comment => ({
+    .map((comment) => ({
       ...comment,
       datetime: null,
       // <Tooltip
@@ -119,7 +120,7 @@ const CommentList = ({ listId }) => {
       //   comments.length > 1 ? 'Comments' : 'Comment'
       // }`}
       itemLayout="horizontal"
-      renderItem={props => <Comment {...props} />}
+      renderItem={(props) => <Comment {...props} />}
     />
   ) : null;
 };

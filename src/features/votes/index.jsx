@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { State, withStateMachine } from 'react-automata';
 import { useFireColl } from '../../hooks/firebase';
@@ -60,17 +61,17 @@ class Polls extends React.PureComponent {
           deadline: '7 days',
           id: vote.id,
         })
-        .catch(error => console.error('Error submitting vote:', error));
+        .catch((error) => console.error('Error submitting vote:', error));
 
       for (const option of data.fields) {
         const newTask = await firestore
           .collection(`decisions/${vote.id}/options`)
           .doc()
-          .catch(error => console.error('Error submitting vote:', error));
+          .catch((error) => console.error('Error submitting vote:', error));
         await firestore
           .doc(`decisions/${vote.id}/options/${newTask.id}`)
           .set({ title: option, id: newTask.id })
-          .catch(error => console.error('Error submitting vote:', error));
+          .catch((error) => console.error('Error submitting vote:', error));
       }
 
       transition('SUCCEEDED');
@@ -79,7 +80,7 @@ class Polls extends React.PureComponent {
     }
   };
 
-  set = payload => this.setState({ payload });
+  set = (payload) => this.setState({ payload });
 
   render() {
     console.log('this.props.error', this.props.error);
@@ -102,7 +103,7 @@ const Votes = ({ transition, set }) => {
           </button>
         </div>
         {polls &&
-          polls.map(poll => (
+          polls.map((poll) => (
             <Vote key={poll.id} {...poll} dispatch={transition} setId={setId} />
           ))}
       </State>
@@ -114,7 +115,7 @@ const Votes = ({ transition, set }) => {
       <State is="existingVote">
         <Modal onClose={() => transition({ type: 'MODAL_CLOSED' })}>
           <Poll
-            poll={polls.find(poll => poll.id === id)}
+            poll={polls.find((poll) => poll.id === id)}
             transition={transition}
           />
         </Modal>

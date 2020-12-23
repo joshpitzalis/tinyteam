@@ -1,8 +1,10 @@
+/* eslint-disable */
 import React from 'react';
 import { actions } from 'xstate';
 import { useFireColl, useFireDoc } from '../../hooks/firebase';
 import { firestore } from '../../utils/firebase';
 import { EditableToDoItem } from './components/EditableToDoItem';
+
 const { assign } = actions;
 
 export const ListEditor = ({ dispatch, listId }) => {
@@ -12,18 +14,22 @@ export const ListEditor = ({ dispatch, listId }) => {
   const [title, setTitle] = React.useState('');
   const [todo, setTodo] = React.useState('');
 
-  const createTodo = (todo, listId) => async e => {
+  const createTodo = (todo, listId) => async (e) => {
     e.preventDefault();
     const newTask = await firestore
       .collection(`todoLists/${listId}/tasks`)
-      .doc().catch(error => console.error('Error creating todo:', error));
+      .doc()
+      .catch((error) => console.error('Error creating todo:', error));
 
-    await firestore.doc(`todoLists/${listId}/tasks/${newTask.id}`).set({
-      title: todo,
-      id: newTask.id,
-      completed: false,
-      createdOn: +new Date()
-    }).catch(error => console.error('Error creating todo:', error));
+    await firestore
+      .doc(`todoLists/${listId}/tasks/${newTask.id}`)
+      .set({
+        title: todo,
+        id: newTask.id,
+        completed: false,
+        createdOn: +new Date(),
+      })
+      .catch((error) => console.error('Error creating todo:', error));
     setTodo('');
   };
 
@@ -48,13 +54,13 @@ export const ListEditor = ({ dispatch, listId }) => {
           value={title || list.title}
           placeholder="List title goes here"
           className="db"
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           data-testid="titleInput"
         />
         <button
           onClick={() =>
             firestore.doc(`todoLists/${listId}`).update({
-              title: title || list.title
+              title: title || list.title,
             })
           }
           data-testid="submitTodoList"
@@ -63,7 +69,7 @@ export const ListEditor = ({ dispatch, listId }) => {
         </button>
       </div>
       <ul>
-        {tasks.map(todo => (
+        {tasks.map((todo) => (
           <Todo key={todo.id} todo={todo} id={todo.id} listId={listId} />
         ))}
       </ul>
@@ -86,7 +92,7 @@ export const Todo = ({ todo, id, listId }) => {
           value={todo.completed}
           onChange={() =>
             firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
-              completed: !todo.completed
+              completed: !todo.completed,
             })
           }
         />
@@ -94,7 +100,7 @@ export const Todo = ({ todo, id, listId }) => {
         <button
           onClick={() =>
             firestore.doc(`todoLists/${listId}/tasks/${id}`).update({
-              title: title || todo.title
+              title: title || todo.title,
             })
           }
         >
@@ -108,7 +114,7 @@ export const Todo = ({ todo, id, listId }) => {
           Destroy
         </button>
       </div>
-      <input value={title} onChange={e => setTitle(e.target.value)} />
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
     </li>
   );
 };

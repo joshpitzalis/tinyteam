@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import firebase from 'firebase/app';
 import React from 'react';
 import { useAuth } from '../../hooks/auth';
@@ -17,29 +19,29 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
           ? firebase.firestore.FieldValue.arrayRemove(user.uid)
           : firebase.firestore.FieldValue.arrayUnion(user.uid),
       })
-      .catch(error => console.error('Error submitting vote:', error));
+      .catch((error) => console.error('Error submitting vote:', error));
   };
 
   const user = useAuth();
 
-  const deletePoll = id => {
+  const deletePoll = (id) => {
     transition('MODAL_CLOSED');
     firestore.doc(`decisions/${id}`).delete();
   };
 
   const [value, setValue] = React.useState('');
 
-  const submitNewOption = voteId => async e => {
+  const submitNewOption = (voteId) => async (e) => {
     e.preventDefault();
 
     const newOption = await firestore
       .collection(`decisions/${voteId}/options`)
       .doc()
-      .catch(error => console.error('Error submitting poll:', error));
+      .catch((error) => console.error('Error submitting poll:', error));
     await firestore
       .doc(`decisions/${voteId}/options/${newOption.id}`)
       .set({ title: value, id: newOption.id })
-      .catch(error => console.error('Error submitting poll:', error));
+      .catch((error) => console.error('Error submitting poll:', error));
 
     setValue('');
   };
@@ -53,7 +55,7 @@ export const Poll = ({ poll: { id, title, deadline }, transition }) => {
       <hr className="dn" />
       <div className="ma0">
         {options &&
-          options.map(option => {
+          options.map((option) => {
             const voted = new Set(option.votes).has(user.uid);
             const count = option.votes ? option.votes.length : 0;
             return (

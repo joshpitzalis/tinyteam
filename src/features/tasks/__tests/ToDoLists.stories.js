@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { List } from './ToDoLists';
+import { List } from '../ToDoLists';
 
 export default {
   component: List,
@@ -42,7 +42,7 @@ const demoTasks = [
   },
 ];
 
-const Template = args => <List {...args} />;
+const Template = (args) => <List {...args} />;
 
 export const Default = Template.bind({});
 
