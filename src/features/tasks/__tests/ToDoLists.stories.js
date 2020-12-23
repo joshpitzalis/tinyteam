@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { List } from '../ToDoLists';
 
 export default {
@@ -42,31 +41,6 @@ const demoTasks = [
   },
 ];
 
-const Template = (args) => <List {...args} />;
-
-export const Default = Template.bind({});
-
-Default.args = {
-  dispatch: () => {},
-  id: 1,
-  title: 'Titlesome',
-  index: 0,
-  tasks: demoTasks,
-};
-
-export const Pinned = Template.bind({});
-
-Pinned.args = {
-  task: {
-    ...Default.args.task,
-    state: 'TASK_PINNED',
-  },
-};
-
-export const Archived = Template.bind({});
-Archived.args = {
-  task: {
-    ...Default.args.task,
-    state: 'TASK_ARCHIVED',
-  },
-};
+export const Default = () => (
+  <List dispatch={() => {}} id="1" title="Titlesome" tasks={demoTasks} />
+);

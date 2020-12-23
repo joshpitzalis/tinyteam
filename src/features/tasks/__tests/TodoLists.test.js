@@ -41,3 +41,4 @@ describe('add ellipses to bottom of list when more task than will fit in list ca
 it.todo(
   'completed itesm show alwats appear below incomplete ones in list card'
 );
+it.todo('list name shoud not overflow');

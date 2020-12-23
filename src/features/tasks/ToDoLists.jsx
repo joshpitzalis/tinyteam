@@ -5,17 +5,16 @@ import { firestore } from '../../utils/firebase';
 
 export const ToDoLists = ({ lists, dispatch }) =>
   lists &&
-  lists.map((list, index) => (
+  lists.map((list) => (
     <List
       key={list.id}
-      index={index}
       dispatch={dispatch}
       id={list.id}
       title={list.title}
     />
   ));
 
-export const List = ({ dispatch, id, title, index, tasks }) => {
+export const List = ({ dispatch, id, title,  tasks }) => {
   if (!tasks) {
     tasks = useFireColl(`todoLists/${id}/tasks`);
   }
@@ -50,7 +49,7 @@ export const List = ({ dispatch, id, title, index, tasks }) => {
           tasks.map(
             (task, count) =>
               count < 4 && (
-                <ToDoItem index={index} task={task} key={task.id} listId={id} />
+                <ToDoItem  task={task} key={task.id} listId={id} />
               )
           )}
       </ul>
@@ -58,7 +57,7 @@ export const List = ({ dispatch, id, title, index, tasks }) => {
   );
 };
 
-export const ToDoItem = ({ task, listId, index }) => {
+export const ToDoItem = ({ task, listId }) => {
   const markTodoCompleted = async (id, completed) => {
     await firestore
       .doc(`todoLists/${listId}/tasks/${id}`)

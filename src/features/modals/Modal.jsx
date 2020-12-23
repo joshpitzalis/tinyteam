@@ -28,19 +28,18 @@ class Modal extends React.Component {
         className="vh-100 vw-100 absolute--fill fixed bg-black-60 overflow-container
         "
       >
+    
         <div
-          className="center mw9 ma3 ma5-ns br2 pa3 shadow-1"
-          style={{
-            background: '#f4f2e8',
-          }}
+          className="w-2/3 mx-56 mt-20 rounded p-4 shadow bg-white relative left-4 top-1"
         >
-          <div className="w-100 tr">
+          <div className="w-100 text-right">
             <button className="pointer" onClick={this.props.onClose}>
               Close
             </button>
           </div>
           {this.props.children}
         </div>
+  
       </div>,
       modalRoot
     );

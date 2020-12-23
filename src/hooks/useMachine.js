@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useMemo, useState } from 'react';
 import { interpret } from 'xstate/lib/interpreter';
 

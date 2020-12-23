@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { authState } from 'rxfire/auth';
 import { collection } from 'rxfire/firestore';
@@ -7,22 +8,22 @@ import { updater } from './helpers';
 
 export const TasksContext = React.createContext({
   lists: {},
-  updateLists: () => {}
+  updateLists: () => {},
 });
 
 class TaskProvider extends React.Component {
   state = {
-    lists: []
+    lists: [],
   };
 
   componentDidMount() {
     this.tasks$ = collection(firestore.collection('todoLists'))
-      .pipe(map(docs => docs.map(doc => doc.data())))
-      .subscribe(lists => this.setState({ lists }));
+      .pipe(map((docs) => docs.map((doc) => doc.data())))
+      .subscribe((lists) => this.setState({ lists }));
 
     this.auth$ = authState(app.auth())
-      .pipe(filter(user => !!user))
-      .subscribe(user => this.setState({ user: user.displayName }));
+      .pipe(filter((user) => !!user))
+      .subscribe((user) => this.setState({ user: user.displayName }));
   }
 
   componentWillUnmount() {
@@ -30,9 +31,9 @@ class TaskProvider extends React.Component {
     this.auth$.unsubscribe();
   }
 
-  updateLists = newList =>
+  updateLists = (newList) =>
     this.setState({
-      lists: updater(newList, this.state.lists)
+      lists: updater(newList, this.state.lists),
     });
 
   render() {
@@ -40,7 +41,7 @@ class TaskProvider extends React.Component {
       <TasksContext.Provider
         value={{
           lists: this.state.lists,
-          updateLists: this.updateLists
+          updateLists: this.updateLists,
         }}
       >
         {this.props.children}
